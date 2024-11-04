@@ -71,7 +71,7 @@ public class Service extends AbstractEntity {
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
-    //ToDO: Far future daca ma plictisesc: report
+    //ToDO: Far future daca ma plictisesc: report ptr functii in plus Admini
 
     @Override
     public Integer getId() { return id; }

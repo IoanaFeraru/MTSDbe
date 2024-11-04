@@ -63,5 +63,13 @@ public class PaymentService {
         return paymentRepository.findByDate(date);
     }
 
+    public List<Payment> findByPaymentstate(PaymentState state) {
+        return paymentRepository.findBypaymentstate(state);
+    }
+
+    public List<Payment> findByUserCustom(User user) {
+        return paymentRepository.findByUserCustom(user);
+    }
+
     //TODO implementare exceptii
 }

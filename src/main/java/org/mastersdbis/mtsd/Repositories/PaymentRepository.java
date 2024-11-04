@@ -18,7 +18,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     @Query("SELECT p FROM Payment p WHERE p.booking.user = :user")
     List<Payment> findByUser(@Param("user") User user);
 
-    List<Payment> findByPaymentstate(PaymentState paymentState);
+    List<Payment> findBypaymentstate(PaymentState paymentState);
 
     @Query("SELECT p FROM Payment p WHERE p.booking.user = :user")
     List<Payment> findByUserCustom(User user);
