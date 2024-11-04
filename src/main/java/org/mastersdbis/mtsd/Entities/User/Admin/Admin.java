@@ -14,12 +14,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Admin extends User {
 
     @Enumerated(EnumType.STRING)
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_permissions", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "permission")
     private Set<Permission> permissions;
 }

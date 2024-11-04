@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface MessageRepository extends MongoRepository<Message, Long> {
 
-    List<Message> findBySenderTypeAndUser(SenderType type, User user);
+    List<Message> findBySenderTypeAndSentTo(SenderType type, Integer userId);
 
-    @Query("{ '$or': [ { 'user1': ?0, 'user2': ?1 } ] }")
-    List<Message> findByUser1AndUser2(User user1, User user2);
+    @Query("{ '$or': [ { 'sentBy': ?0, 'sentTo': ?1 }, { 'sentBy': ?1, 'sentTo': ?0 } ] }")
+    List<Message> findByUsersInvolved(Integer userId1, Integer userId2);
 }

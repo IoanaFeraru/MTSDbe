@@ -20,10 +20,9 @@ public class Message {
     public static final String SEQUENCE_NAME = "message_sequence";
 
     @Id
-    @Generated
     private Long id;
 
-    @NotEmpty(message = "Message cant be empty")
+    @NotEmpty(message = "Message can't be empty")
     private String content;
 
     private LocalDateTime dateSent;
@@ -32,7 +31,9 @@ public class Message {
 
     private SenderType senderType;
 
-    private String sentBy;
+    @NotNull(message = "Sender ID can't be null")
+    private Integer sentBy;
 
-    private String sentTo;
+    @NotNull(message = "Recipient ID can't be null")
+    private Integer sentTo;
 }

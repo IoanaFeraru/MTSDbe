@@ -46,19 +46,18 @@ public class MessageService {
         return messageRepository.findById(id).orElse(null);
     }
 
-    public List<Message> findByNotificationsAndUser(User user) {
+    public List<Message> findByNotificationsAndUser(Integer userId) {
         SenderType type = SenderType.SYSTEM;
-        return messageRepository.findBySenderTypeAndUser(type, user);
-        //TODO implementare exceptie
+        return messageRepository.findBySenderTypeAndSentTo(type, userId);
     }
 
-    public List<Message> findConversation(User user1, User user2) {
-        return messageRepository.findByUser1AndUser2(user1, user2);
-        //TODO implementare exceptie
+    public List<Message> findConversation(Integer userId1, Integer userId2) {
+        return messageRepository.findByUsersInvolved(userId1, userId2);
     }
 
     /* ToDO: future - cand persoana intra pe chat sa se apeleze markAsRead
                     - recieve message
                     - recieve notification
+                    - implementare exceptii
      */
 }
