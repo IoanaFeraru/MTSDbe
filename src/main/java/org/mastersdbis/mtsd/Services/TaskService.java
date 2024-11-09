@@ -20,8 +20,8 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public void manageTaskState(Task task) {
-        // TODO implementare logica
+    public void manageTaskState(Task task, TaskState state) {
+        task.setStatus(state);
         taskRepository.save(task);
     }
 
