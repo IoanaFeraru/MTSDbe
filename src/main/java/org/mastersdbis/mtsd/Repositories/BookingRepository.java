@@ -16,9 +16,9 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByUser(User user);
 
-    List<Booking> findByBookingDate(LocalDate bookingDate);
+    List<Booking> findByDueDate(LocalDate dueDate);
 
-    List<Booking> findByBookingDateBetween(LocalDate dateStart, LocalDate dateEnd);
+    List<Booking> findByDueDateBetween(LocalDate dateStart, LocalDate dateEnd);
 
     @Query("SELECT b FROM Booking b JOIN b.service s WHERE s.provider = :provider")
     List<Booking> findByServiceProvider(User provider);

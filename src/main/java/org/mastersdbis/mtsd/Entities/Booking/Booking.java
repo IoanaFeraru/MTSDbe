@@ -1,6 +1,7 @@
 package org.mastersdbis.mtsd.Entities.Booking;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "booking")
-@ValidBookingDates
 public class Booking extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_id_gen")
@@ -37,11 +37,14 @@ public class Booking extends AbstractEntity {
     @JoinColumn(name = "service_id", nullable = false)
     private Service service;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Booking type cannot be null.")
+    @Column(name = "bookingtype", length = 20)
+    private BookingType bookingType;
+
+    @Future(message = "Due date must be in the future.")
     @Column(name = "duedate")
     private LocalDate dueDate;
-
-    @Column(name = "bookingdate")
-    private LocalDate bookingDate;
 
     @Size(max = Integer.MAX_VALUE, message = "Description must not exceed maximum length.")
     @Column(name = "description", length = Integer.MAX_VALUE)

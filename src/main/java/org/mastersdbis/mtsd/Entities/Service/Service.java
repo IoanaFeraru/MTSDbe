@@ -8,12 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import org.mastersdbis.mtsd.Entities.AbstractEntity;
+import org.mastersdbis.mtsd.Entities.Payment.PaymentMethod;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -71,12 +72,14 @@ public class Service extends AbstractEntity {
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
-    //ToDO: Far future daca ma plictisesc: report ptr functii in plus Admini
+    @Size(max = Integer.MAX_VALUE, message = "Accepted payment methods must not exceed maximum length.")
+    @Column(name = "accepted_payment_methods", length = Integer.MAX_VALUE)
+    private String acceptedPaymentMethods;
 
     @Override
     public Integer getId() { return id; }
 
-    //Un string care are o lista de materiale separate prin virgule;
+    // Un string care are o lista de materiale separate prin virgule;
     public List<String> getMaterialsList() {
         if (materials != null && !materials.isEmpty()) {
             return Arrays.asList(materials.split(",\\s*"));
@@ -86,5 +89,22 @@ public class Service extends AbstractEntity {
 
     public void setMaterialsList(List<String> materialsList) {
         this.materials = String.join(", ", materialsList);
+    }
+
+    // Obține lista metodelor de plată acceptate pe baza enumurilor PaymentMethod
+    public List<PaymentMethod> getAcceptedPaymentMethodsList() {
+        if (acceptedPaymentMethods != null && !acceptedPaymentMethods.isEmpty()) {
+            return Arrays.stream(acceptedPaymentMethods.split(",\\s*"))
+                    .map(PaymentMethod::valueOf)
+                    .collect(Collectors.toList());
+        }
+        return List.of();
+    }
+
+    // Un string ce salveaza metodele de plata acceptate separate cu virgula
+    public void setAcceptedPaymentMethodsList(List<PaymentMethod> paymentMethodsList) {
+        this.acceptedPaymentMethods = paymentMethodsList.stream()
+                .map(PaymentMethod::name)
+                .collect(Collectors.joining(", "));
     }
 }

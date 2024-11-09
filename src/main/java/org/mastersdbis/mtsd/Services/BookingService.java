@@ -26,13 +26,9 @@ public class BookingService {
     }
 
     public boolean checkDateOpen(Booking booking) {
-        if (booking.getBookingDate() == null) {
-            return true; //Daca nu exista booking date atunci e due date si e irelevant
-        }
+        LocalDate bookingDate = booking.getDueDate();
 
-        LocalDate bookingDate = booking.getBookingDate();
-
-        List<Booking> conflictingBookings = bookingRepository.findByBookingDate(bookingDate);
+        List<Booking> conflictingBookings = bookingRepository.findByDueDate(bookingDate);
         return conflictingBookings.isEmpty();
     }
 
@@ -78,7 +74,7 @@ public class BookingService {
     }
 
     public List<Booking> findByDate(LocalDate dateStart, LocalDate dateEnd) {
-        return bookingRepository.findByBookingDateBetween(dateStart, dateEnd);
+        return bookingRepository.findByDueDateBetween(dateStart, dateEnd);
     }
 
     //TODO implementare exceptii
