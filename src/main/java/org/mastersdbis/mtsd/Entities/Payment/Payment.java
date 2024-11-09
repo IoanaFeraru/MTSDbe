@@ -42,7 +42,7 @@ public class Payment extends AbstractEntity {
     @NotNull(message = "Payment state cannot be null.")
     @Enumerated(EnumType.STRING)
     @Column(name = "paymentstate", nullable = false)
-    private PaymentState paymentstate;
+    private PaymentState paymentState;
 
     @Column(name = "paymentdate")
     private LocalDate paymentDate;

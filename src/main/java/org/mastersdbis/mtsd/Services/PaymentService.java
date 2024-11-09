@@ -67,12 +67,16 @@ public class PaymentService {
         return paymentRepository.findByDate(date);
     }
 
-    public List<Payment> findByPaymentstate(PaymentState state) {
-        return paymentRepository.findBypaymentstate(state);
+    public List<Payment> findByPaymentState(PaymentState state) {
+        return paymentRepository.findByPaymentState(state);
     }
 
     public List<Payment> findByUserCustom(User user) {
         return paymentRepository.findByUserCustom(user);
+    }
+
+    public List<Payment> findByPaymentDateBetween(Date start, Date end) {
+        return paymentRepository.findByPaymentDateBetween(start, end);
     }
 
     //TODO implementare exceptii
