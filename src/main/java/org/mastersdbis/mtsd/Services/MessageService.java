@@ -55,6 +55,10 @@ public class MessageService {
         return messageRepository.findByUsersInvolved(userId1, userId2);
     }
 
+    public void offer() {
+        //ToDO implementare logica pentru pret negociat
+    }
+
     /* ToDO: future - cand persoana intra pe chat sa se apeleze markAsRead
                     - recieve message
                     - recieve notification

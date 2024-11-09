@@ -36,4 +36,6 @@ public class Message {
 
     @NotNull(message = "Recipient ID can't be null")
     private Integer sentTo;
+
+    private boolean offer;
 }
