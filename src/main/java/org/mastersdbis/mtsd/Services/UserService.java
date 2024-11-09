@@ -115,8 +115,16 @@ public class UserService {
         }
     }
 
+    private ReviewService reviewService;
+
+    public void updateUserRating(User user) {
+        double averageRating = reviewService.calculateAverageRatingForUser(user);
+        user.setRating(averageRating);
+        userRepository.save(user);
+    }
+
+
     //TODO implementare exceptii
-    //TODO autentificare (verifica daca hash la parola primita = parola hashed din bd si returneaza un bool)
-    //TODO calcul rating profil (nu se salveaza in bd)
+    //TODO calcul rating profil
     //TODO future - statistici provider (prin query uri, o sa fie probabil cand ne apucam de frontend)
 }
