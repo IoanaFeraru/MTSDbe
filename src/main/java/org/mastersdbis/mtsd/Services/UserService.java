@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -95,6 +96,22 @@ public class UserService {
         }
         if (!Pattern.compile("[0-9]").matcher(password).find()) {
             throw new IllegalArgumentException("Password must contain at least one digit.");
+        }
+    }
+
+    public boolean authenticateUser(String username, String rawPassword) {
+        Optional<User> userOptional = userRepository.findByUsername(username).stream().findFirst();
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            if (passwordEncoder.matches(rawPassword, user.getPassword())) {
+                return true;
+            } else {
+                throw new IllegalArgumentException("Parola incorectă.");
+            }
+        } else {
+            throw new IllegalArgumentException("Utilizatorul nu există.");
         }
     }
 

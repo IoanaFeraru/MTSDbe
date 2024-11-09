@@ -23,7 +23,7 @@ public abstract class User extends AbstractEntity {
 
     @Size(max = 50)
     @NotNull
-    @Column(name = "username", nullable = false, length = 50)
+    @Column(name = "username", nullable = false, length = 50, unique = true)
     private String username;
 
     @Size(max = 100)
@@ -34,7 +34,7 @@ public abstract class User extends AbstractEntity {
     @Size(max = 100)
     @NotNull
     @Email
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
 
     @Size(max = 12)
