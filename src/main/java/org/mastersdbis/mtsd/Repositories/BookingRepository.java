@@ -1,7 +1,10 @@
 package org.mastersdbis.mtsd.Repositories;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Booking.BookingState;
+import org.mastersdbis.mtsd.Entities.Booking.BookingType;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +22,10 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByDueDate(LocalDate dueDate);
 
     List<Booking> findByDueDateBetween(LocalDate dateStart, LocalDate dateEnd);
+
+    List<Booking> findByUserAndBookingState(User user, BookingState state);
+
+    List<Booking> findByUserAndBookingStateAndDueDate(@NotNull(message = "User cannot be null.") User user, @NotNull(message = "Booking state cannot be null.") BookingState bookingState, @Future(message = "Due date must be in the future.") LocalDate dueDate);
 
     @Query("SELECT b FROM Booking b JOIN b.service s WHERE s.provider = :provider")
     List<Booking> findByServiceProvider(User provider);

@@ -20,12 +20,18 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
     }
 
-    public void manageBookingState(Booking booking) {
-        // ToDO: Implementare logica
+    public void cancelBooking(Booking booking){
+        //TODO implementare logica
+        bookingRepository.save(booking);
+    }
+
+    public void completeBooking(Booking booking){
+        //TODO implementare logica
         bookingRepository.save(booking);
     }
 
     public boolean checkDateOpen(Booking booking) {
+        //TODO modificare/verificare logica
         LocalDate bookingDate = booking.getDueDate();
 
         List<Booking> conflictingBookings = bookingRepository.findByDueDate(bookingDate);
@@ -77,5 +83,12 @@ public class BookingService {
         return bookingRepository.findByDueDateBetween(dateStart, dateEnd);
     }
 
+    public List<Booking> findByUserAndBookingState(User user, BookingState state) {
+        return bookingRepository.findByUserAndBookingState(user, state);
+    }
+
+    public List<Booking> findByUserAndBookingStateAndDueDate(User user, BookingState state, LocalDate dueDate) {
+        return bookingRepository.findByUserAndBookingStateAndDueDate(user, state, dueDate);
+    }
     //TODO implementare exceptii
 }

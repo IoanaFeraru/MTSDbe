@@ -31,6 +31,10 @@ public class PaymentService {
         paymentRepository.save(payment);
     }
 
+    public void revertPayment (Payment payment) {
+        // TODO implementare logica
+        paymentRepository.save(payment);
+    }
     public void addPayment(Payment payment) {
         paymentRepository.save(payment);
     }
