@@ -33,11 +33,6 @@ public class PaymentService {
         return List.of();
     }
 
-    public void paymentStatusManager(Payment payment, PaymentState state) {
-        // TODO Implementare logica
-        paymentRepository.save(payment);
-    }
-
     public void revertPayment(Payment payment) {
         if (payment == null) {
             throw new IllegalArgumentException("Payment-ul nu poate fi null.");
@@ -54,16 +49,13 @@ public class PaymentService {
     }
 
     public void processPayment(Booking booking, Payment payment) {
-        if (payment.getPaymentState() == PaymentState.ACCEPTED) {
+        if (payment.getPaymentState() == PaymentState.ACCEPTED || payment.getPaymentState() == PaymentState.PENDING) {
             booking.setBookingState(BookingState.ACTIVE);
-
+            paymentRepository.save(payment);
+            bookingRepository.save(booking);
         } else {
-            booking.setBookingState(BookingState.CANCELED);
-            booking.setDueDate(LocalDate.now());
+            bookingRepository.delete(booking);
         }
-
-        paymentRepository.save(payment);
-        bookingRepository.save(booking);
     }
 
     public void savePayment(Payment payment) {

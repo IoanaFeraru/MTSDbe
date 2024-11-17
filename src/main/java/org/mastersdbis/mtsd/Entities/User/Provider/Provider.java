@@ -66,4 +66,6 @@ public class Provider extends User {
                 ", validationStatus=" + validationStatus +
                 '}';
     }
+
+    //TODO very very very future Ioana: o lista cu date pe care sa le selecteze furnizorii ca unavailable
 }

@@ -39,8 +39,6 @@ public class Message {
 
     private boolean offer;
 
-    private boolean offerAccepted;
-
     @Override
     public String toString() {
         return "Message{" +
@@ -52,7 +50,6 @@ public class Message {
                 ", sentBy=" + sentBy +
                 ", sentTo=" + sentTo +
                 ", offer=" + offer +
-                ", offerAccepted=" + offerAccepted +
                 '}';
     }
 }

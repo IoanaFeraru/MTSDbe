@@ -24,7 +24,7 @@ public class MessageService {
         this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
-    public Message sendMessage(Message message) {
+    public Message saveMessage(Message message) {
         if (message.getId() == null) {
             message.setId(sequenceGeneratorService.generateSequence(Message.SEQUENCE_NAME));
             message.setDateSent(LocalDateTime.now());
