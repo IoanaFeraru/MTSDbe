@@ -61,10 +61,6 @@ public class BookingService {
         bookingRepository.save(booking);
     }
 
-    public void setPriceNegotiation(User client, User provider, double proposedPrice) {
-        // ToDO implementare logica
-    }
-
     public List<Booking> findByService(Service service) {
         return bookingRepository.findByService(service);
     }

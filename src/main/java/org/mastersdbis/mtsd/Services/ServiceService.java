@@ -23,11 +23,7 @@ public class ServiceService {
         this.serviceRepository = serviceRepository;
     }
 
-    public void addService(Service service) {
-        serviceRepository.save(service);
-    }
-
-    public void updateService(Service service) {
+    public void saveService(Service service) {
         serviceRepository.save(service);
     }
 

@@ -25,21 +25,12 @@ public class ReviewService {
         this.userService = userService;
     }
 
-    public void addReview(Review review) {
+    public void saveReview(Review review) {
         try {
             reviewRepository.save(review);
             userService.updateUserRating(review.getUser());
         } catch (DataAccessException e) {
             System.out.println("Eroare la salvarea review-ului si actualizarea ratingului utilizatorului: " + e.getMessage());
-        }
-    }
-
-    public void updateReview(Review review) {
-        try {
-            reviewRepository.save(review);
-            userService.updateUserRating(review.getUser());
-        } catch (DataAccessException e) {
-            System.out.println("Eroare la actualizarea revirew-ului si a ratingului utilizatorului: " + e.getMessage());
         }
     }
 
@@ -97,6 +88,4 @@ public class ReviewService {
             return (professionalism + promptitude + communication + overallSatisfaction) / 4;
         }
     }
-
-    //TODO implementare exceptii
 }

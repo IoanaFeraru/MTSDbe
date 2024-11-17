@@ -27,11 +27,7 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public void addTask(Task task) {
-        taskRepository.save(task);
-    }
-
-    public void updateTask(Task task) {
+    public void saveTask(Task task) {
         taskRepository.save(task);
     }
 

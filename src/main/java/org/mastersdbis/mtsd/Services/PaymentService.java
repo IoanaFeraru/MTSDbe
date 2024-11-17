@@ -37,11 +37,7 @@ public class PaymentService {
         // TODO implementare logica
         paymentRepository.save(payment);
     }
-    public void addPayment(Payment payment) {
-        paymentRepository.save(payment);
-    }
-
-    public void updatePayment(Payment payment) {
+    public void savePayment(Payment payment) {
         paymentRepository.save(payment);
     }
 

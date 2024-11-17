@@ -127,6 +127,5 @@ public class UserService {
 
 
     //TODO implementare exceptii
-    //TODO calcul rating profil
     //TODO future - statistici provider (prin query uri, o sa fie probabil cand ne apucam de frontend)
 }
