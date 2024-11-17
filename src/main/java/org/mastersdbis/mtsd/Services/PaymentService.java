@@ -1,26 +1,31 @@
 package org.mastersdbis.mtsd.Services;
 
+import org.mastersdbis.mtsd.Entities.Booking.BookingState;
 import org.mastersdbis.mtsd.Entities.Payment.Payment;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Payment.PaymentState;
+import org.mastersdbis.mtsd.Repositories.BookingRepository;
 import org.mastersdbis.mtsd.Repositories.PaymentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final BookingRepository bookingRepository;
 
     @Autowired
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, BookingRepository bookingRepository) {
         this.paymentRepository = paymentRepository;
+        this.bookingRepository = bookingRepository;
     }
 
     public List<Payment> checkDelayedPayments(User user) {
@@ -33,10 +38,34 @@ public class PaymentService {
         paymentRepository.save(payment);
     }
 
-    public void revertPayment (Payment payment) {
-        // TODO implementare logica
-        paymentRepository.save(payment);
+    public void revertPayment(Payment payment) {
+        if (payment == null) {
+            throw new IllegalArgumentException("Payment-ul nu poate fi null.");
+        }
+
+        Payment refundPayment = new Payment();
+        refundPayment.setAmount(payment.getAmount());
+        refundPayment.setPaymentMethod(payment.getPaymentMethod());
+        refundPayment.setPaymentState(PaymentState.REVERTED);
+        refundPayment.setBooking(payment.getBooking());
+        refundPayment.setPaymentDate(LocalDate.now());
+
+        paymentRepository.save(refundPayment);
     }
+
+    public void processPayment(Booking booking, Payment payment) {
+        if (payment.getPaymentState() == PaymentState.ACCEPTED) {
+            booking.setBookingState(BookingState.ACTIVE);
+
+        } else {
+            booking.setBookingState(BookingState.CANCELED);
+            booking.setDueDate(LocalDate.now());
+        }
+
+        paymentRepository.save(payment);
+        bookingRepository.save(booking);
+    }
+
     public void savePayment(Payment payment) {
         paymentRepository.save(payment);
     }
@@ -49,7 +78,7 @@ public class PaymentService {
         return paymentRepository.findById(id).orElse(null);
     }
 
-    public List<Payment> findByBooking(Booking booking) {
+    public Optional<Payment> findByBooking(Booking booking) {
         return paymentRepository.findByBooking(booking);
     }
 

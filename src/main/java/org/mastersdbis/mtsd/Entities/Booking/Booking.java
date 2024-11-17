@@ -13,6 +13,7 @@ import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -37,18 +38,12 @@ public class Booking extends AbstractEntity {
     @JoinColumn(name = "service_id", nullable = false)
     private Service service;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Booking type cannot be null.")
-    @Column(name = "bookingtype", length = 20)
-    private BookingType bookingType;
-
     @Future(message = "Due date must be in the future.")
     @Column(name = "duedate")
     private LocalDate dueDate;
 
-    @Size(max = Integer.MAX_VALUE, message = "Description must not exceed maximum length.")
-    @Column(name = "description", length = Integer.MAX_VALUE)
-    private String description;
+    @Column(name = "bookingTime")
+    private LocalDateTime dueTime;
 
     @Size(max = 255, message = "Delivery address must not exceed 255 characters.")
     @Column(name = "deliveryaddress")
@@ -72,13 +67,11 @@ public class Booking extends AbstractEntity {
                 "id=" + id +
                 ", user=" + (user != null ? user.getId() : "null") +
                 ", service=" + (service != null ? service.getId() : "null") +
-                ", bookingType=" + bookingType +
                 ", dueDate=" + dueDate +
-                ", description='" + description + '\'' +
+                ", dueTime=" + dueTime +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
                 ", price=" + price +
                 ", bookingState=" + bookingState +
                 '}';
     }
-
 }

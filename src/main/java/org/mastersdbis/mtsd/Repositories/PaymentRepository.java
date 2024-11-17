@@ -10,10 +10,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
-    List<Payment> findByBooking(Booking booking);
+    Optional<Payment> findByBooking(Booking booking);
 
     @Query("SELECT p FROM Payment p WHERE p.booking.user = :user")
     List<Payment> findByUser(@Param("user") User user);

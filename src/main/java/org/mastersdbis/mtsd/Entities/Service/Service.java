@@ -76,6 +76,14 @@ public class Service extends AbstractEntity {
     @Column(name = "accepted_payment_methods", length = Integer.MAX_VALUE)
     private String acceptedPaymentMethods;
 
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Booking type cannot be null.")
+    @Column(name = "servicetype", length = 20)
+    private ServiceType serviceType;
+
+    @Column(name = "minimum_booking_time", nullable = false)
+    private Integer minimumBookingTime;
+
     @Override
     public Integer getId() { return id; }
 
@@ -122,6 +130,8 @@ public class Service extends AbstractEntity {
                 ", materials=" + getMaterialsList() +
                 ", active=" + active +
                 ", acceptedPaymentMethods=" + getAcceptedPaymentMethodsList() +
+                ", serviceType=" + getServiceType() +
+                ", minimumBookingTime=" + minimumBookingTime +
                 '}';
     }
 }

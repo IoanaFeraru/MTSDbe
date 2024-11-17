@@ -4,13 +4,14 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Booking.BookingState;
-import org.mastersdbis.mtsd.Entities.Booking.BookingType;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
@@ -19,7 +20,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByUser(User user);
 
-    List<Booking> findByDueDate(LocalDate dueDate);
+    List<Booking> findByDueDateAndDueTime(LocalDate dueDate, LocalDateTime dueTime);
 
     List<Booking> findByDueDateBetween(LocalDate dateStart, LocalDate dateEnd);
 
