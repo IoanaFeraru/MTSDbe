@@ -6,11 +6,13 @@ import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @org.springframework.stereotype.Service
+@Transactional
 public class BookingService {
 
     private final BookingRepository bookingRepository;

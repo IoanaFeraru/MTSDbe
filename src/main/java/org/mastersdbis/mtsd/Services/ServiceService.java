@@ -7,11 +7,13 @@ import org.mastersdbis.mtsd.Repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @org.springframework.stereotype.Service
+@Transactional
 public class ServiceService {
 
     private final ServiceRepository serviceRepository;

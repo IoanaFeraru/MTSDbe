@@ -3,15 +3,16 @@ package org.mastersdbis.mtsd.Services;
 import org.mastersdbis.mtsd.Entities.Message.Message;
 import org.mastersdbis.mtsd.Entities.Message.SenderType;
 import org.mastersdbis.mtsd.Entities.Message.SequenceGeneratorService;
-import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional
 public class MessageService {
 
     private final MessageRepository messageRepository;

@@ -3,13 +3,13 @@ package org.mastersdbis.mtsd.Services;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.Provider.ValidationStatus;
 import org.mastersdbis.mtsd.Repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class AdminService {
 
-    @Autowired
     private UserRepository providerRepository;
 
     public void validateProvider(Provider provider, boolean isApproved) {

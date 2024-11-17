@@ -38,4 +38,6 @@ public class Message {
     private Integer sentTo;
 
     private boolean offer;
+
+    private boolean offerAccepted;
 }

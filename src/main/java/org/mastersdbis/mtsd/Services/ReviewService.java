@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @org.springframework.stereotype.Service
+@Transactional
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
@@ -24,7 +25,6 @@ public class ReviewService {
         this.userService = userService;
     }
 
-    @Transactional
     public void addReview(Review review) {
         try {
             reviewRepository.save(review);
@@ -34,7 +34,6 @@ public class ReviewService {
         }
     }
 
-    @Transactional
     public void updateReview(Review review) {
         try {
             reviewRepository.save(review);
@@ -44,7 +43,6 @@ public class ReviewService {
         }
     }
 
-    @Transactional
     public void deleteReview(Review review) {
         try {
             reviewRepository.delete(review);
