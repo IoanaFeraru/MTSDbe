@@ -40,4 +40,19 @@ public class Message {
     private boolean offer;
 
     private boolean offerAccepted;
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", dateSent=" + dateSent +
+                ", read=" + read +
+                ", senderType=" + senderType +
+                ", sentBy=" + sentBy +
+                ", sentTo=" + sentTo +
+                ", offer=" + offer +
+                ", offerAccepted=" + offerAccepted +
+                '}';
+    }
 }

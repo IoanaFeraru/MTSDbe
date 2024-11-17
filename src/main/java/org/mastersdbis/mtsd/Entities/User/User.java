@@ -58,4 +58,17 @@ public abstract class User extends AbstractEntity {
 
     @Override
     public Integer getId() { return id; }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", rating=" + rating +
+                ", notificationPreferences=" + notificationPreferences +
+                '}';
+    }
 }

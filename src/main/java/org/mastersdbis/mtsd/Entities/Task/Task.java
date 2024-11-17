@@ -43,4 +43,15 @@ public class Task extends AbstractEntity {
 
     @Override
     public Object getId() { return id; }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", bookingId=" + (booking != null ? booking.getId() : "null") +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", dueDate=" + duedate +
+                '}';
+    }
 }

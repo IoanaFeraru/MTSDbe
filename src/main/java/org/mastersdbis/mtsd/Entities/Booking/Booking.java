@@ -66,5 +66,19 @@ public class Booking extends AbstractEntity {
     @Override
     public Integer getId() { return id; }
 
-    //TODO metodele to string
+    @Override
+    public String toString() {
+        return "Booking{" +
+                "id=" + id +
+                ", user=" + (user != null ? user.getId() : "null") +
+                ", service=" + (service != null ? service.getId() : "null") +
+                ", bookingType=" + bookingType +
+                ", dueDate=" + dueDate +
+                ", description='" + description + '\'' +
+                ", deliveryAddress='" + deliveryAddress + '\'' +
+                ", price=" + price +
+                ", bookingState=" + bookingState +
+                '}';
+    }
+
 }

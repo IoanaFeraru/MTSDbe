@@ -47,14 +47,18 @@ public class Payment extends AbstractEntity {
     @Column(name = "paymentdate")
     private LocalDate paymentDate;
 
-    @FutureOrPresent(message = "Billing date must be in the present or future.")
-    @Column(name = "datebilled")
-    private LocalDate dateBilled;
-
-    @Future(message = "Due date must be in the future.")
-    @Column(name = "duedate")
-    private LocalDate dueDate;
-
     @Override
     public Object getId() { return id; }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id=" + id +
+                ", bookingId=" + (booking != null ? booking.getId() : "null") +
+                ", amount=" + amount +
+                ", paymentMethod=" + paymentMethod +
+                ", paymentState=" + paymentState +
+                ", paymentDate=" + paymentDate +
+                '}';
+    }
 }

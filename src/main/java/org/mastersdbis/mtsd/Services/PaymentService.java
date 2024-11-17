@@ -28,7 +28,7 @@ public class PaymentService {
         return List.of();
     }
 
-    public void paymentStatusManager(Payment payment) {
+    public void paymentStatusManager(Payment payment, PaymentState state) {
         // TODO Implementare logica
         paymentRepository.save(payment);
     }

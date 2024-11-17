@@ -42,4 +42,16 @@ public class Rating {
     @Min(value = 1)
     @Max(value = 5)
     private Integer overallSatisfaction;
+
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "professionalism=" + professionalism +
+                ", promptitude=" + promptitude +
+                ", quality=" + (quality != null ? quality : "N/A") +
+                ", communication=" + communication +
+                ", price=" + (price != null ? price : "N/A") +
+                ", overallSatisfaction=" + overallSatisfaction +
+                '}';
+    }
 }

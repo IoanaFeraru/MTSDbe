@@ -20,4 +20,18 @@ public class Admin extends User {
     @Enumerated(EnumType.STRING)
     @Column(name = "permission")
     private Set<Permission> permissions;
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + getId() +
+                ", username='" + getUsername() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", phoneNumber='" + getPhoneNumber() + '\'' +
+                ", address='" + getAddress() + '\'' +
+                ", rating=" + getRating() +
+                ", notificationPreferences=" + getNotificationPreferences() +
+                ", permissions=" + permissions +
+                '}';
+    }
 }

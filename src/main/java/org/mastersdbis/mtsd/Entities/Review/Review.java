@@ -57,4 +57,16 @@ public class Review extends AbstractEntity {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", userId=" + (user != null ? user.getId() : "null") +
+                ", serviceId=" + (service != null ? service.getId() : "null") +
+                ", rating=" + (rating != null ? rating.toString() : "null") +
+                ", content='" + content + '\'' +
+                ", reviewType=" + reviewType +
+                '}';
+    }
 }

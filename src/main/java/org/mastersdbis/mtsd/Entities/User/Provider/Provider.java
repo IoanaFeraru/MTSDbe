@@ -47,4 +47,23 @@ public class Provider extends User {
     @Enumerated(EnumType.STRING)
     @Column(name = "validationstatus", length = 50)
     private ValidationStatus validationStatus;
+
+    @Override
+    public String toString() {
+        return "Provider{" +
+                "id=" + getId() +
+                ", username='" + getUsername() + '\'' +
+                ", email='" + getEmail() + '\'' +
+                ", phoneNumber='" + getPhoneNumber() + '\'' +
+                ", address='" + getAddress() + '\'' +
+                ", rating=" + getRating() +
+                ", notificationPreferences=" + getNotificationPreferences() +
+                ", cif='" + cif + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", companyAdress='" + companyAdress + '\'' +
+                ", serviceDomain=" + serviceDomain +
+                ", bankIBAN='" + bankIBAN + '\'' +
+                ", validationStatus=" + validationStatus +
+                '}';
+    }
 }

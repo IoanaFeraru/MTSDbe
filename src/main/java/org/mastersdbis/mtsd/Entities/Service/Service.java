@@ -107,4 +107,21 @@ public class Service extends AbstractEntity {
                 .map(PaymentMethod::name)
                 .collect(Collectors.joining(", "));
     }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "id=" + id +
+                ", providerId=" + (provider != null ? provider.getId() : "null") +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", domain=" + domain +
+                ", subdomain=" + subdomain +
+                ", price=" + price +
+                ", region=" + region +
+                ", materials=" + getMaterialsList() +
+                ", active=" + active +
+                ", acceptedPaymentMethods=" + getAcceptedPaymentMethodsList() +
+                '}';
+    }
 }
