@@ -20,15 +20,10 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
     List<Payment> findByPaymentState(PaymentState paymentState);
 
-    List<Payment> findByPaymentDateBetween(Date from, Date to);
-
     @Query("SELECT p FROM Payment p WHERE p.booking.user = :user")
     List<Payment> findByUserCustom(User user);
 
     @Query("SELECT p FROM Payment p WHERE p.booking.user = :user AND p.paymentState = :status")
     List<Payment> findByUserAndStatus(User user, PaymentState status);
-
-    @Query("SELECT p FROM Payment p WHERE p.dateBilled = :date")
-    List<Payment> findByDate(Date date);
 }
 
