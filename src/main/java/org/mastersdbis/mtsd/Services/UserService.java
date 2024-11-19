@@ -58,7 +58,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void makeProvider(User user, String cif, String companyName, String companyAddress, String serviceDomain, String bankIBAN) {
+    public void makeProvider(User user, String cif, String companyName, String companyAddress, ServiceDomain serviceDomain, String bankIBAN) {
         if (user instanceof Provider) {
             throw new IllegalArgumentException("User is already a provider.");
         }
@@ -76,11 +76,12 @@ public class UserService {
         provider.setCif(cif);
         provider.setCompanyName(companyName);
         provider.setCompanyAdress(companyAddress);
-        provider.setServiceDomain(ServiceDomain.valueOf(serviceDomain));
+        provider.setServiceDomain(serviceDomain);
         provider.setBankIBAN(bankIBAN);
 
         provider.setValidationStatus(ValidationStatus.PENDING);
 
+        userRepository.delete(user);
         userRepository.save(provider);
     }
 

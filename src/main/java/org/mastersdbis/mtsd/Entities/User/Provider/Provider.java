@@ -3,6 +3,7 @@ package org.mastersdbis.mtsd.Entities.User.Provider;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,8 +36,8 @@ public class Provider extends User {
     @Column(name = "companyadress")
     private String companyAdress;
 
-    @Size(max = 50)
-    @Column(name = "servicedomain", length = 50)
+    @Column(name = "servicedomain")
+    @NotNull(message = "Service Domain cannot be null")
     private ServiceDomain serviceDomain;
 
     @Size(max = 50)
@@ -45,7 +46,7 @@ public class Provider extends User {
     private String bankIBAN;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "validationstatus", length = 50)
+    @Column(name = "validationstatus")
     private ValidationStatus validationStatus;
 
     @Override
