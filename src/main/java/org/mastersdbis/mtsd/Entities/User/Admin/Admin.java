@@ -14,7 +14,16 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Admin extends User {
+@Table(name = "Admins")
+public class Admin {
+
+    @Id
+    private Integer id;
+
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @MapsId
+    private User user;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "permission")
@@ -23,12 +32,8 @@ public class Admin extends User {
     @Override
     public String toString() {
         return "Admin{" +
-                "id=" + getId() +
-                ", username='" + getUsername() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", phoneNumber='" + getPhoneNumber() + '\'' +
-                ", address='" + getAddress() + '\'' +
-                ", rating=" + getRating() +
+                "id=" + id +
+                ", user=" + user +
                 ", permissions=" + permissions +
                 '}';
     }
