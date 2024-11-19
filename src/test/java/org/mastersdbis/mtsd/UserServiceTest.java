@@ -67,8 +67,7 @@ class UserServiceTest {
         User userFromDb = userService.findByUsername("Stefan");
         Assertions.assertNotNull(userFromDb, "Utilizatorul cu username-ul 'Stefan' nu a fost găsit în baza de date.");
         String newPassword = "ParolaTare123!";
-        userFromDb.setPassword(passwordEncoder.encode(newPassword));
-        userService.updateUser(userFromDb);
+        userService.updateUserPassword(userFromDb, newPassword);
         User updatedUser = userService.findByUsername("Stefan");
         boolean passwordMatches = passwordEncoder.matches(newPassword, updatedUser.getPassword());
         Assertions.assertTrue(passwordMatches, "Parola nu a fost codificată corect.");
