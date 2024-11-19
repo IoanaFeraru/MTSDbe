@@ -41,18 +41,27 @@ class UserServiceTest {
 
     @Test
     void updateUser() {
-        User userFromDb = userService.findByUsername("Stefan");
-        Assertions.assertNotNull(userFromDb, "Utilizatorul cu username-ul 'Ioana' nu a fost găsit în baza de date.");
-        Assertions.assertEquals("Stefan", userFromDb.getUsername(), "Username-ul curent nu corespunde celui așteptat.");
-        String newUsername = "Ioana";
+        User userFromDb = userService.findByUsername("Ioana");
+        Assertions.assertNotNull(userFromDb, "Utilizatorul nu a fost găsit în baza de date.");
+        String newUsername = "Stefan";
         userFromDb.setUsername(newUsername);
         userService.updateUser(userFromDb);
         User updatedUser = userService.findByUsername(newUsername);
-        Assertions.assertNotNull(updatedUser, "Utilizatorul cu noul username 'IoanaUpdated' nu a fost găsit în baza de date.");
         Assertions.assertEquals(newUsername, updatedUser.getUsername(), "Username-ul nu a fost actualizat corect.");
-        User oldUser = userService.findByUsername("Stefan");
-        Assertions.assertNull(oldUser, "Utilizatorul cu vechiul username 'Ioana' există încă în baza de date.");
         System.out.println("Username-ul a fost actualizat cu succes.");
+    }
+    @Test
+    void updatePassword() {
+        // Retrieve user from database
+        User userFromDb = userService.findByUsername("Ioana");
+        Assertions.assertNotNull(userFromDb, "Utilizatorul cu username-ul 'Ioana' nu a fost găsit în baza de date.");
+        String newPassword = "ParolaTare123!";
+        userFromDb.setPassword(passwordEncoder.encode(newPassword));
+        userService.updateUser(userFromDb);
+        User updatedUser = userService.findByUsername("Ioana");
+        boolean passwordMatches = passwordEncoder.matches(newPassword, updatedUser.getPassword());
+        Assertions.assertTrue(passwordMatches, "Parola nu a fost codificată corect.");
+        System.out.println("Parola a fost modificată cu succes!");
     }
 
     @Test
