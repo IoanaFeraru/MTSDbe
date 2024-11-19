@@ -5,6 +5,7 @@ import org.mastersdbis.mtsd.Entities.Review.ReviewType;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.User;
+import org.mastersdbis.mtsd.Repositories.ProviderRepository;
 import org.mastersdbis.mtsd.Repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -18,11 +19,13 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final UserService userService;
+    private final ProviderRepository providerRepository;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, UserService userService) {
+    public ReviewService(ReviewRepository reviewRepository, UserService userService, ProviderRepository providerRepository) {
         this.reviewRepository = reviewRepository;
         this.userService = userService;
+        this.providerRepository = providerRepository;
     }
 
     public void saveReview(Review review) {
@@ -65,7 +68,7 @@ public class ReviewService {
             return 0.0;
         }
 
-        boolean isProvider = user instanceof Provider;
+        boolean isProvider = providerRepository.findByUser(user) != null;
 
         double sum = reviews.stream()
                 .mapToDouble(review -> calculateAverageRatingForReview(review, isProvider))

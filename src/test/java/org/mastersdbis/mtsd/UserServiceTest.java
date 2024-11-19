@@ -67,27 +67,18 @@ class UserServiceTest {
 
     @Test
     void testMakeProvider() {
-        User newUser = new User();
-        newUser.setUsername("Ioana");
-        newUser.setPassword("Parola11!");
-        newUser.setEmail("ioana@gmail.com");
-        newUser.setPhoneNumber("+40 789678567");
-        newUser.setAddress("Strada Exemplu, Nr. 11");
-        userService.addUser(newUser);
+        User user = userService.findByUsername("Ioana");
 
-        String cif = "RO1234567890";
-        String companyName = "Exemplu SRL";
-        String companyAddress = "Strada Firma, Nr. 1";
-        ServiceDomain serviceDomain = ServiceDomain.INFORMATICE;
-        String bankIBAN = "RO49AAAA1B31007593840000";
+        Provider provider = new Provider();
+        provider.setUser(user);
+        provider.setCif("RO1234567890");
+        provider.setCompanyName("Exemplu SRL");
+        provider.setCompanyAdress("Strada Firma, Nr. 1");
+        provider.setServiceDomain(ServiceDomain.INFORMATICE);
+        provider.setBankIBAN("RO49AAAA1B31007593840000");
 
-        userService.makeProvider(newUser, cif, companyName, companyAddress, serviceDomain, bankIBAN);
+        userService.addProvider(provider);
 
-        User savedUser = userService.findByUsername("Ioana");
-
-        Assertions.assertTrue(savedUser instanceof Provider, "User nu a fost transformat în furnizor.");
-
-        Provider savedProvider = (Provider) savedUser;
-        System.out.println("Detalii utilizator salvat: " + savedProvider.toString());;
     }
+
 }

@@ -4,6 +4,7 @@ import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.Provider.ValidationStatus;
 import org.mastersdbis.mtsd.Entities.User.User;
+import org.mastersdbis.mtsd.Repositories.ProviderRepository;
 import org.mastersdbis.mtsd.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,11 +21,13 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ProviderRepository providerRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, ProviderRepository providerRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.providerRepository = providerRepository;
     }
 
     public void addUser(User user) {
@@ -50,6 +53,10 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public Provider findProviderByUser(User user) {
+        return providerRepository.findByUser(user);
+    }
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
@@ -58,31 +65,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void makeProvider(User user, String cif, String companyName, String companyAddress, ServiceDomain serviceDomain, String bankIBAN) {
-        if (user instanceof Provider) {
-            throw new IllegalArgumentException("User is already a provider.");
-        }
-
-        Provider provider = new Provider();
-
-        provider.setId(user.getId());
-        provider.setUsername(user.getUsername());
-        provider.setPassword(user.getPassword());
-        provider.setEmail(user.getEmail());
-        provider.setPhoneNumber(user.getPhoneNumber());
-        provider.setAddress(user.getAddress());
-        provider.setRating(user.getRating());
-
-        provider.setCif(cif);
-        provider.setCompanyName(companyName);
-        provider.setCompanyAdress(companyAddress);
-        provider.setServiceDomain(serviceDomain);
-        provider.setBankIBAN(bankIBAN);
-
+    public void addProvider(Provider provider) {
         provider.setValidationStatus(ValidationStatus.PENDING);
-
-        userRepository.delete(user);
-        userRepository.save(provider);
+        providerRepository.save(provider);
     }
 
     public List<User> searchByUsernamePattern(String pattern) {

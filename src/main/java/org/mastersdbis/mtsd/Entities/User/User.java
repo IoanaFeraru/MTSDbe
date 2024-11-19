@@ -13,6 +13,7 @@ import org.mastersdbis.mtsd.Entities.AbstractEntity;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Users")
 public class User extends AbstractEntity {
     @Id

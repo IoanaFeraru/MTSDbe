@@ -1,17 +1,12 @@
 package org.mastersdbis.mtsd.Entities.User.Provider;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
+import org.mastersdbis.mtsd.Entities.AbstractEntity;
 import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
 import org.mastersdbis.mtsd.Entities.User.User;
 
@@ -19,9 +14,17 @@ import org.mastersdbis.mtsd.Entities.User.User;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "Provider")
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Provider extends User {
+public class Provider extends AbstractEntity {
+
+    @Id
+    private Integer id;
+
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
+    @MapsId
+    private User user;
 
     @Size(max = 20)
     @Pattern(regexp = "^RO[0-9]{1,9}[0-9]$", message = "CIF-ul trebuie să fie în formatul RO urmat de 1 până la 9 cifre și o cifră de verificare.")
@@ -36,8 +39,8 @@ public class Provider extends User {
     @Column(name = "companyadress")
     private String companyAdress;
 
-    @Column(name = "servicedomain")
     @NotNull(message = "Service Domain cannot be null")
+    @Column(name = "servicedomain")
     private ServiceDomain serviceDomain;
 
     @Size(max = 50)
@@ -52,12 +55,8 @@ public class Provider extends User {
     @Override
     public String toString() {
         return "Provider{" +
-                "id=" + getId() +
-                ", username='" + getUsername() + '\'' +
-                ", email='" + getEmail() + '\'' +
-                ", phoneNumber='" + getPhoneNumber() + '\'' +
-                ", address='" + getAddress() + '\'' +
-                ", rating=" + getRating() +
+                "id=" + id +
+                ", user=" + user +
                 ", cif='" + cif + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", companyAdress='" + companyAdress + '\'' +
@@ -66,6 +65,5 @@ public class Provider extends User {
                 ", validationStatus=" + validationStatus +
                 '}';
     }
-
-    //TODO very very very future Ioana: o lista cu date pe care sa le selecteze furnizorii ca unavailable
 }
+    // TODO very very very future Ioana: o lista cu date pe care sa le selecte
