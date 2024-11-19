@@ -21,7 +21,7 @@ public class Provider extends AbstractEntity {
     @Id
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
     @MapsId
     private User user;

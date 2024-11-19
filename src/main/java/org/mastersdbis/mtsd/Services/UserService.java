@@ -66,9 +66,14 @@ public class UserService {
     }
 
     public void addProvider(Provider provider) {
+        User managedUser = userRepository.findById(provider.getUser().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Utilizatorul nu există"));
+        provider.setUser(managedUser);
+
         provider.setValidationStatus(ValidationStatus.PENDING);
         providerRepository.save(provider);
     }
+
 
     public List<User> searchByUsernamePattern(String pattern) {
         return userRepository.searchByUsernamePattern(pattern);
