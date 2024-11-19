@@ -22,6 +22,8 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
+    //TODO check overdue task
+
     public void manageTaskState(Task task, TaskState state) {
         task.setStatus(state);
         taskRepository.save(task);
