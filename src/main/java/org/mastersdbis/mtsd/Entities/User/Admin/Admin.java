@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.mastersdbis.mtsd.Entities.AbstractEntity;
 import org.mastersdbis.mtsd.Entities.User.User;
 
 import java.util.Set;
@@ -14,13 +15,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Admins")
-public class Admin {
+public class Admin extends AbstractEntity {
 
     @Id
     private Integer id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
     @MapsId
     private User user;
@@ -32,8 +32,7 @@ public class Admin {
     @Override
     public String toString() {
         return "Admin{" +
-                "id=" + id +
-                ", user=" + user +
+                "id=" + getId() +
                 ", permissions=" + permissions +
                 '}';
     }

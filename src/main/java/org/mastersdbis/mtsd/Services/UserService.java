@@ -74,7 +74,6 @@ public class UserService {
         providerRepository.save(provider);
     }
 
-
     public List<User> searchByUsernamePattern(String pattern) {
         return userRepository.searchByUsernamePattern(pattern);
     }
