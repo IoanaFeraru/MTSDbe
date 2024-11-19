@@ -42,7 +42,7 @@ public class Booking extends AbstractEntity {
     @Column(name = "duedate")
     private LocalDate dueDate;
 
-    @Column(name = "bookingTime")
+    @Column(name = "booking_time")
     private LocalDateTime dueTime;
 
     @Size(max = 255, message = "Delivery address must not exceed 255 characters.")

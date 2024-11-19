@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    List<User> findByUsername(String username);
+    User findByUsername(String username);
 
     @Query("SELECT u FROM User u WHERE u.username LIKE %:pattern%")
     List<User> searchByUsernamePattern(@Param("pattern") String pattern);

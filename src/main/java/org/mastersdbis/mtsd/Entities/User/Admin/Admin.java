@@ -30,7 +30,6 @@ public class Admin extends User {
                 ", phoneNumber='" + getPhoneNumber() + '\'' +
                 ", address='" + getAddress() + '\'' +
                 ", rating=" + getRating() +
-                ", notificationPreferences=" + getNotificationPreferences() +
                 ", permissions=" + permissions +
                 '}';
     }

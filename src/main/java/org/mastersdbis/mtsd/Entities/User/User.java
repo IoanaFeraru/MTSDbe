@@ -14,7 +14,7 @@ import org.mastersdbis.mtsd.Entities.AbstractEntity;
 @NoArgsConstructor
 @Entity
 @Table(name = "Users")
-public abstract class User extends AbstractEntity {
+public class User extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_gen")
     @SequenceGenerator(name = "users_id_gen", sequenceName = "users_id_seq", allocationSize = 1)
@@ -26,9 +26,8 @@ public abstract class User extends AbstractEntity {
     @Column(name = "username", nullable = false, length = 50, unique = true)
     private String username;
 
-    @Size(max = 100)
     @NotNull
-    @Column(name = "password", nullable = false, length = 100)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Size(max = 100)
@@ -37,9 +36,9 @@ public abstract class User extends AbstractEntity {
     @Column(name = "email", nullable = false, length = 100, unique = true)
     private String email;
 
-    @Size(max = 12)
+    @Size(max = 15)
     @NotNull
-    @Pattern(regexp = "^\\+40 [0-9]{3} [0-9]{3} [0-9]{3}$", message = "Numărul de telefon trebuie să fie în formatul +40 xxx xxx xxx.")
+    @Pattern(regexp = "^\\+40 [0-9]{9}$", message = "Numărul de telefon trebuie să fie în formatul +40 xxxxxxxxx.")
     @Column(name = "phonenumber", nullable = false, length = 12)
     private String phoneNumber;
 
@@ -51,10 +50,6 @@ public abstract class User extends AbstractEntity {
     @Max(value = 5, message = "Rating-ul trebuie să fie între 0 și 5.")
     @Column(name = "rating")
     private Double rating;
-
-    @Size(max = 255)
-    @Column(name = "notificationpreferences")
-    private NotificationPreference notificationPreferences;
 
     @Override
     public Integer getId() { return id; }
@@ -68,7 +63,6 @@ public abstract class User extends AbstractEntity {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", rating=" + rating +
-                ", notificationPreferences=" + notificationPreferences +
                 '}';
     }
 }

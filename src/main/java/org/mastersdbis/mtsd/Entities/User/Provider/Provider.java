@@ -57,7 +57,6 @@ public class Provider extends User {
                 ", phoneNumber='" + getPhoneNumber() + '\'' +
                 ", address='" + getAddress() + '\'' +
                 ", rating=" + getRating() +
-                ", notificationPreferences=" + getNotificationPreferences() +
                 ", cif='" + cif + '\'' +
                 ", companyName='" + companyName + '\'' +
                 ", companyAdress='" + companyAdress + '\'' +

@@ -50,7 +50,7 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public List<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
@@ -72,7 +72,6 @@ public class UserService {
         provider.setPhoneNumber(user.getPhoneNumber());
         provider.setAddress(user.getAddress());
         provider.setRating(user.getRating());
-        provider.setNotificationPreferences(user.getNotificationPreferences());
 
         provider.setCif(cif);
         provider.setCompanyName(companyName);
@@ -91,18 +90,21 @@ public class UserService {
 
     private void validatePassword(String password) {
         if (password == null || password.length() < 8) {
-            throw new IllegalArgumentException("Password must be at least 8 characters long.");
+            throw new IllegalArgumentException("Parola trebuie să aibă cel puțin 8 caractere.");
         }
         if (!Pattern.compile("[A-Z]").matcher(password).find()) {
-            throw new IllegalArgumentException("Password must contain at least one uppercase letter.");
+            throw new IllegalArgumentException("Parola trebuie să conțină cel puțin o literă mare.");
         }
         if (!Pattern.compile("[0-9]").matcher(password).find()) {
-            throw new IllegalArgumentException("Password must contain at least one digit.");
+            throw new IllegalArgumentException("Parola trebuie să conțină cel puțin o cifră.");
+        }
+        if (!Pattern.compile("[^a-zA-Z0-9]").matcher(password).find()) {
+            throw new IllegalArgumentException("Parola trebuie să conțină cel puțin un caracter special.");
         }
     }
 
     public boolean authenticateUser(String username, String rawPassword) {
-        Optional<User> userOptional = userRepository.findByUsername(username).stream().findFirst();
+        Optional<User> userOptional = Optional.ofNullable(userRepository.findByUsername(username));
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();

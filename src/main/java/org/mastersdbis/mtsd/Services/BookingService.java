@@ -69,11 +69,11 @@ public class BookingService {
         }
     }
 
-    public Booking addBooking(User user, Service service, double negotiatedPrice, LocalDate dueDate, LocalDateTime time) {
+    public Booking addBooking(User user, Service service, double price, LocalDate dueDate, LocalDateTime time) {
         Booking newBooking = new Booking();
         newBooking.setUser(user);
         newBooking.setService(service);
-        newBooking.setPrice(negotiatedPrice);
+        newBooking.setPrice(price);
 
         boolean isOpen = false;
 
