@@ -131,4 +131,7 @@ public class BookingService {
     public List<Booking> findByUserAndBookingStateAndDueDate(User user, BookingState state, LocalDate dueDate) {
         return bookingRepository.findByUserAndBookingStateAndDueDate(user, state, dueDate);
     }
+    public List<Booking> findAllBookings() {
+        return bookingRepository.findAll();
+    }
 }
