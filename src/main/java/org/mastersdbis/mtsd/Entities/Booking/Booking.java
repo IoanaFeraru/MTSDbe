@@ -14,6 +14,7 @@ import org.mastersdbis.mtsd.Entities.User.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -44,7 +45,7 @@ public class Booking extends AbstractEntity {
     private LocalDate dueDate;
 
     @Column(name = "booking_time")
-    private LocalDateTime dueTime;
+    private LocalTime dueTime;
 
     @Size(max = 255, message = "Delivery address must not exceed 255 characters.")
     @Column(name = "deliveryaddress")

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -64,7 +65,7 @@ public class BookingService {
         bookingRepository.save(booking);
     }
 
-    public boolean checkDateOpen(Service service, LocalDate date, LocalDateTime time) {
+    public boolean checkDateOpen(Service service, LocalDate date, LocalTime time) {
         if (service.getServiceType() == ServiceType.BOOKING && time != null) {
             List<Booking> conflictingBookings = findByDueDateAndDueTime(date, time);
             return conflictingBookings.isEmpty();
@@ -74,7 +75,7 @@ public class BookingService {
         }
     }
 
-    public Booking addBooking(@Valid User user, Service service, double price, LocalDate dueDate, LocalDateTime time) {
+    public Booking addBooking(@Valid User user, Service service, double price, LocalDate dueDate, LocalTime time) {
         Booking newBooking = new Booking();
         newBooking.setUser(user);
         newBooking.setService(service);
@@ -85,8 +86,10 @@ public class BookingService {
         if (service.getServiceType() == ServiceType.BOOKING && time != null) {
             isOpen = checkDateOpen(service, dueDate, time);
             newBooking.setDueTime(time);
+            newBooking.setDueDate(dueDate);
         } else {
             isOpen = checkDateOpen(service, dueDate, null);
+            newBooking.setDueDate(dueDate);
         }
 
         if (isOpen) {
@@ -117,7 +120,7 @@ public class BookingService {
         return bookingRepository.findByDueDateBetween(dateStart, dateEnd);
     }
 
-    public List<Booking> findByDueDateAndDueTime(LocalDate date, LocalDateTime time) {
+    public List<Booking> findByDueDateAndDueTime(LocalDate date, LocalTime time) {
         return bookingRepository.findByDueDateAndDueTime(date, time);
     }
 

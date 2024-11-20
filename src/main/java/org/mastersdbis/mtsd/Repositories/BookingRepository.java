@@ -20,7 +20,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByUser(User user);
 
-    List<Booking> findByDueDateAndDueTime(LocalDate dueDate, LocalDateTime dueTime);
+    List<Booking> findByDueDateAndDueTime(LocalDate dueDate, LocalTime dueTime);
 
     List<Booking> findByDueDateBetween(LocalDate dateStart, LocalDate dateEnd);
 
