@@ -1,4 +1,4 @@
-package org.mastersdbis.mtsd;
+package org.mastersdbis.mtsd.Services;
 
 import org.junit.jupiter.api.Test;
 import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
@@ -7,8 +7,6 @@ import org.mastersdbis.mtsd.Entities.User.Admin.Permission;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.Provider.ValidationStatus;
 import org.mastersdbis.mtsd.Entities.User.User;
-import org.mastersdbis.mtsd.Services.AdminService;
-import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -65,7 +63,7 @@ class UserServiceTest {
     @Test
     void updatePassword() {
         User userFromDb = userService.findByUsername("Stefan");
-        Assertions.assertNotNull(userFromDb, "Utilizatorul cu username-ul 'Stefan' nu a fost găsit în baza de date.");
+        Assertions.assertNotNull(userFromDb, "Utilizatorul nu a fost găsit în baza de date.");
         String newPassword = "ParolaTare123!";
         userService.updateUserPassword(userFromDb, newPassword);
         User updatedUser = userService.findByUsername("Stefan");

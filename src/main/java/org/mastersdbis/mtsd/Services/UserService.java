@@ -57,6 +57,10 @@ public class UserService {
         return providerRepository.findByUser(user);
     }
 
+    public Provider findById(Integer id) {return providerRepository.findById(id).orElse(null);}
+
+    public List<Provider> findAllProviders() {return providerRepository.findAll();}
+
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

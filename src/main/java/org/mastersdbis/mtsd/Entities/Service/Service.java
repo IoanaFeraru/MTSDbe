@@ -45,12 +45,10 @@ public class Service extends AbstractEntity {
 
     @NotNull(message = "Domain cannot be null.")
     @Enumerated(EnumType.STRING)
-    @Size(max = 100, message = "Domain must not exceed 100 characters.")
     @Column(name = "domain", length = 100)
     private ServiceDomain domain;
 
     @Enumerated(EnumType.STRING)
-    @Size(max = 100, message = "Subdomain must not exceed 100 characters.")
     @Column(name = "subdomain", length = 100)
     private ServiceSubdomain subdomain;
 
@@ -72,7 +70,6 @@ public class Service extends AbstractEntity {
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
-    @Size(max = Integer.MAX_VALUE, message = "Accepted payment methods must not exceed maximum length.")
     @Column(name = "accepted_payment_methods", length = Integer.MAX_VALUE)
     private String acceptedPaymentMethods;
 
