@@ -27,7 +27,7 @@ class ServiceServiceTest {
     void addService() {
         Service newService = new Service();
         newService.setProvider(userService.findAllProviders().getFirst());
-        newService.setName("Cleaning Service");
+        newService.setName("Cleaning Service2");
         newService.setDescription("Professional cleaning service for homes and offices.");
         newService.setDomain(ServiceDomain.DIVERSE);
         newService.setSubdomain(ServiceSubdomain.TRANSPORT_transport_persone);
@@ -60,10 +60,25 @@ class ServiceServiceTest {
     }
     @Test
     void deleteService() {
-        Service existingService = serviceService.findById(1);
-        serviceService.saveService(existingService);
-        serviceService.deleteService(existingService);
+        Service ForDeleteService = new Service();
+        ForDeleteService.setProvider(userService.findAllProviders().getFirst());
+        ForDeleteService.setName("Cleaning Service2");
+        ForDeleteService.setDescription("Professional cleaning service for homes and offices.");
+        ForDeleteService.setDomain(ServiceDomain.DIVERSE);
+        ForDeleteService.setSubdomain(ServiceSubdomain.TRANSPORT_transport_persone);
+        ForDeleteService.setPrice(420.00);
+        ForDeleteService.setRegion(Region.BUZAU);
+        ForDeleteService.setMaterialsList(List.of("Detergent", "Cleaning cloths", "Vacuum cleaner"));
+        ForDeleteService.setAcceptedPaymentMethodsList(List.of(PaymentMethod.APPLE_PAY, PaymentMethod.CASH));
+        ForDeleteService.setServiceType(ServiceType.BOOKING);
+        ForDeleteService.setMinimumBookingTime(2);
+        serviceService.saveService(ForDeleteService);
+        Service savedService = serviceService.findById(ForDeleteService.getId());
+        Assertions.assertNotNull(savedService, "Serviciul nou nu a fost salvat în baza de date.");
+
+        serviceService.deleteService(ForDeleteService);
         Service deletedService = serviceService.findById(1);
         Assertions.assertNull(deletedService);
+        System.out.println("Serviciul a fost sters din baza de date");
     }
 }
