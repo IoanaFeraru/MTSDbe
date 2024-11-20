@@ -35,7 +35,7 @@ public class Task extends AbstractEntity {
     @NotNull(message = "Status cannot be null.")
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private TaskState status; // Înlocuiește câmpul `status` cu `TaskState`
+    private TaskState status;
 
     @NotNull(message = "Due date cannot be null.")
     @Column(name = "duedate")
