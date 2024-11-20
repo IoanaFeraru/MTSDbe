@@ -40,7 +40,6 @@ class BookingServiceTest {
         LocalTime dueDateTime = LocalTime.now().minusHours(5);
         Booking booking = bookingService.addBooking(user, existingService, price, dueDate, dueDateTime);
 
-        // Assert: Verify the booking was saved correctly
         Assertions.assertNotNull(booking, "Booking-ul nu a fost creat.");
         Assertions.assertEquals(dueDate, booking.getDueDate(), "Data booking-ului nu este corectă.");
 

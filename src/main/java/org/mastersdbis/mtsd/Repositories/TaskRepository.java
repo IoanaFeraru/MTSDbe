@@ -6,6 +6,7 @@ import org.mastersdbis.mtsd.Entities.Task.TaskId;
 import org.mastersdbis.mtsd.Entities.Task.TaskState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -21,4 +22,7 @@ public interface TaskRepository extends JpaRepository<Task, TaskId> {
 
     @Query("SELECT t FROM Task t WHERE t.booking = :booking AND t.status = :status")
     List<Task> findByBookingFilterStatus(Booking booking, TaskState status);
+
+    @Query("SELECT MAX(t.id.taskNumber) FROM Task t WHERE t.booking.id = :bookingId")
+    Integer findMaxTaskNumberByBookingId(@Param("bookingId") Integer bookingId);
 }

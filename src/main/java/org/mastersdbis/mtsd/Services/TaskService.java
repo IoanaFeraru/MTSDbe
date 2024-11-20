@@ -2,6 +2,7 @@ package org.mastersdbis.mtsd.Services;
 
 import org.mastersdbis.mtsd.Entities.Task.Task;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
+import org.mastersdbis.mtsd.Entities.Task.TaskId;
 import org.mastersdbis.mtsd.Entities.Task.TaskState;
 import org.mastersdbis.mtsd.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,20 @@ public class TaskService {
     }
 
     public void saveTask(Task task) {
+        if (task.getId() == null) {
+            task.setId(new TaskId());
+        }
+
+        Integer maxTaskNumber = taskRepository.findMaxTaskNumberByBookingId(task.getBooking().getId());
+        int taskNumber;
+        if(maxTaskNumber == null) {
+            taskNumber = 1;
+        }
+        else {
+            taskNumber = maxTaskNumber + 1;
+        }
+        TaskId newTaskId = new TaskId(taskNumber, task.getBooking().getId());
+        task.setId(newTaskId);
         taskRepository.save(task);
     }
 

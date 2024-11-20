@@ -1,4 +1,4 @@
-package org.mastersdbis.mtsd;
+package org.mastersdbis.mtsd.Services;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
