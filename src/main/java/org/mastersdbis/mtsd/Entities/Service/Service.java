@@ -30,7 +30,7 @@ public class Service extends AbstractEntity {
     private Integer id;
 
     @NotNull(message = "Provider cannot be null.")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "provider_id", nullable = false, referencedColumnName = "id")
     private Provider provider;
 
@@ -45,11 +45,11 @@ public class Service extends AbstractEntity {
 
     @NotNull(message = "Domain cannot be null.")
     @Enumerated(EnumType.STRING)
-    @Column(name = "domain", length = 100)
+    @Column(name = "domain")
     private ServiceDomain domain;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "subdomain", length = 100)
+    @Column(name = "subdomain")
     private ServiceSubdomain subdomain;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.")
@@ -70,7 +70,7 @@ public class Service extends AbstractEntity {
     @Column(name = "active", nullable = false)
     private Boolean active = true;
 
-    @Column(name = "accepted_payment_methods", length = Integer.MAX_VALUE)
+    @Column(name = "accepted_payment_methods")
     private String acceptedPaymentMethods;
 
     @Enumerated(EnumType.STRING)

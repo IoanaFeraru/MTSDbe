@@ -3,6 +3,7 @@ package org.mastersdbis.mtsd.Services;
 import org.mastersdbis.mtsd.Entities.Service.Region;
 import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
 import org.mastersdbis.mtsd.Entities.Service.ServiceSubdomain;
+import org.mastersdbis.mtsd.Entities.User.Provider.ValidationStatus;
 import org.mastersdbis.mtsd.Repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.mastersdbis.mtsd.Entities.Service.Service;
@@ -24,6 +25,10 @@ public class ServiceService {
     }
 
     public void saveService(Service service) {
+        Provider provider = service.getProvider();
+        if (provider == null || provider.getValidationStatus() != ValidationStatus.APPROVED) {
+            throw new IllegalStateException("Serviciul nu poate fi salvat deoarece providerul nu este aprobat.");
+        }
         serviceRepository.save(service);
     }
 
@@ -55,8 +60,10 @@ public class ServiceService {
     public List<Service> findByPriceRange(double start, double end) {
         return serviceRepository.findByPriceBetween(start, end);
     }
+
     public List<Service> findAll() {
         return serviceRepository.findAll();
     }
+
     //TODO implementare exceptii
 }
