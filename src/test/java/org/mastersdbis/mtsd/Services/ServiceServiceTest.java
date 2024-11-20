@@ -58,6 +58,7 @@ class ServiceServiceTest {
         Assertions.assertEquals(200.00, updatedService.getPrice(), "Prețul serviciului nu a fost actualizat corect.");
         System.out.println("Serviciul a fost modificat cu succes: \n" + updatedService);
     }
+
     @Test
     void deleteService() {
         Service existingService = serviceService.findById(1);
