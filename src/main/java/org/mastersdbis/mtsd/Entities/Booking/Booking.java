@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "booking")
+@ValidBookingTime
 public class Booking extends AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_id_gen")

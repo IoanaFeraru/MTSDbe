@@ -1,5 +1,6 @@
 package org.mastersdbis.mtsd.Services;
 
+import jakarta.validation.Valid;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Booking.BookingState;
 import org.mastersdbis.mtsd.Entities.Service.ServiceType;
@@ -73,7 +74,7 @@ public class BookingService {
         }
     }
 
-    public Booking addBooking(User user, Service service, double price, LocalDate dueDate, LocalDateTime time) {
+    public Booking addBooking(@Valid User user, Service service, double price, LocalDate dueDate, LocalDateTime time) {
         Booking newBooking = new Booking();
         newBooking.setUser(user);
         newBooking.setService(service);
