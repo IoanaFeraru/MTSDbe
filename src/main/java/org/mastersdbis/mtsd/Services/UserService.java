@@ -61,9 +61,7 @@ public class UserService {
 
     public List<Provider> findAllProviders() {return providerRepository.findAll();}
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
+    public User findByUsername(String username) {return userRepository.findByUsername(username);}
 
     public List<User> findAllUsers() {
         return userRepository.findAll();

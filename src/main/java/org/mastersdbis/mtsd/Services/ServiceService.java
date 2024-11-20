@@ -55,6 +55,8 @@ public class ServiceService {
     public List<Service> findByPriceRange(double start, double end) {
         return serviceRepository.findByPriceBetween(start, end);
     }
-
+    public List<Service> findAll() {
+        return serviceRepository.findAll();
+    }
     //TODO implementare exceptii
 }

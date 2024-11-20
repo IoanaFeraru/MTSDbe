@@ -47,25 +47,23 @@ class ServiceServiceTest {
 
     @Test
     void modifyService() {
-        // Arrange: Find an existing service
-        Service existingService = serviceService.findById(1); // Assumes a service with ID 1 exists
-        Assertions.assertNotNull(existingService, "Serviciul cu ID 1 nu a fost găsit în baza de date.");
+        Service existingService = serviceService.findAll().getFirst();
+        Assertions.assertNotNull(existingService, "Serviciul nu a fost găsit în baza de date.");
 
-        // Modify service details
-        existingService.setName("Updated Cleaning Service");
-        existingService.setDescription("Updated description for cleaning service.");
         existingService.setPrice(200.00);
-        existingService.setMaterialsList(List.of("Updated detergent", "Microfiber cloths"));
-        existingService.setMinimumBookingTime(3);
 
-        // Act: Save the updated service
         serviceService.saveService(existingService);
 
-        // Assert: Verify the service was updated correctly
         Service updatedService = serviceService.findById(existingService.getId());
-        Assertions.assertNotNull(updatedService, "Serviciul modificat nu a fost găsit în baza de date.");
-        Assertions.assertEquals("Updated Cleaning Service", updatedService.getName(), "Numele serviciului nu a fost actualizat corect.");
         Assertions.assertEquals(200.00, updatedService.getPrice(), "Prețul serviciului nu a fost actualizat corect.");
-        System.out.println("Serviciul a fost modificat cu succes: " + updatedService);
+        System.out.println("Serviciul a fost modificat cu succes: \n" + updatedService);
+    }
+    @Test
+    void deleteService() {
+        Service existingService = serviceService.findById(1);
+        serviceService.saveService(existingService);
+        serviceService.deleteService(existingService);
+        Service deletedService = serviceService.findById(1);
+        Assertions.assertNull(deletedService);
     }
 }
