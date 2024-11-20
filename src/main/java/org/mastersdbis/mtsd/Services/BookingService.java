@@ -30,6 +30,10 @@ public class BookingService {
         this.paymentService = paymentService;
     }
 
+    public void updateBooking(Booking booking) {
+        bookingRepository.save(booking);
+    }
+
     public void cancelBooking(Booking booking) {
         if (booking == null) {
             throw new IllegalArgumentException("Booking-ul nu poate fi null.");
