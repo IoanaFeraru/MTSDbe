@@ -11,7 +11,6 @@ import org.mastersdbis.mtsd.Entities.AbstractEntity;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 
 import java.time.LocalDate;
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -42,7 +41,9 @@ public class Task extends AbstractEntity {
     private LocalDate duedate;
 
     @Override
-    public Object getId() { return id; }
+    public Object getId() {
+        return id;
+    }
 
     @Override
     public String toString() {
@@ -55,3 +56,4 @@ public class Task extends AbstractEntity {
                 '}';
     }
 }
+

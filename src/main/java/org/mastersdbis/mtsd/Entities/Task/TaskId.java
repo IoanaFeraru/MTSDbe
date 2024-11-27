@@ -3,17 +3,19 @@ package org.mastersdbis.mtsd.Entities.Task;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class TaskId implements java.io.Serializable {
     private static final long serialVersionUID = 1998497350070644348L;
+
     @NotNull
     @Column(name = "tasknumber", nullable = false)
     private Integer taskNumber;
@@ -36,4 +38,11 @@ public class TaskId implements java.io.Serializable {
         return Objects.hash(taskNumber, bookingId);
     }
 
+    @Override
+    public String toString() {
+        return "TaskId{" +
+                "tasknumber=" + taskNumber +
+                ", booking_id=" + bookingId +
+                '}';
+    }
 }
