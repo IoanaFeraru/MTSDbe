@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @SpringBootTest
 class TaskServiceTest {
@@ -27,7 +28,7 @@ class TaskServiceTest {
 
     @Test
     void addTask() {
-        Booking existingBooking = bookingService.findAllBookings().getFirst();
+        Booking existingBooking = bookingService.findAllBookings().getLast();
 
         Task task = new Task();
         task.setBooking(existingBooking);
@@ -42,4 +43,35 @@ class TaskServiceTest {
 
         System.out.println("Task salvat cu succes: " + task);
     }
+
+    @Test
+    void updateTask() {
+        Booking existingBooking = bookingService.findAllBookings().getLast();
+        Task task = taskService.findByBooking(existingBooking).getLast();
+        task.setDescription("descriere");
+        taskService.updateTask(task);
+        Assertions.assertEquals("descriere", taskService.findByBooking(existingBooking).getLast().getDescription(),"Descrierea nu a fost modificata");
+        System.out.println("Task modificat cu succes: " + task);
+    }
+
+    @Test
+    void deleteTask() {
+        Booking existingBooking = bookingService.findAllBookings().getLast();
+        Task task = taskService.findByBooking(existingBooking).getLast();
+        taskService.deleteTask(task);
+        List<Task> tasksAfterDeletion = taskService.findByBooking(existingBooking);
+        Assertions.assertTrue(tasksAfterDeletion.isEmpty() || !tasksAfterDeletion.contains(task),
+                "Task-ul nu a fost șters!");
+        System.out.println("Taskul a fost sters!");
+    }
+
+    @Test
+    void manageTaskState() {
+        Booking existingBooking = bookingService.findAllBookings().getLast();
+        Task task = taskService.findByBooking(existingBooking).getLast();
+        taskService.manageTaskState(task, TaskState.DONE);
+        Assertions.assertEquals(TaskState.DONE,taskService.findByBooking(existingBooking).getLast().getStatus(),"Status nu a fost modificat");
+        System.out.println("Statusul taskului a fost modificat! " + taskService.findByBooking(existingBooking).getLast());
+    }
+
 }
