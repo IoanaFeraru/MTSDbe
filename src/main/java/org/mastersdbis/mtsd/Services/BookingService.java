@@ -61,8 +61,13 @@ public class BookingService {
     }
 
     public void completeBooking(Booking booking){
-        booking.setBookingState(BookingState.COMPLETED);
-        bookingRepository.save(booking);
+        if (booking.getBookingState()== BookingState.ACTIVE) {
+            booking.setBookingState(BookingState.COMPLETED);
+            bookingRepository.save(booking);
+        } else
+        {
+            throw new IllegalStateException("Bookingul nu poate fi terminat daca acesta nu este activ.");
+        }
     }
 
     public boolean checkDateOpen(Service service, LocalDate date, LocalTime time) {

@@ -59,11 +59,18 @@ class BookingServiceTest {
     }
     @Test
     void cancelBooking() {
-        Booking existingBooking = bookingService.findAllBookings().getFirst();
+        Booking existingBooking = bookingService.findAllBookings().getLast();
         bookingService.cancelBooking(existingBooking);
 
-        assertEquals(BookingState.CANCELED, bookingService.findAllBookings().getFirst().getBookingState(), "Bookingul nu a fost canceled");
+        assertEquals(BookingState.CANCELED, bookingService.findAllBookings().getLast().getBookingState(), "Bookingul nu a fost canceled");
 
         System.out.println("Bookingul a fost canceled" + bookingService.findAllBookings().getFirst().toString());
+    }
+    @Test
+    void completeBooking() {
+        Booking existingBooking = bookingService.findAllBookings().getLast();
+        bookingService.completeBooking(existingBooking);
+        assertEquals(BookingState.COMPLETED, bookingService.findAllBookings().getLast().getBookingState(), "Bookingul nu a fost completed");
+        System.out.println("Bookingul a fost completed" + bookingService.findAllBookings().getFirst().toString());
     }
 }
