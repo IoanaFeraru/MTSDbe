@@ -30,7 +30,11 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public void saveTask(Task task) {
+    public void updateTask(Task task) {
+        taskRepository.save(task);
+    }
+
+    public void addTask(Task task) {
         if (task.getId() == null) {
             task.setId(new TaskId());
         }

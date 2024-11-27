@@ -2,6 +2,7 @@ package org.mastersdbis.mtsd.Entities.Booking;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class Booking extends AbstractEntity {
     @JoinColumn(name = "service_id", nullable = false)
     private Service service;
 
-    @Future(message = "Due date must be in the future.")
+    @FutureOrPresent(message = "Due date must be in the present or future.")
     @Column(name = "duedate")
     private LocalDate dueDate;
 

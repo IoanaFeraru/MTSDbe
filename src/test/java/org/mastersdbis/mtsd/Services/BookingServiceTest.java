@@ -48,6 +48,7 @@ class BookingServiceTest {
 
         System.out.println("Booking adăugat cu succes: " + booking);
     }
+
     @Test
     void updateBooking() {
         Booking existingBooking = bookingService.findAllBookings().getLast();
@@ -59,6 +60,10 @@ class BookingServiceTest {
     @Test
     void cancelBooking() {
         Booking existingBooking = bookingService.findAllBookings().getFirst();
+        bookingService.cancelBooking(existingBooking);
 
+        assertEquals(BookingState.CANCELED, bookingService.findAllBookings().getFirst().getBookingState(), "Bookingul nu a fost canceled");
+
+        System.out.println("Bookingul a fost canceled" + bookingService.findAllBookings().getFirst().toString());
     }
 }
