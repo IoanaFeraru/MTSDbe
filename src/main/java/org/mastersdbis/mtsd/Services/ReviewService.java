@@ -1,12 +1,13 @@
 package org.mastersdbis.mtsd.Services;
 
+import org.mastersdbis.mtsd.Entities.Review.Rating;
 import org.mastersdbis.mtsd.Entities.Review.Review;
 import org.mastersdbis.mtsd.Entities.Review.ReviewType;
 import org.mastersdbis.mtsd.Entities.Service.Service;
-import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.ProviderRepository;
 import org.mastersdbis.mtsd.Repositories.ReviewRepository;
+import org.mastersdbis.mtsd.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,31 +19,31 @@ import java.util.List;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final UserService userService;
     private final ProviderRepository providerRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, UserService userService, ProviderRepository providerRepository) {
+    public ReviewService(ReviewRepository reviewRepository, ProviderRepository providerRepository, UserRepository userRepository) {
         this.reviewRepository = reviewRepository;
-        this.userService = userService;
         this.providerRepository = providerRepository;
+        this.userRepository = userRepository;
     }
 
     public void saveReview(Review review) {
         try {
+            User userToUpdate = userRepository.findById(review.getService().getProvider().getId()).orElseThrow(() -> new IllegalArgumentException("User cannot be null"));
+            boolean isProvider = providerRepository.findByUser(userToUpdate) != null;
+
+            double averageRating = calculateAverageRatingForReview(review, isProvider);
+            Rating rating = review.getRating();
+            rating.setOverallSatisfaction(averageRating);
+            review.setRating(rating);
             reviewRepository.save(review);
-            userService.updateUserRating(review.getUser());
+
+            userToUpdate.setRating(calculateAverageRatingForUser(userToUpdate, averageRating));
+            userRepository.save(userToUpdate);
         } catch (DataAccessException e) {
             System.out.println("Eroare la salvarea review-ului si actualizarea ratingului utilizatorului: " + e.getMessage());
-        }
-    }
-
-    public void deleteReview(Review review) {
-        try {
-            reviewRepository.delete(review);
-            userService.updateUserRating(review.getUser());
-        } catch (DataAccessException e) {
-            System.out.println("Eroare la stergerea review-ului si la actualizarea ratingului utilizatorului: " + e.getMessage());
         }
     }
 
@@ -62,33 +63,38 @@ public class ReviewService {
         return reviewRepository.findByUserAndReviewType(user, reviewType);
     }
 
-    public double calculateAverageRatingForUser(User user) {
-        List<Review> reviews = reviewRepository.findByUser(user);
-        if (reviews.isEmpty()) {
-            return 0.0;
+    //ToDO ioana rezolva asta ms
+    public double calculateAverageRatingForUser(User user, Double ratingAdaugat) {
+        Double sum = reviewRepository.sumOfReviewsByUser(user);
+        if (sum == null) {
+            sum = 0.0;
         }
 
-        boolean isProvider = providerRepository.findByUser(user) != null;
+        int count = reviewRepository.countReviewsByUser(user);
 
-        double sum = reviews.stream()
-                .mapToDouble(review -> calculateAverageRatingForReview(review, isProvider))
-                .sum();
+        if (count == 0) {
+            return ratingAdaugat;
+        }
 
-        return sum / reviews.size();
+        System.out.println(sum + "" + count);
+        return (sum + ratingAdaugat) / (count + 1);
     }
+
+
 
     private double calculateAverageRatingForReview(Review review, boolean isProvider) {
         double professionalism = (review.getRating().getProfessionalism() != null) ? review.getRating().getProfessionalism() : 0.0;
         double promptitude = (review.getRating().getPromptitude() != null) ? review.getRating().getPromptitude() : 0.0;
         double communication = (review.getRating().getCommunication() != null) ? review.getRating().getCommunication() : 0.0;
-        double overallSatisfaction = (review.getRating().getOverallSatisfaction() != null) ? review.getRating().getOverallSatisfaction() : 0.0;
+        double overallSatisfaction;
 
         if (isProvider) {
             double quality = (review.getRating().getQuality() != null) ? review.getRating().getQuality() : 0.0;
             double price = (review.getRating().getPrice() != null) ? review.getRating().getPrice() : 0.0;
-            return (quality + price + professionalism + promptitude + communication + overallSatisfaction) / 6;
+            overallSatisfaction = (quality + price + professionalism + promptitude + communication) / 5;
         } else {
-            return (professionalism + promptitude + communication + overallSatisfaction) / 4;
+            overallSatisfaction = (professionalism + promptitude + communication) / 3;
         }
+        return overallSatisfaction;
     }
 }

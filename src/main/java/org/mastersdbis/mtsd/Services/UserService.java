@@ -111,14 +111,6 @@ public class UserService {
         }
     }
 
-    private ReviewService reviewService;
-
-    public void updateUserRating(User user) {
-        double averageRating = reviewService.calculateAverageRatingForUser(user);
-        user.setRating(averageRating);
-        userRepository.save(user);
-    }
-
     //TODO implementare exceptii
     //TODO future - statistici provider (prin query uri, o sa fie probabil cand ne apucam de frontend)
 }

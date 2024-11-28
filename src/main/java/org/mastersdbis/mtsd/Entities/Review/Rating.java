@@ -41,7 +41,7 @@ public class Rating {
     @NotNull
     @Min(value = 1)
     @Max(value = 5)
-    private Integer overallSatisfaction;
+    private Double overallSatisfaction;
 
     @Override
     public String toString() {

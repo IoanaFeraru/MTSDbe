@@ -47,8 +47,8 @@ public class User extends AbstractEntity {
     @Column(name = "address")
     private String address;
 
-    @Positive(message = "Rating-ul trebuie să fie un număr pozitiv.")
-    @Max(value = 5, message = "Rating-ul trebuie să fie între 0 și 5.")
+    @Max(value = 5, message = "Rating-ul trebuie să fie maxim 5.")
+    @Min(value = 0, message = "Rating-ul trebuie sa fie minim 0")
     @Column(name = "rating")
     private Double rating;
 
