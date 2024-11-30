@@ -23,13 +23,18 @@ public class Review extends AbstractEntity {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @NotNull(message = "User cannot be null.")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @NotNull(message = "userThatLeftTheReview cannot be null.")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_that_left_the_review", referencedColumnName = "id", nullable = false)
+    private User userThatLeftTheReview;
+
+    @NotNull(message = "userReviewed cannot be null.")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_Reviewed", referencedColumnName = "id", nullable = false)
+    private User userReviewed;
 
     @NotNull(message = "Service cannot be null.")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "service_id", nullable = false)
     private Service service;
 
@@ -63,7 +68,8 @@ public class Review extends AbstractEntity {
     public String toString() {
         return "Review{" +
                 "id=" + id +
-                ", userId=" + (user != null ? user.getId() : "null") +
+                ", userThatReviewed=" + (userThatLeftTheReview != null ? userThatLeftTheReview.getId() : "null") +
+                ", userReviewed=" + (userReviewed != null ? userReviewed.getId() : "null") +
                 ", serviceId=" + (service != null ? service.getId() : "null") +
                 ", rating=" + (rating != null ? rating.toString() : "null") +
                 ", content='" + content + '\'' +

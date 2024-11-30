@@ -1,6 +1,5 @@
 package org.mastersdbis.mtsd.Services;
 
-import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.Provider.ValidationStatus;
 import org.mastersdbis.mtsd.Entities.User.User;
@@ -57,6 +56,10 @@ public class UserService {
         return providerRepository.findByUser(user);
     }
 
+    public User findUserByProvider(Provider provider) {
+        return userRepository.findById(provider.getId()).orElse(null);
+    }
+
     public Provider findById(Integer id) {return providerRepository.findById(id).orElse(null);}
 
     public List<Provider> findAllProviders() {return providerRepository.findAll();}
@@ -109,6 +112,10 @@ public class UserService {
         } else {
             throw new IllegalArgumentException("Utilizatorul nu există.");
         }
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userRepository.findByEmail(email));
     }
 
     //TODO implementare exceptii

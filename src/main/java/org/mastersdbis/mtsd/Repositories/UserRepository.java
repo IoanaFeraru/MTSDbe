@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByUsername(String username);
 
+    User findByEmail(String email);
+
     @Query("SELECT u FROM User u WHERE u.username LIKE %:pattern%")
     List<User> searchByUsernamePattern(@Param("pattern") String pattern);
 
