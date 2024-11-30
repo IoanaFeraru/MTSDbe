@@ -28,14 +28,15 @@ class ReviewServiceTest {
         Review review = new Review();
         review.setReviewType(ReviewType.CUSTOMER_TO_PROVIDER);
         review.setService(serviceService.findAll().getLast());
-        review.setUser(userService.findByUsername("Stefan"));
-        review.setContent("test3");
+        review.setUserThatLeftTheReview(userService.findByUsername("Stefan"));
+        review.setUserReviewed(userService.findByUsername("Ioana"));
+        review.setContent("test");
 
         Rating rating = new Rating();
-        rating.setCommunication(2);
-        rating.setPrice(1);
-        rating.setQuality(4);
-        rating.setPromptitude(3);
+        rating.setCommunication(5);
+        rating.setPrice(5);
+        rating.setQuality(5);
+        rating.setPromptitude(5);
         rating.setProfessionalism(5);
 
         review.setRating(rating);

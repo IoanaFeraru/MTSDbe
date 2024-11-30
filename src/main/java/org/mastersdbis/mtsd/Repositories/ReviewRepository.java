@@ -1,7 +1,7 @@
 package org.mastersdbis.mtsd.Repositories;
 
+import jakarta.validation.constraints.NotNull;
 import org.mastersdbis.mtsd.Entities.Review.Review;
-import org.mastersdbis.mtsd.Entities.Review.ReviewType;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,13 +14,13 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     List<Review> findByService(Service service);
 
-    List<Review> findByUser(User user);
+    List<Review> findByUserReviewed(@NotNull(message = "User cannot be null.") User userReviewed);
 
-    List<Review> findByUserAndReviewType(User user, ReviewType type);
+    List<Review> findByUserThatLeftTheReview(@NotNull(message = "User cannot be null.") User userThatLeftTheReview);
 
-    @Query("SELECT COALESCE(SUM(r.rating.overallSatisfaction), 0) FROM Review r WHERE r.user = :user")
-    Double sumOfReviewsByUser(@Param("user") User user);
+    @Query("SELECT COALESCE(SUM(r.rating.overallSatisfaction), 0) FROM Review r WHERE r.userReviewed = :user")
+    Double sumOfReviewsByUserReviewed(@Param("user") User user);
 
-    @Query("SELECT COUNT(r) FROM Review r WHERE r.user = :user")
-    int countReviewsByUser(@Param("user") User user);
+    @Query("SELECT COALESCE(COUNT(r), 0) FROM Review r WHERE r.userReviewed = :user")
+    int countReviewsByUserReviewed(@Param("user") User user);
 }

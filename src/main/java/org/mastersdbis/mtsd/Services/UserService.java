@@ -1,6 +1,5 @@
 package org.mastersdbis.mtsd.Services;
 
-import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.Provider.ValidationStatus;
 import org.mastersdbis.mtsd.Entities.User.User;
@@ -55,6 +54,10 @@ public class UserService {
 
     public Provider findProviderByUser(User user) {
         return providerRepository.findByUser(user);
+    }
+
+    public User findUserByProvider(Provider provider) {
+        return userRepository.findById(provider.getId()).orElse(null);
     }
 
     public Provider findById(Integer id) {return providerRepository.findById(id).orElse(null);}

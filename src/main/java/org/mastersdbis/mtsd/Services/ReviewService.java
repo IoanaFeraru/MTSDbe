@@ -2,7 +2,6 @@ package org.mastersdbis.mtsd.Services;
 
 import org.mastersdbis.mtsd.Entities.Review.Rating;
 import org.mastersdbis.mtsd.Entities.Review.Review;
-import org.mastersdbis.mtsd.Entities.Review.ReviewType;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.ProviderRepository;
@@ -31,16 +30,19 @@ public class ReviewService {
 
     public void saveReview(Review review) {
         try {
-            User userToUpdate = userRepository.findById(review.getService().getProvider().getId()).orElseThrow(() -> new IllegalArgumentException("User cannot be null"));
+            User userThatReviewed = review.getUserThatLeftTheReview();
+            User userToUpdate = review.getUserReviewed();
             boolean isProvider = providerRepository.findByUser(userToUpdate) != null;
 
             double averageRating = calculateAverageRatingForReview(review, isProvider);
             Rating rating = review.getRating();
             rating.setOverallSatisfaction(averageRating);
             review.setRating(rating);
+            review.setUserReviewed(userToUpdate);
+            review.setUserThatLeftTheReview(userThatReviewed);
             reviewRepository.save(review);
 
-            userToUpdate.setRating(calculateAverageRatingForUser(userToUpdate, averageRating));
+            userToUpdate.setRating(calculateAverageRatingForUser(userToUpdate));
             userRepository.save(userToUpdate);
         } catch (DataAccessException e) {
             System.out.println("Eroare la salvarea review-ului si actualizarea ratingului utilizatorului: " + e.getMessage());
@@ -56,31 +58,22 @@ public class ReviewService {
     }
 
     public List<Review> findByPoster(User user) {
-        return reviewRepository.findByUser(user);
+        return reviewRepository.findByUserThatLeftTheReview(user);
     }
 
-    public List<Review> findByUserAndType(User user, ReviewType reviewType) {
-        return reviewRepository.findByUserAndReviewType(user, reviewType);
+    public List<Review> findByUserReviewed(User user) {
+        return reviewRepository.findByUserReviewed(user);
     }
 
-    //ToDO ioana rezolva asta ms
-    public double calculateAverageRatingForUser(User user, Double ratingAdaugat) {
-        Double sum = reviewRepository.sumOfReviewsByUser(user);
+    public double calculateAverageRatingForUser(User user) {
+        Double sum = reviewRepository.sumOfReviewsByUserReviewed(user);
         if (sum == null) {
-            sum = 0.0;
+            return 0.0;
         }
+        int count = reviewRepository.countReviewsByUserReviewed(user);
 
-        int count = reviewRepository.countReviewsByUser(user);
-
-        if (count == 0) {
-            return ratingAdaugat;
-        }
-
-        System.out.println(sum + "" + count);
-        return (sum + ratingAdaugat) / (count + 1);
+        return sum/count;
     }
-
-
 
     private double calculateAverageRatingForReview(Review review, boolean isProvider) {
         double professionalism = (review.getRating().getProfessionalism() != null) ? review.getRating().getProfessionalism() : 0.0;

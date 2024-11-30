@@ -65,5 +65,8 @@ public class Provider extends AbstractEntity {
                 ", validationStatus=" + validationStatus +
                 '}';
     }
+
+    @Override
+    public Integer getId() { return id; }
 }
     // TODO very very very future Ioana: o lista cu date pe care sa le selecte
