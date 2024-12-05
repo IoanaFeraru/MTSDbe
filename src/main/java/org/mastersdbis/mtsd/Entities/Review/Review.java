@@ -53,7 +53,6 @@ public class Review extends AbstractEntity {
     @Override
     public Integer getId() { return id; }
 
-    //TODO fa validarea cum trb
     @AssertTrue(message = "Quality and price must be null if the review is from a provider.")
     public boolean isValidRating() {
         if (this.reviewType == ReviewType.PROVIDER_TO_CLIENT) {

@@ -52,6 +52,10 @@ public class Provider extends AbstractEntity {
     @Column(name = "validationstatus")
     private ValidationStatus validationStatus;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "approved_by", referencedColumnName = "id", nullable = true)
+    private User aprovedBy;
+
     @Override
     public String toString() {
         return "Provider{" +

@@ -2,6 +2,7 @@ package org.mastersdbis.mtsd.Services;
 
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.Provider.ValidationStatus;
+import org.mastersdbis.mtsd.Entities.User.Role;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.ProviderRepository;
 import org.mastersdbis.mtsd.Repositories.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -32,6 +34,9 @@ public class UserService {
     public void addUser(User user) {
         validatePassword(user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getRoles() == null) {
+            user.setRoles(new HashSet<>());
+        }
         userRepository.save(user);
     }
 
@@ -95,22 +100,6 @@ public class UserService {
         }
         if (!Pattern.compile("[^a-zA-Z0-9]").matcher(password).find()) {
             throw new IllegalArgumentException("Parola trebuie să conțină cel puțin un caracter special.");
-        }
-    }
-
-    public boolean authenticateUser(String username, String rawPassword) {
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findByUsername(username));
-
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-
-            if (passwordEncoder.matches(rawPassword, user.getPassword())) {
-                return true;
-            } else {
-                throw new IllegalArgumentException("Parola incorectă.");
-            }
-        } else {
-            throw new IllegalArgumentException("Utilizatorul nu există.");
         }
     }
 

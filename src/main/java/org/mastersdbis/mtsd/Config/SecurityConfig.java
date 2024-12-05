@@ -15,16 +15,18 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/home", "/login").permitAll();
- //                   registry.requestMatchers("/admin/home").hasRole("ADMIN");
-   //                 registry.requestMatchers("/user/home").hasRole("USER");   Pentru cand facem rolurile, daca le facem
+                    registry.requestMatchers("/login").permitAll()
+                            .requestMatchers("/admin/**").hasRole("ADMIN")
+                            .requestMatchers("/client/**").hasRole("CLIENT")
+                            .requestMatchers("/provider/**").hasRole("PROVIDER");
+                    //registry.requestMatchers("/admin/home").hasRole("ADMIN");
                     registry.anyRequest().authenticated();
                 })
                 .formLogin(form -> form.defaultSuccessUrl("/home", true).permitAll())
                 .build();
     }
-
 }

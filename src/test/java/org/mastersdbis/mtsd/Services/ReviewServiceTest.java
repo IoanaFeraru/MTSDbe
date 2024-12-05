@@ -5,11 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.mastersdbis.mtsd.Entities.Review.Rating;
 import org.mastersdbis.mtsd.Entities.Review.Review;
 import org.mastersdbis.mtsd.Entities.Review.ReviewType;
-import org.mastersdbis.mtsd.Repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ReviewServiceTest {

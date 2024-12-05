@@ -7,6 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mastersdbis.mtsd.Entities.AbstractEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -15,7 +22,7 @@ import org.mastersdbis.mtsd.Entities.AbstractEntity;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "Users")
-public class User extends AbstractEntity {
+public class User extends AbstractEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_gen")
     @SequenceGenerator(name = "users_id_gen", sequenceName = "users_id_seq", allocationSize = 1)
@@ -52,6 +59,16 @@ public class User extends AbstractEntity {
     @Column(name = "rating")
     private Double rating;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "roles"})
+    )
+    @Column(name = "roles")
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles = new HashSet<>(Set.of(Role.CLIENT));
+
     @Override
     public Integer getId() { return id; }
 
@@ -65,5 +82,30 @@ public class User extends AbstractEntity {
                 ", address='" + address + '\'' +
                 ", rating=" + rating +
                 '}';
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
     }
 }

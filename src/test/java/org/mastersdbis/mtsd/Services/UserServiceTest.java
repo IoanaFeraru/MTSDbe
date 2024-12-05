@@ -2,11 +2,11 @@ package org.mastersdbis.mtsd.Services;
 
 import org.junit.jupiter.api.Test;
 import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
-import org.mastersdbis.mtsd.Entities.User.Admin.Admin;
-import org.mastersdbis.mtsd.Entities.User.Admin.Permission;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.Provider.ValidationStatus;
+import org.mastersdbis.mtsd.Entities.User.Role;
 import org.mastersdbis.mtsd.Entities.User.User;
+import org.mastersdbis.mtsd.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,6 +27,8 @@ class UserServiceTest {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     void addUser() {
@@ -116,11 +118,7 @@ class UserServiceTest {
         adminUser.setEmail("admin@gmail.com");
         adminUser.setPhoneNumber("+40 789678567");
         userService.addUser(adminUser);
-
-        Admin admin = new Admin();
-        admin.setUser(adminUser);
-        admin.setPermissions(Collections.singleton(Permission.VALIDATE_PROVIDER));
-        adminService.saveAdmin(admin);
+        adminService.makeAdmin(adminUser);
 
         User providerUser = userService.findByUsername("Ioana");
         assertNotNull(providerUser, "Utilizatorul Ioana ar trebui să existe.");
@@ -130,16 +128,18 @@ class UserServiceTest {
         assertEquals(ValidationStatus.PENDING, provider.getValidationStatus(),
                 "Statusul inițial al provider-ului ar trebui să fie PENDING.");
 
-        adminService.validateProvider(provider, true);
+        adminService.validateProvider(provider, adminUser);
 
         Provider updatedProvider = userService.findProviderByUser(providerUser);
         assertNotNull(updatedProvider, "Provider-ul ar trebui să fie găsit după validare.");
         assertEquals(ValidationStatus.APPROVED, updatedProvider.getValidationStatus(),
                 "Statusul provider-ului ar trebui să fie APPROVED după validare.");
 
-        Admin savedAdmin = adminService.findByUser(adminUser);
-        assertNotNull(savedAdmin, "Admin-ul asociat ar trebui să fie salvat corect.");
-        assertTrue(savedAdmin.getPermissions().contains(Permission.VALIDATE_PROVIDER),
-                "Admin-ul ar trebui să aibă permisiunea VALIDATE_PROVIDER.");
+        User updatedProviderUser = userService.findByUsername("Ioana");
+        assertNotNull(updatedProviderUser, "Utilizatorul Ioana ar trebui să existe după actualizare.");
+
+        assertTrue(updatedProviderUser.getRoles().contains(Role.PROVIDER),
+                "Utilizatorul Ioana ar trebui să aibă rolul PROVIDER după validare.");
     }
+
 }
