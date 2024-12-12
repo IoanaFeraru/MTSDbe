@@ -33,16 +33,16 @@ class UserServiceTest {
     @Test
     void addUser() {
         User newUser = new User();
-        newUser.setUsername("Stefan");
+        newUser.setUsername("testASDF");
         newUser.setPassword("Parola11!");
-        newUser.setEmail("stefan@gmail.com");
+        newUser.setEmail("stefan101@gmail.com");
         newUser.setPhoneNumber("+40 789678567");
         newUser.setAddress("Strada Exemplu, Nr. 10");
 
         userService.addUser(newUser);
 
         User savedUser = userService.findByUsername("Stefan");
-        System.out.println("Detalii utilizator salvat: \n" + savedUser.toString());
+        System.out.println("Detalii utilizator salvat: \n" + newUser);
 
         String encodedPassword = savedUser.getPassword();
 

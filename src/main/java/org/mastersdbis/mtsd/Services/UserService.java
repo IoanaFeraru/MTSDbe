@@ -107,6 +107,27 @@ public class UserService {
         return Optional.ofNullable(userRepository.findByEmail(email));
     }
 
+    public void registerUser(String username, String email, String phoneNumber, String address, String password) {
+        if (userRepository.findByUsername(username) != null) {
+            throw new IllegalArgumentException("Username already exists.");
+        }
+
+        if (findByEmail(email).isPresent()) {
+            throw new IllegalArgumentException("Email already registered.");
+        }
+
+        validatePassword(password);
+
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setEmail(email);
+        newUser.setPhoneNumber(phoneNumber);
+        newUser.setAddress(address);
+        newUser.setPassword(passwordEncoder.encode(password));
+
+        userRepository.save(newUser);
+    }
+
     //TODO implementare exceptii
     //TODO future - statistici provider (prin query uri, o sa fie probabil cand ne apucam de frontend)
 }
