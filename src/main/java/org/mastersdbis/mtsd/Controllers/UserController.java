@@ -199,4 +199,21 @@ public class UserController {
             return ResponseEntity.status(500).body("Error retrieving providers: " + e.getMessage());
         }
     }
+    @GetMapping("/{username}/provider/id")
+    public ResponseEntity<?> getCurrentProviderId() {
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userService.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(404).body("No authenticated user found.");
+            }
+            Provider provider = userService.findProviderByUser(user);
+            if (provider == null) {
+                return ResponseEntity.status(404).body("No provider found for the authenticated user.");
+            }
+            return ResponseEntity.ok(provider.getId());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error retrieving provider ID: " + e.getMessage());
+        }
+    }
 }
