@@ -49,9 +49,16 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid UserDTO userDTO, BindingResult result) {
-        //trb facuta verificarea daca exista username-ul sau emailul
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Formularul conține erori");
+        }
+
+        if (userService.findByUsername(userDTO.getUsername()) != null) {
+            return ResponseEntity.badRequest().body("Acest nume de utilizator este deja folosit.");
+        }
+
+        if (userService.findByEmail(userDTO.getEmail()).isPresent()) {
+            return ResponseEntity.badRequest().body("Această adresă de email este deja folosită.");
         }
 
         User user = new User();
