@@ -30,6 +30,8 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .defaultSuccessUrl("/home", true)
                         .permitAll())
+                .logout(logout -> logout.logoutSuccessUrl("/login"))
+                .exceptionHandling(exception -> exception.accessDeniedPage("/error"))
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
