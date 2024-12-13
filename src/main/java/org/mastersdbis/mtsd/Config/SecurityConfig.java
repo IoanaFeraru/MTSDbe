@@ -20,7 +20,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/register", "/login", "/css/**", "/js/**").permitAll()
+                    registry.requestMatchers("/register","/swagger-ui.html", "/login", "/css/**", "/js/**").permitAll()
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .requestMatchers("/client/**").hasRole("CLIENT")
                             .requestMatchers("/provider/**").hasRole("PROVIDER");
