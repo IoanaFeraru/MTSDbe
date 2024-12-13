@@ -10,6 +10,7 @@ import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -135,6 +136,31 @@ public class UserController {
             return ResponseEntity.ok(provider);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+    @GetMapping("/{username}/id")
+    public ResponseEntity<?> getCurrentUserId() {
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            User user = userService.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(404).body("No authenticated user found.");
+            }
+            return ResponseEntity.ok(user.getId());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error retrieving user ID: " + e.getMessage());
+        }
+    }
+    @GetMapping("/search/all")
+    public ResponseEntity<?> findAllUsers() {
+        try {
+            List<User> users = userService.findAllUsers();
+            if (users.isEmpty()) {
+                return ResponseEntity.ok("No users found.");
+            }
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error retrieving users: " + e.getMessage());
         }
     }
 }
