@@ -187,4 +187,16 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error validating provider: " + e.getMessage());
         }
     }
+    @GetMapping("/search/providers/all")
+    public ResponseEntity<?> findAllProviders() {
+        try {
+            List<Provider> providers = userService.findAllProviders();
+            if (providers.isEmpty()) {
+                return ResponseEntity.ok("No providers found.");
+            }
+            return ResponseEntity.ok(providers);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error retrieving providers: " + e.getMessage());
+        }
+    }
 }
