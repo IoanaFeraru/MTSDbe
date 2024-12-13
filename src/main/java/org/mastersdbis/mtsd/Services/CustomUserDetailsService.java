@@ -4,11 +4,16 @@ import org.mastersdbis.mtsd.Entities.User.Role;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -33,13 +38,16 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User has no roles assigned");
         }
 
-        Role role = user.getRoles().iterator().next();
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.name()))
+                .collect(Collectors.toList());
 
         return org.springframework.security.core.userdetails.User
                 .builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities("ROLE_" + role.name())
+                .authorities(authorities)
                 .build();
     }
+
 }

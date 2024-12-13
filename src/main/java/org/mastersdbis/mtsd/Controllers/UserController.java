@@ -6,13 +6,15 @@ import lombok.Setter;
 import org.mastersdbis.mtsd.DTO.ProviderDTO;
 import org.mastersdbis.mtsd.DTO.ProviderUpdateDTO;
 import org.mastersdbis.mtsd.DTO.UserUpdateDTO;
+import org.mastersdbis.mtsd.Entities.User.Role;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Services.AdminService;
 import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -130,6 +132,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Error adding provider: " + e.getMessage());
         }
     }
+
     @PutMapping("/providers/update/{username}")
     public ResponseEntity<String> updateProviderByUsername(@PathVariable String username, @RequestBody ProviderUpdateDTO providerUpdateDTO) {
         try {
@@ -171,11 +174,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{username}/id")
+    @GetMapping("/id")
     public ResponseEntity<?> getCurrentUserId() {
         try {
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userService.findByUsername(username);
+            User user = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             if (user == null) {
                 return ResponseEntity.status(404).body("No authenticated user found.");
             }
@@ -200,21 +202,37 @@ public class UserController {
 
     @PutMapping("/validateProvider/{providerId}")
     public ResponseEntity<String> validateProvider(
-            @PathVariable("providerId") Integer providerId,
-            @AuthenticationPrincipal User adminUser) {
+            @PathVariable("providerId") Integer providerId) {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            System.out.println("Authenticated user roles: " + authentication.getAuthorities());
+
+            if (!authentication.isAuthenticated()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated.");
+            }
+
+            String username = authentication.getName();
+            User adminUser = userService.findByUsername(username);
+            if (adminUser == null || adminUser.getRoles().stream().noneMatch(role -> role.equals(Role.ADMIN))) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User does not have ADMIN role.");
+            }
+
             Provider provider = userService.findById(providerId);
             if (provider == null) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Provider not found.");
             }
-            //TODO fix admin not added in approved by
-            System.out.println("Logged in user: " + adminUser.getUsername());
+
             adminService.validateProvider(provider, adminUser);
+
             return ResponseEntity.ok("Provider validated successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Validation error: " + e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error validating provider: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
         }
     }
+
     @GetMapping("/search/providers/all")
     public ResponseEntity<?> findAllProviders() {
         try {
@@ -227,7 +245,8 @@ public class UserController {
             return ResponseEntity.status(500).body("Error retrieving providers: " + e.getMessage());
         }
     }
-    @GetMapping("/{username}/provider/id")
+
+    @GetMapping("/provider/id")
     public ResponseEntity<?> getCurrentProviderId() {
         try {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -244,4 +263,39 @@ public class UserController {
             return ResponseEntity.status(500).body("Error retrieving provider ID: " + e.getMessage());
         }
     }
+
+    @PutMapping("/denyProvider/{providerId}")
+    public ResponseEntity<String> denyProvider(
+            @PathVariable("providerId") Integer providerId) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            System.out.println("Authenticated user roles: " + authentication.getAuthorities());
+
+            if (!authentication.isAuthenticated()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated.");
+            }
+
+            String username = authentication.getName();
+            User adminUser = userService.findByUsername(username);
+
+            if (adminUser == null || adminUser.getRoles().stream().noneMatch(role -> role.equals(Role.ADMIN))) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User does not have ADMIN role.");
+            }
+
+            Provider provider = userService.findById(providerId);
+            if (provider == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Provider not found.");
+            }
+
+            adminService.denyProvider(provider, adminUser);
+
+            return ResponseEntity.ok("Provider denied successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Deny error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An unexpected error occurred: " + e.getMessage());
+        }
+    }
+
 }

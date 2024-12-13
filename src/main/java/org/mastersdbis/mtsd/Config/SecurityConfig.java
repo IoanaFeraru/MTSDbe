@@ -20,13 +20,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/register","/swagger-ui.html", "/login", "/css/**", "/js/**").permitAll()
+                    registry.requestMatchers("/register", "/swagger-ui.html", "/login", "/css/**", "/js/**").permitAll()
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .requestMatchers("/client/**").hasRole("CLIENT")
                             .requestMatchers("/provider/**").hasRole("PROVIDER")
-                            .requestMatchers("/users/validateProvider/**").hasRole("ADMIN")
-                    ;
-                    registry.anyRequest().authenticated();
+                            .requestMatchers("/users/validateProvider/**").hasAnyRole("ADMIN")
+                            .anyRequest().authenticated();
                 })
                 .formLogin(form -> form
                         .loginPage("/login")
