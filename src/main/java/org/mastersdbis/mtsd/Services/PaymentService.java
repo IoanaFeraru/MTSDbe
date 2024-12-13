@@ -28,11 +28,6 @@ public class PaymentService {
         this.bookingRepository = bookingRepository;
     }
 
-    public List<Payment> checkDelayedPayments(User user) {
-        // ToDO Implementare Logica
-        return List.of();
-    }
-
     public void revertPayment(Payment payment) {
         if (payment == null) {
             throw new IllegalArgumentException("Payment-ul nu poate fi null.");

@@ -26,7 +26,10 @@ public class SecurityConfig {
                             .requestMatchers("/provider/**").hasRole("PROVIDER");
                     registry.anyRequest().authenticated();
                 })
-                .formLogin(form -> form.defaultSuccessUrl("/home", true).permitAll())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/home", true)
+                        .permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
