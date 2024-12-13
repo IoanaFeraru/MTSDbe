@@ -1,7 +1,12 @@
 package org.mastersdbis.mtsd.Controllers;
 
+import jakarta.validation.Valid;
+import lombok.Getter;
+import lombok.Setter;
+import org.mastersdbis.mtsd.DTO.ProviderDTO;
 import org.mastersdbis.mtsd.DTO.UserUpdateDTO;
 import org.mastersdbis.mtsd.Entities.User.User;
+import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -66,14 +71,10 @@ public class UserController {
         }
     }
 
+    @Setter
+    @Getter
     public static class PasswordRequest {
         private String password;
-        public String getPassword() {
-            return password;
-        }
-        public void setPassword(String password) {
-            this.password = password;
-        }
     }
 
     @GetMapping("/search/{username}")
@@ -88,6 +89,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
     @GetMapping("/search")
     public ResponseEntity<?> searchByUsernamePattern(@RequestParam String usernamePattern) {
         if (usernamePattern.length() < 3) {
@@ -101,6 +103,38 @@ public class UserController {
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error retrieving users: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/addProvider")
+    public ResponseEntity<String> addProvider(@RequestBody @Valid ProviderDTO providerDTO) {
+        try {
+            Provider provider = new Provider();
+            provider.setUser(userService.findById(providerDTO.getUserId()));
+            provider.setCif(providerDTO.getCif());
+            provider.setCompanyName(providerDTO.getCompanyName());
+            provider.setCompanyAdress(providerDTO.getCompanyAdress());
+            provider.setServiceDomain(providerDTO.getServiceDomain());
+            provider.setBankIBAN(providerDTO.getBankIBAN());
+
+            userService.addProvider(provider);
+
+            return ResponseEntity.ok("Provider added successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error adding provider: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/searchProvider/{username}")
+    public ResponseEntity<Provider> findProvider(@PathVariable String username) {
+        try {
+            Provider provider = userService.findProviderByUser(userService.findByUsername(username));
+            if (provider == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(provider);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
         }
     }
 }

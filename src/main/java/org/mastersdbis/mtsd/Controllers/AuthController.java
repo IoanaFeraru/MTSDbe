@@ -72,8 +72,6 @@ public class AuthController {
         return ResponseEntity.ok("Utilizator înregistrat cu succes");
     }
 
-    //Update user (fara parola, aici nu se pune parola)
-    //Update user password
     //creare provider
     //validare provider
     //update provider
