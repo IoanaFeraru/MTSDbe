@@ -1,35 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register</title>
+  <title>Înregistrare Utilizator</title>
 </head>
 <body>
-<h1>Register</h1>
-<form action="/register" method="post" th:object="${registrationDTO}">
-  <label for="username">Username:</label>
-  <input type="text" id="username" th:field="*{username}" required>
-  <br>
+<div class="container mt-5">
+  <h1 class="text-center">Formular de Înregistrare</h1>
+  <form id="registrationForm">
+    <input type="text" id="username" name="username" required>
+    <input type="password" id="password" name="password" required>
+    <input type="email" id="email" name="email" required>
+    <input type="text" id="phoneNumber" name="phoneNumber" required>
+    <input type="text" id="address" name="address">
+    <button type="button" id="submitBtn">Submit</button>
+  </form>
 
-  <label for="email">Email:</label>
-  <input type="email" id="email" th:field="*{email}" required>
-  <br>
-
-  <label for="phoneNumber">Phone Number:</label>
-  <input type="text" id="phoneNumber" th:field="*{phoneNumber}" required>
-  <br>
-
-  <label for="password">Password:</label>
-  <input type="password" id="password" th:field="*{password}" required>
-  <br>
-
-  <button type="submit">Register</button>
-</form>
-
-
-<div th:if="${errorMessage}" class="error">
-  <p th:text="${errorMessage}"></p>
 </div>
+
+<script>
+  document.getElementById("submitBtn").addEventListener("click", async () => {
+    const formData = {
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+      email: document.getElementById("email").value,
+      phoneNumber: document.getElementById("phoneNumber").value,
+      address: document.getElementById("address").value,
+    };
+
+    const response = await fetch("/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      window.location.href = "/login";
+    } else {
+      console.error("Eroare la înregistrare");
+    }
+  });
+</script>
 </body>
 </html>

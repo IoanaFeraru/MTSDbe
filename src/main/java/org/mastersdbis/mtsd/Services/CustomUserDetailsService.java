@@ -42,9 +42,4 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .authorities("ROLE_" + role.name())
                 .build();
     }
-
-    public void registerUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-    }
 }
