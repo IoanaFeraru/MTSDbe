@@ -7,9 +7,11 @@ import org.mastersdbis.mtsd.DTO.ProviderDTO;
 import org.mastersdbis.mtsd.DTO.UserUpdateDTO;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
+import org.mastersdbis.mtsd.Services.AdminService;
 import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +21,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final AdminService adminService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AdminService adminService) {
         this.userService = userService;
+        this.adminService = adminService;
     }
 
     @PutMapping("/update/{username}")
@@ -135,6 +139,26 @@ public class UserController {
             return ResponseEntity.ok(provider);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PutMapping("/validateProvider/{providerId}")
+    public ResponseEntity<String> validateProvider(
+            @PathVariable("providerId") Integer providerId,
+            @AuthenticationPrincipal User adminUser) {
+        try {
+            Provider provider = userService.findById(providerId);
+            if (provider == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            //TODO fix admin not added in approved by
+            System.out.println("Logged in user: " + adminUser.getUsername());
+            adminService.validateProvider(provider, adminUser);
+
+            return ResponseEntity.ok("Provider validated successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error validating provider: " + e.getMessage());
         }
     }
 }

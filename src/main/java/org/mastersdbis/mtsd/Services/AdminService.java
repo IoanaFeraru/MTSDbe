@@ -46,8 +46,6 @@ public class AdminService {
         providerRepository.save(provider);
     }
 
-
-
     public void denyProvider(Provider provider, User adminUser) {
         if (!provider.getValidationStatus().equals(ValidationStatus.PENDING)) {
             throw new IllegalArgumentException("Provider can only be denied if status is PENDING.");
