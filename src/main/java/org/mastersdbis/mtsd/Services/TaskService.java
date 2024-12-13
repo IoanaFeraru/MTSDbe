@@ -6,9 +6,11 @@ import org.mastersdbis.mtsd.Entities.Task.TaskId;
 import org.mastersdbis.mtsd.Entities.Task.TaskState;
 import org.mastersdbis.mtsd.Repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +25,17 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    //TODO check overdue task
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void checkOverdueTasks() {
+        List<Task> tasks = taskRepository.findAll();
+
+        for (Task task : tasks) {
+            if (task.getStatus() != TaskState.OVERDUE && task.getDuedate().isBefore(LocalDate.now())) {
+                task.setStatus(TaskState.OVERDUE);
+                taskRepository.save(task);
+            }
+        }
+    }
 
     public void manageTaskState(Task task, TaskState state) {
         task.setStatus(state);

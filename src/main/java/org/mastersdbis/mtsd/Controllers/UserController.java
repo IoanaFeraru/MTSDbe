@@ -68,4 +68,5 @@ public class UserController {
     //un get care sa arate userul
     //get provider
     //get searchByUsernamePattern
+    //mapare pentru logare?
 }
