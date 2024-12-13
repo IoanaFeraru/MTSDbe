@@ -1,18 +1,13 @@
 package org.mastersdbis.mtsd.Controllers;
 
-import jakarta.validation.Valid;
-import org.mastersdbis.mtsd.DTO.UserDTO;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -22,56 +17,84 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/home")
-    public String home() {
-        return "home";
+    /**
+     * Update an existing user's details.
+     *
+     * @param user The updated user object.
+     * @return ResponseEntity indicating the result of the operation.
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) {
+        try {
+            User existingUser = userService.findById(id);
+            if (existingUser == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            // Ensure the ID matches the existing user
+            user.setId(id);
+            userService.updateUser(user);
+
+            return ResponseEntity.ok("User updated successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error updating user: " + e.getMessage());
+        }
     }
 
-    @GetMapping("/admin/home")
-    public String adminHome() {
-        return "admin/home";
+    /**
+     * Update a user's password.
+     *
+     * @param id The ID of the user whose password is to be updated.
+     * @param passwordRequest The new password wrapped in a PasswordRequest object.
+     * @return ResponseEntity indicating the result of the operation.
+     */
+    @PatchMapping("/{id}/password")
+    public ResponseEntity<String> updateUserPassword(@PathVariable int id, @RequestBody PasswordRequest passwordRequest) {
+        try {
+            User user = userService.findById(id);
+            if (user == null) {
+                return ResponseEntity.notFound().build();
+            }
+
+            userService.updateUserPassword(user, passwordRequest.getPassword());
+            return ResponseEntity.ok("Password updated successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid password: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error updating password: " + e.getMessage());
+        }
     }
 
-    @GetMapping("/provider/home")
-    public String providerHome() {
-        return "provider/home";
-    }
+    /**
+     * Helper class to handle password updates in the request body.
+     */
+    public static class PasswordRequest {
+        private String password;
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid UserDTO userDTO, BindingResult result) {
-        //trb facuta verificarea daca exista username-ul sau emailul
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body("Formularul conține erori");
+        public String getPassword() {
+            return password;
         }
 
-        User user = new User();
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
-        user.setEmail(userDTO.getEmail());
-        user.setPhoneNumber(userDTO.getPhoneNumber());
-
-        userService.addUser(user);
-
-        return ResponseEntity.ok("Utilizator înregistrat cu succes");
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
-
-    //Update user (fara parola, aici nu se pune parola)
-    //Update user password
-    //creare provider
-    //validare provider
-    //update provider
-    //un get care sa arate userul
-    //get provider
-    //get searchByUsernamePattern
-    //mapare pentru logare?
+    /**
+     * Find a user by their username.
+     *
+     * @param username The username to search for.
+     * @return ResponseEntity containing the user or an error message.
+     */
+    @GetMapping("/username/{username}")
+    public ResponseEntity<User> findByUsername(@PathVariable String username) {
+        try {
+            User user = userService.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
 }
