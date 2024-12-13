@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.username LIKE %:pattern%")
+    @Query("SELECT u FROM User u WHERE LOWER(u.username) LIKE LOWER(CONCAT('%', :pattern, '%'))")
     List<User> searchByUsernamePattern(@Param("pattern") String pattern);
 
     @Modifying
