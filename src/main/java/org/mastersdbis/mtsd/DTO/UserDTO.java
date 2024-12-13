@@ -20,4 +20,8 @@ public class UserDTO {
 
     @NotNull(message = "Numărul de telefon este obligatoriu")
     private String phoneNumber;
+
+    private String address;
+
+    private Double rating;
 }

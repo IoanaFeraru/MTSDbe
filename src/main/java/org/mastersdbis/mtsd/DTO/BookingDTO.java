@@ -15,18 +15,18 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingDTO {
-    private Integer id; // Unique identifier
+    private Integer id;
 
     @NotNull(message = "User cannot be null.")
-    private Integer userId; // Reference to user ID
+    private Integer userId;
 
     @NotNull(message = "Service cannot be null.")
-    private Integer serviceId; // Reference to service ID
+    private Integer serviceId;
 
     @FutureOrPresent(message = "Due date must be in the present or future.")
     private LocalDate dueDate;
 
-    private LocalTime dueTime; // Optional: can be null
+    private LocalTime dueTime;
 
     @Size(max = 255, message = "Delivery address must not exceed 255 characters.")
     private String deliveryAddress;

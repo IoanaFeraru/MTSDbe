@@ -13,7 +13,6 @@
     <input type="password" id="password" name="password" required>
     <input type="email" id="email" name="email" required>
     <input type="text" id="phoneNumber" name="phoneNumber" required>
-    <input type="text" id="address" name="address">
     <button type="button" id="submitBtn">Submit</button>
   </form>
 
@@ -26,10 +25,11 @@
       password: document.getElementById("password").value,
       email: document.getElementById("email").value,
       phoneNumber: document.getElementById("phoneNumber").value,
-      address: document.getElementById("address").value,
     };
 
-    const response = await fetch("/register", {
+    const url = `${window.location.origin}/register`;
+
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@
     });
 
     if (response.ok) {
-      window.location.href = "/login";
+      window.location.href = `${window.location.origin}/login`;
     } else {
       console.error("Eroare la înregistrare");
     }

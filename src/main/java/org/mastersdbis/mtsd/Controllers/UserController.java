@@ -7,21 +7,18 @@ import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class WebController {
+public class UserController {
 
     private final UserService userService;
 
     @Autowired
-    public WebController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -41,15 +38,13 @@ public class WebController {
     }
 
     @GetMapping("/register")
-    public ModelAndView register(ModelAndView modelAndView, User user) {
-        modelAndView.addObject("user", user);
-        modelAndView.setViewName("register");
-
-        return modelAndView;
+    public String register() {
+        return "register";
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody @Valid UserDTO userDTO, BindingResult result) {
+        //trb facuta verificarea daca exista username-ul sau emailul
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Formularul conține erori");
         }
@@ -64,4 +59,13 @@ public class WebController {
 
         return ResponseEntity.ok("Utilizator înregistrat cu succes");
     }
+
+    //Update user (fara parola, aici nu se pune parola)
+    //Update user password
+    //creare provider
+    //validare provider
+    //update provider
+    //un get care sa arate userul
+    //get provider
+    //get searchByUsernamePattern
 }
