@@ -23,7 +23,9 @@ public class SecurityConfig {
                     registry.requestMatchers("/register","/swagger-ui.html", "/login", "/css/**", "/js/**").permitAll()
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .requestMatchers("/client/**").hasRole("CLIENT")
-                            .requestMatchers("/provider/**").hasRole("PROVIDER");
+                            .requestMatchers("/provider/**").hasRole("PROVIDER")
+                            .requestMatchers("/users/validateProvider/**").hasRole("ADMIN")
+                    ;
                     registry.anyRequest().authenticated();
                 })
                 .formLogin(form -> form
