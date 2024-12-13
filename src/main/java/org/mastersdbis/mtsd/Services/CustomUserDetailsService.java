@@ -43,7 +43,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .build();
     }
 
-
     public void registerUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);

@@ -126,7 +126,11 @@ public class UserService {
         newUser.setPassword(passwordEncoder.encode(password));
 
         userRepository.save(newUser);
+        System.out.println("Saving user: " + newUser);
+        userRepository.save(newUser);
+
     }
+
 
     //TODO implementare exceptii
     //TODO future - statistici provider (prin query uri, o sa fie probabil cand ne apucam de frontend)
