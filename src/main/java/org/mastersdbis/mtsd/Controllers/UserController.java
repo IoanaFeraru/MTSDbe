@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 import org.mastersdbis.mtsd.DTO.ProviderDTO;
+import org.mastersdbis.mtsd.DTO.ProviderUpdateDTO;
 import org.mastersdbis.mtsd.DTO.UserUpdateDTO;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
@@ -127,6 +128,33 @@ public class UserController {
             return ResponseEntity.ok("Provider added successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error adding provider: " + e.getMessage());
+        }
+    }
+    @PutMapping("/providers/update/{username}")
+    public ResponseEntity<String> updateProviderByUsername(@PathVariable String username, @RequestBody ProviderUpdateDTO providerUpdateDTO) {
+        try {
+            User user = userService.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(404).body("User not found.");
+            }
+            Provider provider = userService.findProviderByUser(user);
+            if (provider == null) {
+                return ResponseEntity.status(400).body("The specified user is not a provider.");
+            }
+
+            if (providerUpdateDTO.getCompanyAdress() != null) {
+                provider.setCompanyAdress(providerUpdateDTO.getCompanyAdress());
+            }
+            if (providerUpdateDTO.getServiceDomain() != null) {
+                provider.setServiceDomain(providerUpdateDTO.getServiceDomain());
+            }
+            if (providerUpdateDTO.getBankIBAN() != null) {
+                provider.setBankIBAN(providerUpdateDTO.getBankIBAN());
+            }
+            userService.addProvider(provider);
+            return ResponseEntity.ok("Provider updated successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error updating provider: " + e.getMessage());
         }
     }
 
