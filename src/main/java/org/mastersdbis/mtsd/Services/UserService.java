@@ -85,7 +85,7 @@ public class UserService {
     }
 
     public List<User> searchByUsernamePattern(String pattern) {
-        return userRepository.searchByUsernamePattern(pattern);
+        return userRepository.searchByUsernamePattern("%" + pattern.toLowerCase() + "%");
     }
 
     private void validatePassword(String password) {

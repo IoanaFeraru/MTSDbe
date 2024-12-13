@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -18,12 +20,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    /**
-     * Update an existing user's details.
-     *
-     * @param userUpdateDTO The updated user object.
-     * @return ResponseEntity indicating the result of the operation.
-     */
     @PutMapping("/update/{username}")
     public ResponseEntity<String> updateUser(@PathVariable String username, @RequestBody UserUpdateDTO userUpdateDTO) {
         try {
@@ -53,13 +49,6 @@ public class UserController {
         }
     }
 
-    /**
-     * Update a user's password.
-     *
-     * @param username The ID of the user whose password is to be updated.
-     * @param passwordRequest The new password wrapped in a PasswordRequest object.
-     * @return ResponseEntity indicating the result of the operation.
-     */
     @PatchMapping("/{username}/password")
     public ResponseEntity<String> updateUserPassword(@PathVariable String username, @RequestBody PasswordRequest passwordRequest) {
         try {
@@ -77,9 +66,6 @@ public class UserController {
         }
     }
 
-    /**
-     * Helper class to handle password updates in the request body.
-     */
     public static class PasswordRequest {
         private String password;
         public String getPassword() {
@@ -90,13 +76,7 @@ public class UserController {
         }
     }
 
-    /**
-     * Find a user by their username.
-     *
-     * @param username The username to search for.
-     * @return ResponseEntity containing the user or an error message.
-     */
-    @GetMapping("/username/{username}")
+    @GetMapping("/search/{username}")
     public ResponseEntity<User> findByUsername(@PathVariable String username) {
         try {
             User user = userService.findByUsername(username);
@@ -106,6 +86,21 @@ public class UserController {
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
+        }
+    }
+    @GetMapping("/search")
+    public ResponseEntity<?> searchByUsernamePattern(@RequestParam String usernamePattern) {
+        if (usernamePattern.length() < 3) {
+            return ResponseEntity.badRequest().body("The search pattern must contain at least 3 characters.");
+        }
+        try {
+            List<User> users = userService.searchByUsernamePattern(usernamePattern);
+            if (users.isEmpty()) {
+                return ResponseEntity.ok("No users found matching the pattern.");
+            }
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error retrieving users: " + e.getMessage());
         }
     }
 }
