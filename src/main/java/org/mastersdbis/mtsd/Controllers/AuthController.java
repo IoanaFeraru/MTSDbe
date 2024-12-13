@@ -80,5 +80,4 @@ public class AuthController {
     //un get care sa arate userul
     //get provider
     //get searchByUsernamePattern
-    //mapare pentru logare?
 }

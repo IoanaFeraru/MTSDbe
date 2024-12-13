@@ -1,5 +1,6 @@
 package org.mastersdbis.mtsd.Controllers;
 
+import org.mastersdbis.mtsd.DTO.UserUpdateDTO;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +21,31 @@ public class UserController {
     /**
      * Update an existing user's details.
      *
-     * @param user The updated user object.
+     * @param userUpdateDTO The updated user object.
      * @return ResponseEntity indicating the result of the operation.
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) {
+    @PutMapping("/update/{username}")
+    public ResponseEntity<String> updateUser(@PathVariable String username, @RequestBody UserUpdateDTO userUpdateDTO) {
         try {
-            User existingUser = userService.findById(id);
+            User existingUser = userService.findByUsername(username);
             if (existingUser == null) {
                 return ResponseEntity.notFound().build();
             }
 
-            // Ensure the ID matches the existing user
-            user.setId(id);
-            userService.updateUser(user);
+            if (userUpdateDTO.getUsername() != null) {
+                existingUser.setUsername(userUpdateDTO.getUsername());
+            }
+            if (userUpdateDTO.getEmail() != null) {
+                existingUser.setEmail(userUpdateDTO.getEmail());
+            }
+            if (userUpdateDTO.getPhoneNumber() != null) {
+                existingUser.setPhoneNumber(userUpdateDTO.getPhoneNumber());
+            }
+            if (userUpdateDTO.getAddress() != null) {
+                existingUser.setAddress(userUpdateDTO.getAddress());
+            }
+
+            userService.updateUser(existingUser);
 
             return ResponseEntity.ok("User updated successfully.");
         } catch (Exception e) {
@@ -44,14 +56,14 @@ public class UserController {
     /**
      * Update a user's password.
      *
-     * @param id The ID of the user whose password is to be updated.
+     * @param username The ID of the user whose password is to be updated.
      * @param passwordRequest The new password wrapped in a PasswordRequest object.
      * @return ResponseEntity indicating the result of the operation.
      */
-    @PatchMapping("/{id}/password")
-    public ResponseEntity<String> updateUserPassword(@PathVariable int id, @RequestBody PasswordRequest passwordRequest) {
+    @PatchMapping("/{username}/password")
+    public ResponseEntity<String> updateUserPassword(@PathVariable String username, @RequestBody PasswordRequest passwordRequest) {
         try {
-            User user = userService.findById(id);
+            User user = userService.findByUsername(username);
             if (user == null) {
                 return ResponseEntity.notFound().build();
             }
@@ -70,15 +82,14 @@ public class UserController {
      */
     public static class PasswordRequest {
         private String password;
-
         public String getPassword() {
             return password;
         }
-
         public void setPassword(String password) {
             this.password = password;
         }
     }
+
     /**
      * Find a user by their username.
      *
