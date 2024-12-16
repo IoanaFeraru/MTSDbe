@@ -2,6 +2,7 @@ package org.mastersdbis.mtsd.Config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractAuthenticationFilterConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,7 +21,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/register", "/swagger-ui.html", "/login", "/css/**", "/js/**").permitAll()
+                    registry.requestMatchers("/auth/register", "/auth/login", "/swagger-ui.html", "/css/**", "/js/**", "/users/**").permitAll()
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .requestMatchers("/client/**").hasRole("CLIENT")
                             .requestMatchers("/provider/**").hasRole("PROVIDER")
@@ -28,12 +29,26 @@ public class SecurityConfig {
                             .anyRequest().authenticated();
                 })
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
+                        .loginPage("/auth/login")
+                        .successHandler((request, response, authentication) -> {
+                            response.setStatus(HttpStatus.OK.value());
+                            response.getWriter().write("Autentificare reusita");
+                        })
+                        .failureHandler((request, response, exception) -> {
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.getWriter().write("Autentificare esuata");
+                        })
                         .permitAll())
-                .logout(logout -> logout.logoutSuccessUrl("/login"))
-                .exceptionHandling(exception -> exception.accessDeniedPage("/error"))
+                .logout(logout -> logout.logoutSuccessHandler((request, response, authentication) -> {
+                    response.setStatus(HttpStatus.OK.value());
+                    response.getWriter().write("Deconectare reușită");
+                }))
+                .exceptionHandling(exception -> exception.accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.setStatus(HttpStatus.FORBIDDEN.value());
+                    response.getWriter().write("Acces interzis");
+                }))
                 .csrf(AbstractHttpConfigurer::disable)
                 .build();
     }
+
 }

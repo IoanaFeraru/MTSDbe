@@ -18,10 +18,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServiceDTO {
-    private Integer id; // Unique identifier
+    private Integer id;
 
     @NotNull(message = "Provider ID cannot be null.")
-    private Integer providerId; // Reference to provider ID
+    private Integer providerId;
 
     @NotNull(message = "Name cannot be null.")
     @Size(max = 100, message = "Name must not exceed 100 characters.")
@@ -33,7 +33,7 @@ public class ServiceDTO {
     @NotNull(message = "Domain cannot be null.")
     private ServiceDomain domain;
 
-    private ServiceSubdomain subdomain; // Optional subdomain (can be null)
+    private ServiceSubdomain subdomain;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.")
     @NotNull(message = "Price cannot be null.")
@@ -42,12 +42,12 @@ public class ServiceDTO {
     @NotNull(message = "Region cannot be null.")
     private Region region;
 
-    private List<String> materials; // Materials as a list of strings
+    private List<String> materials;
 
     @NotNull(message = "Active state cannot be null.")
     private Boolean active;
 
-    private List<PaymentMethod> acceptedPaymentMethods; // Payment methods as a list of enums
+    private List<PaymentMethod> acceptedPaymentMethods;
 
     @NotNull(message = "Booking type cannot be null.")
     private ServiceType serviceType;

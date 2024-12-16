@@ -13,12 +13,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskDTO {
-    private Integer bookingId; // Part of the composite ID (reference to Booking ID)
+    private Integer bookingId;
 
-    private Integer taskId; // Task-specific unique identifier (if applicable)
+    private Integer taskId;
 
     @NotNull(message = "Booking ID cannot be null.")
-    private Integer bookingIdRef; // Reference to Booking entity
+    private Integer bookingIdRef;
 
     @Size(max = Integer.MAX_VALUE, message = "Description must not exceed maximum length.")
     private String description;

@@ -11,19 +11,19 @@ import org.mastersdbis.mtsd.Entities.Message.MessageType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageDTO {
-    private Integer id; // Unique identifier for the message
+    private Integer id;
 
     @NotNull(message = "Message content cannot be null.")
     @Size(max = 1000, message = "Message content cannot exceed 1000 characters.")
-    private String message; // The message content
+    private String message;
 
     @NotNull(message = "Sender user ID cannot be null.")
-    private Integer senderUserId; // ID of the sender
+    private Integer senderUserId;
 
     @NotNull(message = "Receiver user ID cannot be null.")
-    private Integer receiverUserId; // ID of the receiver
+    private Integer receiverUserId;
 
-    private String fileUrl; // Optional field for file attachment URL
+    private String fileUrl;
 
-    private MessageType messageType; // Enum for the type of the message
+    private MessageType messageType;
 }

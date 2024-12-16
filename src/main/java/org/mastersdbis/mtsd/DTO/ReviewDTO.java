@@ -11,22 +11,22 @@ import org.mastersdbis.mtsd.Entities.Review.ReviewType;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewDTO {
-    private Integer id; // Unique identifier for the review
+    private Integer id;
 
     @NotNull(message = "User that left the review ID cannot be null.")
-    private Integer userThatLeftTheReviewId; // ID of user leaving the review
+    private Integer userThatLeftTheReviewId;
 
     @NotNull(message = "User that is reviewed ID cannot be null.")
-    private Integer userReviewedId; // ID of the user being reviewed
+    private Integer userReviewedId;
 
     @NotNull(message = "Service ID cannot be null.")
-    private Integer serviceId; // ID of the associated service
+    private Integer serviceId;
 
-    private Rating rating; // Embedded object for quality and price ratings
+    private Rating rating;
 
     @Size(max = 500, message = "Content must not exceed 500 characters.")
-    private String content; // Review content
+    private String content;
 
     @NotNull(message = "Review type cannot be null.")
-    private ReviewType reviewType; // Enum representing the type of review
+    private ReviewType reviewType;
 }

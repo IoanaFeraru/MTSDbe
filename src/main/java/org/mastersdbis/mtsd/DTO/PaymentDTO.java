@@ -13,20 +13,20 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentDTO {
-    private Integer id; // Unique identifier for the payment
+    private Integer id;
 
     @NotNull(message = "Booking ID cannot be null.")
-    private Integer bookingId; // Reference to the Booking entity
+    private Integer bookingId;
 
     @NotNull(message = "Amount cannot be null.")
     @DecimalMin(value = "0.0", inclusive = false, message = "Amount must be greater than zero.")
-    private Double amount; // Amount paid
+    private Double amount;
 
     @NotNull(message = "Payment method cannot be null.")
-    private PaymentMethod paymentMethod; // Enum representing payment methods
+    private PaymentMethod paymentMethod;
 
     @NotNull(message = "Payment state cannot be null.")
-    private PaymentState paymentState; // Enum representing payment state
+    private PaymentState paymentState;
 
-    private LocalDate paymentDate; // Date of payment
+    private LocalDate paymentDate;
 }

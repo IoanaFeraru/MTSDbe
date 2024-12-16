@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.mastersdbis.mtsd.Entities.User.User;
+
 
 @Getter
 @Setter
@@ -21,4 +23,11 @@ public class UserDTO {
 
     @NotNull(message = "Numărul de telefon este obligatoriu")
     private String phoneNumber;
+
+    public UserDTO(User user) {
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+        this.phoneNumber = user.getPhoneNumber();
+    }
 }
