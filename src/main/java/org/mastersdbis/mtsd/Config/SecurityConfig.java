@@ -21,11 +21,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(registry -> {
-                    registry.requestMatchers("/auth/register", "/auth/login", "/swagger-ui.html", "/css/**", "/js/**", "/users/**").permitAll()
+                    registry.requestMatchers("/auth/register", "/auth/login", "/swagger-ui.html", "/css/**", "/js/**").permitAll()
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .requestMatchers("/client/**").hasRole("CLIENT")
                             .requestMatchers("/provider/**").hasRole("PROVIDER")
-                            .requestMatchers("/users/validateProvider/**").hasAnyRole("ADMIN")
+                            .requestMatchers("/users/providers/{providerId}/validate").hasAnyRole("ADMIN")
+                            .requestMatchers("/users/providers/{providerId}/deny").hasAnyRole("ADMIN")
                             .anyRequest().authenticated();
                 })
                 .formLogin(form -> form
@@ -41,7 +42,7 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout.logoutSuccessHandler((request, response, authentication) -> {
                     response.setStatus(HttpStatus.OK.value());
-                    response.getWriter().write("Deconectare reușită");
+                    response.getWriter().write("Deconectare reusita");
                 }))
                 .exceptionHandling(exception -> exception.accessDeniedHandler((request, response, accessDeniedException) -> {
                     response.setStatus(HttpStatus.FORBIDDEN.value());

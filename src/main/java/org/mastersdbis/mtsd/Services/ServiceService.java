@@ -65,5 +65,8 @@ public class ServiceService {
         return serviceRepository.findAll();
     }
 
-    //TODO implementare exceptii
+    public List<Service> searchServices(Provider provider, ServiceDomain domain, ServiceSubdomain subdomain, Region region, Double start, Double end) {
+        return serviceRepository.searchServices(provider, domain, subdomain, region, start, end);
+    }
+
 }

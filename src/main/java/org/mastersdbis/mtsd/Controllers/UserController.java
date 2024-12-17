@@ -133,6 +133,7 @@ public class UserController {
         return ResponseEntity.ok("Provider updated successfully.");
     }
 
+    //De retestat
     @PutMapping("/providers/{providerId}/validate")
     public ResponseEntity<?> validateProvider(@PathVariable Integer providerId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -234,6 +235,7 @@ public class UserController {
         }
     }
 
+    //De retestat
     @PutMapping("/providers/{providerId}/deny")
     public ResponseEntity<String> denyProvider(@PathVariable("providerId") Integer providerId) {
         try {

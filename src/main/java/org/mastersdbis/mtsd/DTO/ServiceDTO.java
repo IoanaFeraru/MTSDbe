@@ -12,16 +12,16 @@ import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
 import org.mastersdbis.mtsd.Entities.Service.ServiceSubdomain;
 import org.mastersdbis.mtsd.Entities.Service.ServiceType;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServiceDTO {
     private Integer id;
-
-    @NotNull(message = "Provider ID cannot be null.")
-    private Integer providerId;
 
     @NotNull(message = "Name cannot be null.")
     @Size(max = 100, message = "Name must not exceed 100 characters.")
@@ -54,4 +54,21 @@ public class ServiceDTO {
 
     @NotNull(message = "Minimum booking time cannot be null.")
     private Integer minimumBookingTime;
+
+    public List<PaymentMethod> parsePaymentMethods(String acceptedPaymentMethods) {
+        if (acceptedPaymentMethods != null && !acceptedPaymentMethods.isEmpty()) {
+            return Arrays.stream(acceptedPaymentMethods.split(",\\s*"))
+                    .map(method -> {
+                        try {
+                            return PaymentMethod.valueOf(method.toUpperCase());
+                        } catch (IllegalArgumentException e) {
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+        }
+        return List.of();
+    }
+
 }
