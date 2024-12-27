@@ -1,6 +1,8 @@
 package org.mastersdbis.mtsd.Repositories;
 
 import org.mastersdbis.mtsd.Entities.Payment.Payment;
+import org.mastersdbis.mtsd.Entities.Service.Service;
+import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Payment.PaymentState;
@@ -21,10 +23,14 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
 
     List<Payment> findByPaymentState(PaymentState paymentState);
 
-    @Query("SELECT p FROM Payment p WHERE p.booking.user = :user")
-    List<Payment> findByUserCustom(User user);
-
     @Query("SELECT p FROM Payment p WHERE p.booking.user = :user AND p.paymentState = :status")
     List<Payment> findByUserAndStatus(User user, PaymentState status);
+
+    @Query("SELECT p FROM Payment p WHERE p.booking.service = :service")
+    List<Payment> findByService(@Param("service") Service service);
+
+    @Query("SELECT p FROM Payment p WHERE p.booking.service.provider = :provider")
+    List<Payment> findByProvider(@Param("provider") Provider provider);
+
 }
 

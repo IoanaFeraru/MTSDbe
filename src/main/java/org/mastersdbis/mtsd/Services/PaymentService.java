@@ -2,6 +2,7 @@ package org.mastersdbis.mtsd.Services;
 
 import org.mastersdbis.mtsd.Entities.Booking.BookingState;
 import org.mastersdbis.mtsd.Entities.Payment.Payment;
+import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Payment.PaymentState;
@@ -81,9 +82,11 @@ public class PaymentService {
         return paymentRepository.findByPaymentState(state);
     }
 
-    public List<Payment> findByUserCustom(User user) {
-        return paymentRepository.findByUserCustom(user);
+    public List<Payment> findByService(org.mastersdbis.mtsd.Entities.Service.Service service) {
+        return paymentRepository.findByService(service);
     }
 
-    //TODO implementare exceptii
+    public List<Payment > findByProvider(Provider provider) {
+        return paymentRepository.findByProvider(provider);
+    }
 }

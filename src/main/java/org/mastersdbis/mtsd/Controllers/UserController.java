@@ -267,6 +267,8 @@ public class UserController {
         }
     }
 
+    //Is the auth user a provider? Get method
+
     @Getter
     @Setter
     public static class PasswordRequest {
