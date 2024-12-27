@@ -2,6 +2,7 @@ package org.mastersdbis.mtsd.Services;
 
 import org.mastersdbis.mtsd.Entities.Review.Rating;
 import org.mastersdbis.mtsd.Entities.Review.Review;
+import org.mastersdbis.mtsd.Entities.Review.ReviewType;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.ProviderRepository;
@@ -33,6 +34,12 @@ public class ReviewService {
             User userThatReviewed = review.getUserThatLeftTheReview();
             User userToUpdate = review.getUserReviewed();
             boolean isProvider = providerRepository.findByUser(userToUpdate) != null;
+
+            if (isProvider) {
+                review.setReviewType(ReviewType.CUSTOMER_TO_PROVIDER);
+            } else {
+                review.setReviewType(ReviewType.PROVIDER_TO_CLIENT);
+            }
 
             double averageRating = calculateAverageRatingForReview(review, isProvider);
             Rating rating = review.getRating();
