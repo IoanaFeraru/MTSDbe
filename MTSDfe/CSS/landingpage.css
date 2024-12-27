@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  background: linear-gradient(to right, #C49CED, #DFBEF9) left / 70% no-repeat;
+  background-color: #A196E0;
+
+}
+
+.wave {
+  position: absolute;
+  top: 0;
+  right: 30%;
+}
+
+nav {
+    width: 90%;
+    margin: auto;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+}
+
+nav ul li {
+    margin: 0 5px;
+}
+
+nav ul a {
+    text-decoration: none;
+    padding: 0.3rem 1.3rem;
+    font-size: 17px;
+    font-weight: bold;
+    color: black;
+    position: relative;
+    z-index: 1;
+    transition: 0.3s;
+}
+
+nav ul a::after {
+    content: "";
+    width: 0%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0px;
+    border-radius: 20px;
+    background-color: #3a4f6d;
+    z-index: -1;
+    transition: 0.5s;
+}
+
+nav ul a:hover {
+     color: linear-gradient(135deg, #7C3CAD, #B583D1);
+}
+
+nav ul a:hover::after {
+    width: 100%;
+background: linear-gradient(135deg, #7C3CAD, #B583D1);
+}
+
+.auth-buttons button {
+  margin: 0 10px;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #7C3CAD, #B583D1);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.auth-buttons button:hover {
+    background-color: #FFC1EC;
+    transform: translateY(-3px);
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-buttons button {
+ margin-left: 50px;
+ margin-bottom: -20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    margin-right: 10px;
+}
+
+#app-name {
+    font-size: 40px;
+    font-weight: bold;
+    font-style: italic;
+    color: black;
+}
+
+.main-content {
+    width: 60%;
+    padding-top: 100px;
+    margin-left: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.pictures, .main-text {
+    flex-basis: 50%;
+}
+
+.pictures img {
+    width: 100%;
+}
+
+.main-content h1 {
+    font-size: 60px;
+    letter-spacing: 1px;
+    color: black;
+}
+
+.main-content p {
+    margin-top: 10px;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.main-content button {
+  margin-top: 2.5rem;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #7C3CAD, #B583D1);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.main-content button:hover {
+    background-color: #9b64b0;
+    transform: translateY(-3px);
+}
+
+.swiper {
+    width: 20rem;
+}
+
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right {
+    position: absolute;
+    right: 8%;
+    bottom: 20%;
+}
+
+.right .box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.right .box .image {
+    margin-top: 2rem;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    box-shadow: -5px 5px 17px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.right .box .image img {
+    width: 70%;
+    border-radius: 50%;
+}
+
+.right .box .image:hover {
+    background-color: rgba(73, 66, 52, 0.7);
+}
+
+.right .box .inner-box {
+    margin-left: 1.5rem;
+    width: 250px;
+    line-height: 1.6;
+}
+
+.right .box .inner-box h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+margin-top: -5px;
+}
+
+.right .box .inner-box p {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 10px;
+margin-top: -5px;
+}
+
+.social-links {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+}
+
+.social-links::before {
+    content: "";
+    width: 80%;
+    height: 3px;
+    position: absolute;
+    top: 42%;
+    left: -150px;
+    background-color: #494234;
+}
+
+.social-links i {
+    margin-left: 10px;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #7a4b9d;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.social-links i:hover {
+    transform: translateY(-5px);
+    background-color: #9b64b0;
+}

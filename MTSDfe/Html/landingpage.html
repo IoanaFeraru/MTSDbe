@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/landingpage.css">
+
+</head>
+
+<body>
+<div class="container">
+    <div class="wave">
+        <img src="../Images/wave.png" alt="">
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <button onclick="goToLogin()">Login</button>
+        </div>
+        <div class="logo">
+            <img width="50" height="50" src="https://img.icons8.com/pieces/64/service.png" alt="service"/>
+            <h1 id="app-name">ServiceSphere</h1>
+        </div>
+    </nav>
+
+    <div class="main-content">
+
+        <div class="pictures">
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"><img src="../Images/img1.png" alt=""></div>
+                    <div class="swiper-slide"><img src="../Images/img2.png" alt=""></div>
+                    <div class="swiper-slide"><img src="../Images/img3.png" alt=""></div>
+                </div>
+            </div>
+        </div>
+        <div class="main-text">
+            <h1>Welcome to ServiceSphere</h1>
+            <p>— the marketplace where skills meet opportunity. Connect with trusted professionals and businesses offering top-tier services to help you thrive. Whether you're looking to hire or sell, ServiceSphere brings expertise right to your fingertips.</p>
+            <a href="register.html"><button>Get started by signing up</button></a>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="box">
+            <div class="image">
+                <img width="64" height="64" src="https://img.icons8.com/external-wanicon-lineal-color-wanicon/64/external-variety-marketing-strategy-wanicon-lineal-color-wanicon.png" alt="external-variety-marketing-strategy-wanicon-lineal-color-wanicon"/>
+            </div>
+            <div class="inner-box">
+                <h3>Wide Variety of Services</h3>
+                <p>Wide range of services across various fields, from professional and educational to technical, entertainment, and personal care. Users can quickly find what they need without searching multiple platforms.</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="image">
+                <img width="50" height="50" src="https://img.icons8.com/color-glass/48/filled-star.png" alt="filled-star"/>
+            </div>
+            <div class="inner-box">
+                <h3>Customer Reviews and Ratings</h3>
+                <p>Each service is backed by user ratings and reviews, fostering informed decisions and boosting transparency and trust.</p>
+            </div>
+        </div>
+        <div class="box">
+            <div class="image">
+                <img width="50" height="50" src="https://img.icons8.com/matisse/100/communication.png" alt="communication"/>
+            </div>
+            <div class="inner-box">
+                <h3>Instant Communication</h3>
+                <p>The app offers real-time messaging, enabling direct communication between buyers and sellers for quick, clear responses and a better user experience.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="social-links">
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-facebook-f"></i>
+        <i class="fa-brands fa-x-twitter"></i>
+        <i class="far fa-envelope"></i>
+    </div>
+
+</div>
+<script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+<script src="../JS/landingpage.js"></script>
+</body>
+
+</html>
