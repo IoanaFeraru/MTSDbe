@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mastersdbis.mtsd.Entities.AbstractEntity;
+import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 
 @Getter
@@ -37,6 +38,10 @@ public class Message extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "message_type")
     private MessageType messageType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", referencedColumnName = "id", nullable = true)
+    private Service service;
 
     @Override
     public Integer getId() {return id;}
