@@ -5,7 +5,6 @@ import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Services.ServiceService;
 import org.mastersdbis.mtsd.Services.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.mastersdbis.mtsd.Entities.Service.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/services")
@@ -21,13 +21,15 @@ public class ServiceController {
 
     private final ServiceService serviceService;
     private final UserService userService;
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Autowired
     public ServiceController(ServiceService serviceService, UserService userService) {
         this.serviceService = serviceService;
         this.userService = userService;
+    }
+
+    private List<ServiceDTO> mapServicesToDTOs(List<Service> services) {
+        return services.stream().map(ServiceDTO::fromService).collect(Collectors.toList());
     }
 
     @PostMapping
@@ -70,25 +72,12 @@ public class ServiceController {
         }
     }
 
+    //Retest
     @GetMapping("/{id}")
     public ResponseEntity<ServiceDTO> getServiceById(@PathVariable int id) {
         Service service = serviceService.findById(id);
         if (service != null) {
-            ServiceDTO serviceDTO = new ServiceDTO();
-            serviceDTO.setId(service.getId());
-            serviceDTO.setName(service.getName());
-            serviceDTO.setDescription(service.getDescription());
-            serviceDTO.setDomain(service.getDomain());
-            serviceDTO.setSubdomain(service.getSubdomain());
-            serviceDTO.setPrice(service.getPrice());
-            serviceDTO.setRegion(service.getRegion());
-            serviceDTO.setMaterials(service.getMaterialsList());
-            serviceDTO.setActive(service.getActive());
-            serviceDTO.setServiceType(service.getServiceType());
-            serviceDTO.setMinimumBookingTime(service.getMinimumBookingTime());
-
-            serviceDTO.setAcceptedPaymentMethods(serviceDTO.parsePaymentMethods(service.getAcceptedPaymentMethods()));
-
+            ServiceDTO serviceDTO = ServiceDTO.fromService(service);
             return ResponseEntity.ok(serviceDTO);
         } else {
             return ResponseEntity.status(404).body(null);
@@ -96,51 +85,27 @@ public class ServiceController {
     }
 
     //De testat
-    //DTO
-    @GetMapping
-    public ResponseEntity<List<Service>> getAllServices() {
-        List<Service> services = serviceService.findAll();
-        return ResponseEntity.ok(services);
+    @GetMapping("/provider/{username}")
+    public ResponseEntity<List<ServiceDTO>> getServicesByProvider(@PathVariable String username) {
+        Provider provider = userService.findProviderByUser(userService.findByUsername(username));
+        if (provider == null) {
+            return ResponseEntity.status(404).body(null);
+        }
+
+        List<Service> services = serviceService.findByProviderAndActiveTrue(provider);
+        return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
     //De testat
-    @GetMapping("/provider")
-    public ResponseEntity<List<Service>> getServicesByProvider(@RequestParam Provider provider) {
-        List<Service> services = serviceService.findByProvider(provider);
-        return ResponseEntity.ok(services);
-    }
-
-    //De testat
-    @GetMapping("/domain")
-    public ResponseEntity<List<Service>> getServicesByDomain(@RequestParam ServiceDomain domain) {
-        List<Service> services = serviceService.findByDomain(domain);
-        return ResponseEntity.ok(services);
-    }
-
-    //De testat
-    @GetMapping("/subdomain")
-    public ResponseEntity<List<Service>> getServicesBySubdomain(@RequestParam ServiceSubdomain subdomain) {
-        List<Service> services = serviceService.findBySubdomain(subdomain);
-        return ResponseEntity.ok(services);
-    }
-
-    //De testat
-    @GetMapping("/region")
-    public ResponseEntity<List<Service>> getServicesByRegion(@RequestParam Region region) {
-        List<Service> services = serviceService.findByRegion(region);
-        return ResponseEntity.ok(services);
-    }
-
-    //De testat
-    @GetMapping("/price")
-    public ResponseEntity<List<Service>> getServicesByPriceRange(@RequestParam double start, @RequestParam double end) {
-        List<Service> services = serviceService.findByPriceRange(start, end);
-        return ResponseEntity.ok(services);
+    @GetMapping("/active")
+    public ResponseEntity<List<ServiceDTO>> getActiveServices() {
+        List<Service> services = serviceService.findByActiveTrue();
+        return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
     //De testat
     @GetMapping("/search")
-    public ResponseEntity<List<Service>> searchServices(
+    public ResponseEntity<List<ServiceDTO>> searchServices(
             @RequestParam(required = false) Provider provider,
             @RequestParam(required = false) ServiceDomain domain,
             @RequestParam(required = false) ServiceSubdomain subdomain,
@@ -149,7 +114,7 @@ public class ServiceController {
             @RequestParam(required = false) Double end) {
 
         List<Service> services = serviceService.searchServices(provider, domain, subdomain, region, start, end);
-        return ResponseEntity.ok(services);
+        return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
     //De testat
@@ -184,5 +149,37 @@ public class ServiceController {
         }
     }
 
-    //DE adaugat find all active services
+    //De testat
+    @GetMapping("/{domain}")
+    public ResponseEntity<List<ServiceDTO>> getServicesByDomain(@PathVariable ServiceDomain domain) {
+        List<Service> services = serviceService.findByDomain(domain);
+        return ResponseEntity.ok(mapServicesToDTOs(services));
+    }
+
+    //De testat
+    @GetMapping("/{subdomain}")
+    public ResponseEntity<List<ServiceDTO>> getServicesBySubdomain(@PathVariable ServiceSubdomain subdomain) {
+        List<Service> services = serviceService.findBySubdomain(subdomain);
+        return ResponseEntity.ok(mapServicesToDTOs(services));
+    }
+
+    //De testat
+    @GetMapping("/{region}")
+    public ResponseEntity<List<ServiceDTO>> getServicesByRegion(@PathVariable Region region) {
+        List<Service> services = serviceService.findByRegion(region);
+        return ResponseEntity.ok(mapServicesToDTOs(services));
+    }
+
+    //De testat
+    @GetMapping("/provider")
+    public ResponseEntity<List<ServiceDTO>> getServicesByProvider() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Provider provider = userService.findProviderByUser(userService.findByUsername(userDetails.getUsername()));
+        if (provider == null) {
+            return ResponseEntity.status(403).body(null);
+        }
+
+        List<Service> services = serviceService.findByProvider(provider);
+        return ResponseEntity.ok(mapServicesToDTOs(services));
+    }
 }

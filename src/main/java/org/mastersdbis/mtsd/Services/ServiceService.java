@@ -41,24 +41,24 @@ public class ServiceService {
         return service.orElse(null);
     }
 
+    public List<Service> findByProviderAndActiveTrue(Provider provider) {
+        return serviceRepository.findByProviderAndActiveTrue(provider);
+    }
+
     public List<Service> findByProvider(Provider provider) {
         return serviceRepository.findByProvider(provider);
     }
 
     public List<Service> findByDomain(ServiceDomain domain) {
-        return serviceRepository.findByDomain(domain);
+        return serviceRepository.findByDomainAndActiveTrue(domain);
     }
 
     public List<Service> findBySubdomain(ServiceSubdomain subdomain) {
-        return serviceRepository.findBySubdomain(subdomain);
+        return serviceRepository.findBySubdomainAndActiveTrue(subdomain);
     }
 
     public List<Service> findByRegion(Region region) {
-        return serviceRepository.findByRegion(region);
-    }
-
-    public List<Service> findByPriceRange(double start, double end) {
-        return serviceRepository.findByPriceBetween(start, end);
+        return serviceRepository.findByRegionAndActiveTrue(region);
     }
 
     public List<Service> findAll() {
@@ -69,4 +69,7 @@ public class ServiceService {
         return serviceRepository.searchServices(provider, domain, subdomain, region, start, end);
     }
 
+    public List<Service> findByActiveTrue(){
+        return serviceRepository.findByActiveTrue();
+    }
 }

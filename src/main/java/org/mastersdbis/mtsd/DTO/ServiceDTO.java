@@ -7,10 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.mastersdbis.mtsd.Entities.Payment.PaymentMethod;
-import org.mastersdbis.mtsd.Entities.Service.Region;
-import org.mastersdbis.mtsd.Entities.Service.ServiceDomain;
-import org.mastersdbis.mtsd.Entities.Service.ServiceSubdomain;
-import org.mastersdbis.mtsd.Entities.Service.ServiceType;
+import org.mastersdbis.mtsd.Entities.Service.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -69,6 +66,26 @@ public class ServiceDTO {
                     .collect(Collectors.toList());
         }
         return List.of();
+    }
+
+    public static ServiceDTO fromService(Service service) {
+        if (service == null) {
+            return null;
+        }
+        ServiceDTO serviceDTO = new ServiceDTO();
+        serviceDTO.setId(service.getId());
+        serviceDTO.setName(service.getName());
+        serviceDTO.setDescription(service.getDescription());
+        serviceDTO.setDomain(service.getDomain());
+        serviceDTO.setSubdomain(service.getSubdomain());
+        serviceDTO.setPrice(service.getPrice());
+        serviceDTO.setRegion(service.getRegion());
+        serviceDTO.setMaterials(service.getMaterialsList());
+        serviceDTO.setActive(service.getActive());
+        serviceDTO.setServiceType(service.getServiceType());
+        serviceDTO.setMinimumBookingTime(service.getMinimumBookingTime());
+        serviceDTO.setAcceptedPaymentMethods(serviceDTO.parsePaymentMethods(service.getAcceptedPaymentMethods()));
+        return serviceDTO;
     }
 
 }
