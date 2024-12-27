@@ -8,8 +8,7 @@ import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable

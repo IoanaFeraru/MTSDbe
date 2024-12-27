@@ -83,6 +83,4 @@ public class TaskService {
     public List<Task> findByBookingFilterStatus(Booking booking, TaskState status) {
         return taskRepository.findByBookingFilterStatus(booking, status);
     }
-
-    //TODO implementare exceptii
 }
