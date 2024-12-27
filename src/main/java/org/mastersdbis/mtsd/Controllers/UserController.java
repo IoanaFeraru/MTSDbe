@@ -155,6 +155,29 @@ public class UserController {
         adminService.validateProvider(provider, adminUser);
         return ResponseEntity.ok("Provider validated successfully.");
     }
+    @GetMapping("/check-provider")
+    public ResponseEntity<String> isAuthenticatedUserProvider() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated.");
+            }
+            String username = authentication.getName();
+            User user = userService.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Authenticated user not found.");
+            }
+            Provider provider = userService.findProviderByUser(user);
+            if (provider != null) {
+                return ResponseEntity.ok("Authenticated user is a provider.");
+            } else {
+                return ResponseEntity.ok("Authenticated user is not a provider.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error checking if the authenticated user is a provider: " + e.getMessage());
+        }
+    }
 
     @GetMapping("/providers/{username}")
     public ResponseEntity<?> findProvider(@PathVariable String username) {
