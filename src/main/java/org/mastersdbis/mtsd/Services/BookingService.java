@@ -5,7 +5,6 @@ import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Booking.BookingState;
 import org.mastersdbis.mtsd.Entities.Service.ServiceType;
 import org.mastersdbis.mtsd.Entities.Payment.Payment;
-import org.mastersdbis.mtsd.Entities.Payment.PaymentState;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.BookingRepository;
@@ -18,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @org.springframework.stereotype.Service
 @Transactional
@@ -138,5 +138,9 @@ public class BookingService {
     }
     public List<Booking> findAllBookings() {
         return bookingRepository.findAll();
+    }
+
+    public Optional<Booking> findById(Integer id) {
+        return bookingRepository.findById(id);
     }
 }
