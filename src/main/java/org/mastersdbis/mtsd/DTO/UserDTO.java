@@ -2,14 +2,17 @@ package org.mastersdbis.mtsd.DTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.mastersdbis.mtsd.Entities.User.User;
 
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     @NotNull(message = "Username-ul este obligatoriu")
     private String username;
