@@ -92,8 +92,7 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
-    //de testat
-    @PostMapping("/providers")
+    @PostMapping("/addProvider")
     public ResponseEntity<?> addProvider(@RequestBody @Valid ProviderDTO providerDTO) {
         Provider provider = new Provider();
         provider.setUser(userService.findById(providerDTO.getUserId()));
@@ -155,27 +154,29 @@ public class UserController {
         adminService.validateProvider(provider, adminUser);
         return ResponseEntity.ok("Provider validated successfully.");
     }
+
     @GetMapping("/check-provider")
-    public ResponseEntity<String> isAuthenticatedUserProvider() {
+    public ResponseEntity<Boolean> isAuthenticatedUserProvider() {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (authentication == null || !authentication.isAuthenticated()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is not authenticated.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
             }
             String username = authentication.getName();
             User user = userService.findByUsername(username);
             if (user == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Authenticated user not found.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
             }
+
             Provider provider = userService.findProviderByUser(user);
             if (provider != null) {
-                return ResponseEntity.ok("Authenticated user is a provider.");
+                return ResponseEntity.ok(true);
             } else {
-                return ResponseEntity.ok("Authenticated user is not a provider.");
+                return ResponseEntity.ok(false);
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error checking if the authenticated user is a provider: " + e.getMessage());
+                    .body(false);
         }
     }
 
@@ -289,8 +290,6 @@ public class UserController {
                     .body("An unexpected error occurred: " + e.getMessage());
         }
     }
-
-    //Is the auth user a provider? Get method
 
     @Getter
     @Setter
