@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 //De testat tot :p
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/payments")
 public class PaymentController {
 
     private final PaymentService paymentService;
@@ -44,14 +44,16 @@ public class PaymentController {
     }
 
     @PostMapping("/process")
-    public ResponseEntity<Void> processPayment(@RequestBody PaymentDTO paymentDTO, Integer bookingId) {
+    public ResponseEntity<String> processPayment(@RequestBody PaymentDTO paymentDTO) {
         Payment payment = paymentDTO.toPayment();
 
-        Booking booking = bookingService.findById(bookingId)
-                .orElseThrow(() -> new IllegalArgumentException("Booking not found with id: " + bookingId));
-        
+        Booking booking = bookingService.findById(paymentDTO.getBookingId())
+                .orElseThrow(() -> new IllegalArgumentException("Booking not found with id: " + paymentDTO.getBookingId()));
+
+        payment.setBooking(booking);
         paymentService.processPayment(booking, payment);
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok("Payment adaugat cu succes");
     }
 
     @PutMapping("/update")

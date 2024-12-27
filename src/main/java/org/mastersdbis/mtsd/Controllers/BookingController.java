@@ -2,7 +2,6 @@ package org.mastersdbis.mtsd.Controllers;
 
 import org.mastersdbis.mtsd.DTO.BookingDTO;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
-import org.mastersdbis.mtsd.Entities.Booking.BookingState;
 import org.mastersdbis.mtsd.Entities.Service.Service;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Services.BookingService;
@@ -14,11 +13,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 //De testat tot
 @RestController

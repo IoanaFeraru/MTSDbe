@@ -72,8 +72,7 @@ public class ServiceController {
         }
     }
 
-    //Retest
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<ServiceDTO> getServiceById(@PathVariable int id) {
         Service service = serviceService.findById(id);
         if (service != null) {
@@ -150,21 +149,21 @@ public class ServiceController {
     }
 
     //De testat
-    @GetMapping("/{domain}")
+    @GetMapping("/domain/{domain}")
     public ResponseEntity<List<ServiceDTO>> getServicesByDomain(@PathVariable ServiceDomain domain) {
         List<Service> services = serviceService.findByDomain(domain);
         return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
     //De testat
-    @GetMapping("/{subdomain}")
+    @GetMapping("/subdomain/{subdomain}")
     public ResponseEntity<List<ServiceDTO>> getServicesBySubdomain(@PathVariable ServiceSubdomain subdomain) {
         List<Service> services = serviceService.findBySubdomain(subdomain);
         return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
     //De testat
-    @GetMapping("/{region}")
+    @GetMapping("/region/{region}")
     public ResponseEntity<List<ServiceDTO>> getServicesByRegion(@PathVariable Region region) {
         List<Service> services = serviceService.findByRegion(region);
         return ResponseEntity.ok(mapServicesToDTOs(services));
