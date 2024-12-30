@@ -17,15 +17,15 @@ html, body {
     width: 100%;
     position: relative;
     overflow: hidden;
-  background: linear-gradient(to right, #C49CED, #DFBEF9) left / 70% no-repeat;
-  background-color: #A196E0;
+    background: linear-gradient(to right, #C49CED, #DFBEF9) left / 70% no-repeat;
+    background-color: #A196E0;
 
 }
 
 .wave {
-  position: absolute;
-  top: 0;
-  right: 30%;
+    position: absolute;
+    top: 0;
+    right: 30%;
 }
 
 nav {
@@ -71,26 +71,27 @@ nav ul a::after {
 }
 
 nav ul a:hover {
-     color: linear-gradient(135deg, #7C3CAD, #B583D1);
+    color: linear-gradient(135deg, #7C3CAD, #B583D1);
 }
 
 nav ul a:hover::after {
     width: 100%;
-background: linear-gradient(135deg, #7C3CAD, #B583D1);
+    background: linear-gradient(135deg, #7C3CAD, #B583D1);
 }
 
 .auth-buttons button {
-  margin: 0 10px;
-  outline: none;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  background: linear-gradient(135deg, #7C3CAD, #B583D1);
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+    margin: 0 10px;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #7C3CAD, #B583D1);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    z-index: 99999;
 }
 
 .auth-buttons button:hover {
@@ -105,8 +106,8 @@ background: linear-gradient(135deg, #7C3CAD, #B583D1);
 }
 
 .auth-buttons button {
- margin-left: 50px;
- margin-bottom: -20px;
+    margin-left: 50px;
+    margin-bottom: -20px;
 }
 
 .logo {
@@ -156,17 +157,17 @@ background: linear-gradient(135deg, #7C3CAD, #B583D1);
 }
 
 .main-content button {
-  margin-top: 2.5rem;
-  outline: none;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
-  background: linear-gradient(135deg, #7C3CAD, #B583D1);
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+    margin-top: 2.5rem;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #7C3CAD, #B583D1);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .main-content button:hover {
@@ -184,9 +185,17 @@ background: linear-gradient(135deg, #7C3CAD, #B583D1);
     justify-content: center;
 }
 
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
 .right {
-    position: absolute;
-    right: 8%;
+    width: 30%;
+    position: relative;
+    margin-top: 2.5%;
     bottom: 20%;
 }
 
@@ -227,14 +236,14 @@ background: linear-gradient(135deg, #7C3CAD, #B583D1);
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;
-margin-top: -5px;
+    margin-top: -5px;
 }
 
 .right .box .inner-box p {
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 10px;
-margin-top: -5px;
+    margin-top: -5px;
 }
 
 .social-links {
@@ -276,28 +285,27 @@ margin-top: -5px;
         align-items: center;
         text-align: center;
     }
-
     .pictures,
     .main-text {
         flex-basis: 100%;
         margin-bottom: 2rem;
     }
-
     .right {
         position: relative;
         right: 0;
         bottom: 10%;
         text-align: center;
     }
-
     .right .box {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-
     .right .box .inner-box {
         width: auto;
         margin-left: 0;
+    }
+    .container {
+        width: 100%;
     }
 }

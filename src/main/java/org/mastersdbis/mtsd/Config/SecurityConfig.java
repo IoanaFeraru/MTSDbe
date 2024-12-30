@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractAu
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -22,6 +23,13 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public StrictHttpFirewall firewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowSemicolon(true);
+        return firewall;
     }
 
     @Bean

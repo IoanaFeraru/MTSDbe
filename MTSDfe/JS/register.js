@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                // Fetch to the register endpoint
                 const response = await fetch('http://localhost:8080/auth/register', {
                     method: 'POST',
                     headers: {
@@ -25,24 +24,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     const successMessage = await response.text();
-                    message.textContent = successMessage;
-                    message.className = "success";
+                    if (message) {
+                        message.textContent = successMessage;
+                        message.className = "success";
+                    }
 
-                    // Save the username locally
                     localStorage.setItem('username', formData.username);
 
-                    // Redirect to personalized home page
                     setTimeout(() => {
-                        window.location.href = '/home.html';
+                        window.location.href = '/Html/home.html';
                     }, 1500);
                 } else {
                     const errorMessage = await response.text();
-                    message.textContent = errorMessage;
-                    message.className = "error";
+                    if (message) {
+                        message.textContent = errorMessage;
+                        message.className = "error";
+                    }
                 }
             } catch (error) {
-                message.textContent = "Eroare de rețea. Încercați din nou.";
-                message.className = "error";
+                if (message) {
+                    message.textContent = "Eroare de rețea. Încercați din nou.";
+                    message.className = "error";
+                }
             }
         });
     } else {

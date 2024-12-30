@@ -14,7 +14,7 @@
             const response = await fetch('http://localhost:8080/auth/login', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded', // Match Postman
+                    'Content-Type': 'application/x-www-form-urlencoded', 
                 },
                 body: formData.toString(),
             });
@@ -28,7 +28,7 @@
                 localStorage.setItem('username', document.getElementById('username').value);
 
                 setTimeout(() => {
-                    window.location.href = '/home.html';
+                    window.location.href = '/Html/home.html';
                 }, 1500);
             } else {
                 const errorMessage = await response.text();

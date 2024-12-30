@@ -46,7 +46,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
-        // Placeholder login logic; implement proper authentication
         User user = userService.findByUsername(userDTO.getUsername());
         if (user == null || !user.getPassword().equals(userDTO.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
