@@ -1,43 +1,45 @@
-const form = document.getElementById('loginForm');
-const message = document.getElementById('message');
+    const form = document.getElementById('loginForm');
+    const message = document.getElementById('message');
 
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    const formData = {
-        username: document.getElementById('username').value,
-        password: document.getElementById('password').value,
-    };
+        const formData = new URLSearchParams();
+        formData.append('username', document.getElementById('username').value);
+        formData.append('password', document.getElementById('password').value);
 
-    try {
-        // Fetch to the login endpoint
-        const response = await fetch('http://localhost:8080/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
-        });
+        try {
+            console.log("Sending data: ", formData.toString());
 
-        if (response.ok) {
-            const successMessage = await response.text();
-            message.textContent = successMessage;
-            message.className = "success";
+            const response = await fetch('http://localhost:8080/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded', // Match Postman
+                },
+                body: formData.toString(),
+            });
 
-            // Save the username locally
-            localStorage.setItem('username', formData.username);
+            if (response.ok) {
+                const successMessage = await response.text();
+                console.log("Response: ", successMessage);
+                message.textContent = successMessage;
+                message.className = "success";
 
-            // Redirect to personalized home page
-            setTimeout(() => {
-                window.location.href = '/home.html';
-            }, 1500);
-        } else {
-            const errorMessage = await response.text();
-            message.textContent = errorMessage;
+                localStorage.setItem('username', document.getElementById('username').value);
+
+                setTimeout(() => {
+                    window.location.href = '/home.html';
+                }, 1500);
+            } else {
+                const errorMessage = await response.text();
+                console.error("Error Response: ", errorMessage);
+                message.textContent = errorMessage;
+                message.className = "error";
+            }
+        } catch (error) {
+            console.error("Network Error: ", error);
+            message.textContent = "Eroare de rețea. Încercați din nou.";
             message.className = "error";
         }
-    } catch (error) {
-        message.textContent = "Eroare de rețea. Încercați din nou.";
-        message.className = "error";
-    }
-});
+    });
+
