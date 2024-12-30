@@ -128,16 +128,21 @@ nav ul a:hover::after {
 }
 
 .main-content {
+    display: flex;
     width: 60%;
     padding-top: 100px;
     margin-left: 3rem;
-    display: flex;
-    align-items: center;
+    align-items: flex-start; 
     justify-content: space-around;
 }
 
 .pictures, .main-text {
-    flex-basis: 50%;
+    flex-basis: 10%;
+}
+
+.main-text {
+    margin-top: 10%;
+    width: 50%;
 }
 
 .pictures img {
