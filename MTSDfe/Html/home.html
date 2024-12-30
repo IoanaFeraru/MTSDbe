@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>ServiceSphere</title>
     <link rel="stylesheet" href="../CSS/home.css">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; font-src 'self' https://fonts.googleapis.com; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' https://fonts.googleapis.com;">
+    
 </head>
 <body>
-<header>
-    <h1>Welcome to the Home Page</h1>
-</header>
-
-<main>
-    <section>
-        <h2>Work in Progress</h2>
-        <p>This page is currently under construction.</p>
-    </section>
-</main>
-<script src="../JS/home.js"></script>
+    <header>
+        <div id="user-profile">
+            <img id="profile-pic" src="" alt="User Profile" width="50" height="50">
+        </div>
+        <h1 id="app-name">
+            <img width="50" height="50" src="https://img.icons8.com/pieces/64/service.png" alt="service"/>
+            ServiceSphere
+        </h1>
+        <div id="search-bar">
+            <input type="text" placeholder="Search Services">
+        </div>
+    </header>
+    <div id="layout">
+        <nav id="side-menu">
+            <a href="../Html/profile.html">My Profile</a>
+            <a href="../Html/services.html">Services</a>
+            <a href="../Html/inbox.html">Messages</a>
+            <a href="../Html/settings.html">Settings</a>
+            <button id="logout">Log Out</button>
+        </nav>
+        <main>
+            <h2>Welcome, <span id="user-name"></span>!</h2>
+            <p>Here is your personalized content.</p>
+        </main>
+    </div>
 </body>
+<script defer src="../JS/home.js"></script>
 </html>

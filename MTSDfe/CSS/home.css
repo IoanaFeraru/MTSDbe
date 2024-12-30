@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #6c63ff;
+    color: white;
+}
+
+#user-profile img {
+    border-radius: 50%;
+    border: 2px solid white; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+}
+
+#app-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5rem;
+}
+
+#search-bar input {
+    width: 300px;
+    padding: 8px;
+    border-radius: 20px;
+    border: none;
+}
+
+
+#layout {
+    display: flex;
+    height: calc(100vh - 60px); 
+}
+
+
+#side-menu {
+    width: 200px;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 105px; 
+    bottom: 0; 
+}
+
+
+#side-menu a, #side-menu button {
+    display: block;
+    background-color: #ffffff;
+    text-decoration: none;
+    color: black;
+    border: none;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: left;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#side-menu a:hover, #side-menu button:hover {
+    background-color: #e0e0e0;
+}
+
+#side-menu #logout {
+    margin-top: auto; 
+    background-color: #ff4d4d;
+    color: white;
+}
+
+#side-menu #logout:hover {
+    background-color: #ff3333;
+}
+
+
+main {
+    margin-left: 200px; 
+    padding: 100px;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: calc(100vh - 100px); 
+    text-align: center; 
+    flex-direction: column; 
+}
+
+main h2 {
+    margin: 0;
+    font-size: 2rem;
+    color: #333;
+}
+
+main p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 10px;
+}
