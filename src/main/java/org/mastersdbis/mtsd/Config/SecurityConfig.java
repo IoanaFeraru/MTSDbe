@@ -42,6 +42,7 @@ public class SecurityConfig {
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .requestMatchers("/provider/**").hasRole("PROVIDER")
                             .requestMatchers("/users/addProvider").hasRole("CLIENT")
+                            .requestMatchers("/users/**").permitAll()
                             .requestMatchers("/users/providers/{providerId}/validate").hasAnyRole("ADMIN")
                             .requestMatchers("/users/providers/{providerId}/deny").hasAnyRole("ADMIN")
                             .anyRequest().authenticated();
@@ -72,7 +73,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedOrigins(List.of("http://127.0.0.1:5500"));
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         corsConfiguration.setAllowCredentials(true);
         corsConfiguration.setAllowedHeaders(List.of("*"));
         corsConfiguration.setMaxAge(3600L);

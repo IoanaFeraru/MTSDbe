@@ -56,12 +56,15 @@ input:disabled {
 }
 
 button {
-    padding: 10px;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    width: 180px; 
+    height: 40px;
 }
+
 
 #editButton {
     background-color: #004085; 
@@ -86,6 +89,12 @@ button:hover {
     margin-top: 10px;
 }
 
+#becomeProviderButton {
+    margin-top: 10px;
+    background-color: #004085; 
+    color: white;
+}
+
 #providerFields {
     display: flex;
     flex-direction: column;
@@ -106,5 +115,41 @@ button:hover {
 }
 
 #saveProviderButton:hover {
+    opacity: 0.9;
+}
+
+#passwordChangeContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    margin-right: 55px;
+}
+
+#newPassword {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+}
+
+#changePasswordButton {
+    background-color: #004085;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 180px;
+    height: 40px;
+    margin-left: 190px;
+    
+    
+}
+
+#changePasswordButton:hover {
     opacity: 0.9;
 }

@@ -13,7 +13,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const addressInput = document.getElementById("address");
     const providerFields = document.getElementById("providerFields");
     const providerInputs = providerFields.querySelectorAll("input");
-    let userId ;
+    let userId;
+    const newPasswordInput = document.getElementById("newPassword");
+    const changePasswordButton = document.getElementById("changePasswordButton");
+    const passwordChangeContainer = document.getElementById("passwordChangeContainer");
     // URL-ul API pentru utilizatorul autentic
     const userApiUrl = `http://localhost:8080/users/${username}`;
 
@@ -79,6 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
         inputs.forEach((input) => (input.disabled = false));
         editButton.style.display = "none";
         saveButton.style.display = "block";
+        becomeProviderButton.style.display = "none";
+        passwordChangeContainer.style.display = "block"; // Show password change container again
+        changePasswordButton.style.display = "block"; // Show "Change Password" button again
     });
 
     // Eveniment: Salvare modificări
@@ -88,6 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
         inputs.forEach((input) => (input.disabled = true));
         editButton.style.display = "block";
         saveButton.style.display = "none";
+        becomeProviderButton.style.display = "block";
+        passwordChangeContainer.style.display = "none"; // Hide the password change section
+        changePasswordButton.style.display = "none"; // Hide the "Change Password" button
     });
 
     becomeProviderButton.addEventListener("click", () => {
@@ -140,6 +149,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    changePasswordButton.addEventListener("click", async () => {
+        const newPassword = newPasswordInput.value;
+
+        if (!newPassword) {
+            alert("Please enter a new password.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${userApiUrl}/password`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ password: newPassword }),
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to change password.");
+            }
+
+            alert("Password updated successfully.");
+            newPasswordInput.value = ""; // Clear the password input
+            passwordChangeContainer.style.display = "none"; // Hide password change fields
+            changePasswordButton.style.display = "none"; // Hide "Change Password" button
+        } catch (error) {
+            console.error("Error changing password:", error);
+            alert("Failed to change password. Please try again.");
+        }
+    });
 
     fetchUserData();
 });
