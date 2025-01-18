@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const response = await fetch(`${userApiUrl}/password`, {
-                method: "PATCH",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/services.css">
+    <title>Services</title>
+</head>
+<body>
+    <header>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search services..." onkeyup="handleKeyUp(event)">
+        </div>
+    <main>
+        <button id="addServiceBtn" onclick="openServiceForm()">Add Service</button>
+        <div id="serviceForm" class="modal">
+            <form id="serviceFormContent">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description"></textarea>
+                
+                <label for="domain">Domain:</label>
+                <input type="text" id="domain" name="domain" required>
+                
+                <label for="subdomain">Subdomain:</label>
+                <input type="text" id="subdomain" name="subdomain">
+                
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" required>
+                
+                <label for="region">Region:</label>
+                <input type="text" id="region" name="region" required>
+                
+                <label for="materials">Materials:</label>
+                <input type="text" id="materials" name="materials">
+                
+                <label for="active">Active:</label>
+                <input type="checkbox" id="active" name="active">
+
+                <label for="acceptedPaymentMethods">acceptedPaymentMethods:</label>
+                <input type="text" id="acceptedPaymentMethods" name="acceptedPaymentMethods">
+                
+                <label for="serviceType">Service Type:</label>
+                <input type="text" id="serviceType" name="serviceType" required>
+                
+                <label for="minimumBookingTime">Minimum Booking Time:</label>
+                <input type="number" id="minimumBookingTime" name="minimumBookingTime" required>
+                
+                <button type="button" onclick="saveService()">Save</button>
+                <button type="button" onclick="closeServiceForm()">Cancel</button>
+            </form>
+        </div>
+        <ul id="servicesList"></ul>
+    </main>
+    </header>
+    <script src="../JS/services.js"></script>
+</body>
+</html>

@@ -58,7 +58,7 @@ public class UserController {
         return ResponseEntity.ok("User updated successfully.");
     }
 
-    @PatchMapping("/{username}/password")
+    @PutMapping("/{username}/password")
     public ResponseEntity<?> updatePassword(@PathVariable String username, @RequestBody PasswordRequest passwordRequest) {
         User user = userService.findByUsername(username);
         if (user == null) {

@@ -1,0 +1,52 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f4f4f4;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+}
+
+input, select, button {
+    padding: 5px;
+}
+
+button {
+    padding: 5px 10px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    width: 300px;
+}
+
+#serviceFormContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#servicesList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#servicesList li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
