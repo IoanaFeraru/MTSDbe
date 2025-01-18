@@ -1,0 +1,110 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('../Images/profile\ background.jpg') no-repeat;
+}
+
+.profile-container {
+    text-align: center;
+    background: #a3c7f7;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px; 
+    height: auto;
+    
+    
+}
+
+.form-container {
+    margin-top: 10px;
+    background-color: #a3c7f7; 
+    padding: 20px;
+    border-radius: 10px;
+    
+    
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+label {
+    margin: 5px 0;
+    font-weight: bold;
+    text-align: left;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%; 
+    max-width: 500px; 
+    box-sizing: border-box;
+}
+input:disabled {
+    background-color: #e9ecef;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#editButton {
+    background-color: #004085; 
+    color: white;
+    margin-top: 10px;
+}
+
+#saveButton {
+    background-color: #28a745;
+    color: white;
+    margin-top: 10px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#buttonsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#providerFields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 0px;
+    margin-right: 56px;
+
+}
+
+#saveProviderButton {
+    background-color: #1db93f;
+    color: white;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#saveProviderButton:hover {
+    opacity: 0.9;
+}

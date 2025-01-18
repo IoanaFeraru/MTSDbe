@@ -13,15 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Parse user data from cookie
     const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
 
-    // Update the profile picture and user name
-    document.getElementById("profile-pic").src = userData.profilePic || "default-profile.png";
+    // Update the profile picture and user names
     document.getElementById("user-name").textContent = userData.name || "Guest";
-
+    localStorage.setItem('username', userData.name);
+    console.log(localStorage.getItem('username'));
     // Log-out button functionality
     document.getElementById("logout").addEventListener("click", () => {
         // Clear the user cookie
         document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        // Redirect to login page
+        
         window.location.href = "../Html/landingpage.html";
     });
 });

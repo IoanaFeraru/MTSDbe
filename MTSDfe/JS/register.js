@@ -52,3 +52,4 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Formularul cu ID-ul "registerForm" nu a fost găsit.');
     }
 });
+console.log("Cookie userData:", document.cookie)
