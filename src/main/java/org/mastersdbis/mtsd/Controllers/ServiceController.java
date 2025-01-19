@@ -103,7 +103,7 @@ public class ServiceController {
             return ResponseEntity.status(404).body(null);
         }
 
-        List<Service> services = serviceService.findByProviderAndActiveTrue(provider);
+        List<Service> services = serviceService.findByProvider(provider);
         return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
@@ -121,10 +121,13 @@ public class ServiceController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateService(@PathVariable int id, @RequestBody Service service) {
+    public ResponseEntity<Map<String, String>> updateService(@PathVariable int id, @RequestBody Service service) {
         Service existingService = serviceService.findById(id);
+        Map<String, String> response = new HashMap<>();
+
         if (existingService == null) {
-            return ResponseEntity.status(404).body("Service not found.");
+            response.put("message", "Service not found.");
+            return ResponseEntity.status(404).body(response);
         }
 
         existingService.setName(service.getName());
@@ -138,9 +141,11 @@ public class ServiceController {
 
         try {
             serviceService.saveService(existingService);
-            return ResponseEntity.ok("Service updated successfully.");
+            response.put("message", "Service updated successfully.");
+            return ResponseEntity.ok(response);
         } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            response.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }
     }
 

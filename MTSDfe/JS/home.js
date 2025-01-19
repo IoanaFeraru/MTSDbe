@@ -1,54 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Get cookie data
     const userCookie = document.cookie
         .split("; ")
         .find((row) => row.startsWith("userData="));
     
     if (!userCookie) {
-        // Redirect to login if no user data
         window.location.href = "../Html/login.html";
         return;
     }
 
-    // Parse user data from cookie
     const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
 
-    // Update user names
     document.getElementById("user-name").textContent = userData.name || "Guest";
     localStorage.setItem('username', userData.name);
     console.log(localStorage.getItem('username'));
 
-    // Log-out button functionality
     document.getElementById("logout").addEventListener("click", () => {
-        // Clear the user cookie
         document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
         window.location.href = "../Html/landingpage.html";
     });
 
-    // Add search functionality
-    const searchInput = document.getElementById("search-input");
-    searchInput.addEventListener("input", async () => {
-        const query = searchInput.value.trim();
-        if (query.length > 0) {
-            try {
-                // Update fetch URL to match your @RequestMapping "/services"
-                const response = await fetch(`/services/search?query=${encodeURIComponent(query)}`);
-                const data = await response.json();
-
-                if (response.ok) {
-                    updateCarouselWithResults(data);
-                } else {
-                    console.error("Error fetching services:", data);
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        } else {
-            // Clear results if search bar is empty
-            clearCarousel();
-        }
-    });
+    fetchActiveServices();
 });
+
+// Fetch active services
+async function fetchActiveServices() {
+    try {
+        const response = await fetch("http://localhost:8080/services/active", {
+            method: "GET", 
+            credentials: "include"
+        });
+        const services = await response.json();
+
+        if (response.ok) {
+            updateCarouselWithResults(services);
+        } else {
+            console.error("Error fetching active services:", services);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
 
 // Carousel code
 const carouselContainer = document.querySelector('.carousel-container');
@@ -56,7 +47,7 @@ const prevButton = document.querySelector('.carousel-btn.prev');
 const nextButton = document.querySelector('.carousel-btn.next');
 
 let currentSlide = 0;
-let totalSlides = 0; // This will be dynamically set based on the search results
+let totalSlides = 0; // This will be dynamically set based on the services
 
 prevButton.addEventListener('click', () => {
     if (currentSlide > 0) {
@@ -81,13 +72,23 @@ function updateCarouselWithResults(services) {
     // Clear current carousel items
     carouselContainer.innerHTML = '';
 
-    // Populate the carousel with new service cards based on the search results
+    // Populate the carousel with new service cards based on the active services
     services.forEach(service => {
+        // Limit description to 100 characters
+        const truncatedDescription = service.description.length > 100 ? service.description.substring(0, 100) + '...' : service.description;
+
         const serviceCard = document.createElement("div");
         serviceCard.classList.add("service-card");
         serviceCard.innerHTML = `
-            <h3>${service.title}</h3>
-            <p>${service.description}</p>
+            <div class="service-image-placeholder">
+                <img src="https://via.placeholder.com/150" alt="Service Image" style="width:100%; height:100%; object-fit:cover;" /> <!-- Placeholder image -->
+            </div>
+            <h3>${service.name}</h3>
+            <p><strong>Description:</strong> ${truncatedDescription}</p>
+            <p><strong>Domain:</strong> ${service.domain}</p>
+            <p><strong>Subdomain:</strong> ${service.subdomain}</p>
+            <p><strong>Price:</strong> ${service.price} RON</p>
+            <p><strong>Region:</strong> ${service.region}</p>
         `;
         carouselContainer.appendChild(serviceCard);
     });

@@ -8,20 +8,20 @@ function closeServiceForm() {
 
 const subdomains = {
     ARTISTICE: ["Fotografie artistica", "Pictura", "Muzica", "Teatru", "Dans", "Diverse"],
-    CONSTRUCTII: ["Reparatii", "Constructii noi", "Planificare proiecte", "Renovare", "Diverse"],
-    EDUCATIE: ["Meditatii", "Cursuri de sprijin", "Formare profesionala", "Tutori", "Diverse"],
-    INTRETINERE_SI_REPARARE: ["Reparatii aparatura", "Intretinere auto", "Reparatii electrice", "Reparatii mecanice", "Reparatii instalatii", "Diverse"],
-    INFRUMUSETARE: ["Frizuri", "Manichiura", "Makeup", "Tratamente", "Diverse"],
-    SANATATE: ["Tratamente", "Terapie fizica", "Diverse"],
+    CONSTRUCȚII: ["Reparatii", "Constructii noi", "Planificare proiecte", "Renovare", "Diverse"],
+    EDUCAȚIE: ["Meditatii", "Cursuri de sprijin", "Formare profesionala", "Tutori", "Diverse"],
+    INTREȚINERE_SI_REPARARE: ["Reparatii aparatura", "Intretinere auto", "Reparatii electrice", "Reparatii mecanice", "Reparatii instalatii", "Diverse"],
+    INFRUMUSEȚARE: ["Frizuri", "Manichiura", "Makeup", "Tratamente", "Diverse"],
+    SĂNĂTATE: ["Tratamente", "Terapie fizica", "Diverse"],
     TRANSPORT: ["Transport persoane", "Transport marfa", "Transport medical", "Diverse"],
     FINANCIARE: ["Consultanta fiscala", "Asigurari", "Planificare financiara", "Finante personale", "Diverse"],
     INFORMATICE: ["Web design", "Dezvoltare software", "Administrare retele", "Securitate informatiilor", "Dezvoltare aplicatii mobile", "Data science", "Machine learning", "Diverse"],
-    CONTABILE_SI_DE_CONSULTANTA: ["Servicii contabile", "Consultanta juridica", "Planificare fiscala", "Consultanta financiara", "Diverse"],
+    CONTABILE_SI_DE_CONSULTANȚĂ: ["Servicii contabile", "Consultanta juridica", "Planificare fiscala", "Consultanta financiara", "Diverse"],
     EVENIMENTE: ["Organizare nunta", "Organizare conferinte", "Planificare evenimente corporative", "Diverse"],
     ARCHITECTURA_SI_INGINERIE: ["Proiectare arhitecturala", "Consultanta inginerie", "Diverse"],
-    TRATAMENT_DESEURI: ["Diverse"],
+    TRATAMENT_DEȘEURI: ["Diverse"],
     PERSONALE: ["Diverse"],
-    PUBLICITATE_CERCETARE_DE_PIATA_SI_SONDAJE_DE_OPINIE: ["Diverse"]
+    PUBLICITATE_CERCETARE_DE_PIATĂ_SI_SONDAJE_DE_OPINIE: ["Diverse"]
 };
 
 const subdomainMapping = {
@@ -80,6 +80,8 @@ function getMappedSubdomain(displayName) {
   return subdomainMapping[displayName] || null;
 }
 
+//problema de reload
+
 function populateSubdomains() {
   const domainSelect = document.getElementById("domain");
   const subdomainSelect = document.getElementById("subdomain");
@@ -102,12 +104,6 @@ document.getElementById("logout").addEventListener("click", () => {
   window.location.href = "../Html/landingpage.html";
 });
 
-function showMessageModal(message) {
-  const modal = document.getElementById("messageModal");
-  const modalMessage = document.getElementById("modalMessage");
-  modalMessage.textContent = message;
-  modal.style.display = "block";
-}
 
 function closeMessageModal() {
   const modal = document.getElementById("messageModal");
@@ -207,14 +203,16 @@ function loadServices() {
 
 function displayServices(services) {
   const servicesList = document.getElementById('servicesList');
-  servicesList.innerHTML = '';  // Clear previous content
+  servicesList.innerHTML = ''; 
 
   services.forEach(service => {
       const li = document.createElement('li');
       li.id = `service-${service.id}`;
+      li.classList.add('service-item');
 
       const serviceDetails = document.createElement('div');
-      
+      serviceDetails.classList.add('service-details');
+
       serviceDetails.innerHTML = `
           <strong>Name:</strong> ${service.name} <br>
           <strong>Domain:</strong> ${service.domain} <br>
@@ -243,6 +241,7 @@ function displayServices(services) {
       servicesList.appendChild(li);
   });
 }
+
 
 function deleteService(serviceId) {
   const confirmation = confirm('Are you sure you want to delete this service?');
@@ -329,21 +328,25 @@ function submitEditService(event) {
     credentials: 'include',
     body: JSON.stringify(updatedService),
   })
-    .then(response => response.text())  
+    .then(response => response.json())
     .then(data => {
-      try {
-        const parsedData = JSON.parse(data);
-        alert(parsedData.message); 
-        location.reload();
-      } catch (error) {
-        alert('Error: ' + data);
+      if (data.message) {
+        showMessageModal(data.message);
       }
+      location.reload();
     })
     .catch(error => {
-      alert('Error: ' + error.message);
+      showMessageModal('Error: ' + error.message);
     });
 
-    closeServiceForm()
+  closeServiceForm();
+}
+
+function showMessageModal(message) {
+  const modal = document.getElementById("messageModal");
+  const modalMessage = document.getElementById("modalMessage");
+  modalMessage.textContent = message;
+  modal.style.display = "block";
 }
 
 window.onload = loadServices;
