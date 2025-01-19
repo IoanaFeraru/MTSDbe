@@ -25,10 +25,12 @@ public class ServiceService {
     }
 
     public void saveService(Service service) {
+        /*
         Provider provider = service.getProvider();
         if (provider == null || provider.getValidationStatus() != ValidationStatus.APPROVED) {
             throw new IllegalStateException("Serviciul nu poate fi salvat deoarece providerul nu este aprobat.");
         }
+         */
         serviceRepository.save(service);
     }
 

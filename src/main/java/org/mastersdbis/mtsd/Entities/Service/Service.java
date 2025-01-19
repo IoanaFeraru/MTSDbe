@@ -62,10 +62,6 @@ public class Service extends AbstractEntity {
     @Column(name = "region", length = 50)
     private Region region;
 
-    @Size(max = Integer.MAX_VALUE, message = "Materials must not exceed maximum length.")
-    @Column(name = "materials", length = Integer.MAX_VALUE)
-    private String materials;
-
     @NotNull
     @Column(name = "active", nullable = false)
     private Boolean active = true;
@@ -83,18 +79,6 @@ public class Service extends AbstractEntity {
 
     @Override
     public Integer getId() { return id; }
-
-    // Un string care are o lista de materiale separate prin virgule;
-    public List<String> getMaterialsList() {
-        if (materials != null && !materials.isEmpty()) {
-            return Arrays.asList(materials.split(",\\s*"));
-        }
-        return List.of();
-    }
-
-    public void setMaterialsList(List<String> materialsList) {
-        this.materials = String.join(", ", materialsList);
-    }
 
     // Obține lista metodelor de plată acceptate pe baza enumurilor PaymentMethod
     public List<PaymentMethod> getAcceptedPaymentMethodsList() {
@@ -124,7 +108,6 @@ public class Service extends AbstractEntity {
                 ", subdomain=" + subdomain +
                 ", price=" + price +
                 ", region=" + region +
-                ", materials=" + getMaterialsList() +
                 ", active=" + active +
                 ", acceptedPaymentMethods=" + getAcceptedPaymentMethodsList() +
                 ", serviceType=" + getServiceType() +

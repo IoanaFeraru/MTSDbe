@@ -17,15 +17,23 @@ html, body {
     width: 100%;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(to right, #C49CED, #DFBEF9) left / 70% no-repeat;
+    background: linear-gradient(to right, #C49CED, #DFBEF9 70%) left / 70% no-repeat;
     background-color: #A196E0;
 
 }
 
 .wave {
     position: absolute;
-    top: 0;
-    right: 30%;
+    top: 50%; 
+    right: 10%;
+    transform: translateY(-50%);
+    height: 22.3vh;
+}
+
+.wave img {
+    width: 100%;
+    height: 100%;
+    transform: rotate(90deg);
 }
 
 nav {
@@ -102,12 +110,12 @@ nav ul a:hover::after {
 .auth-buttons {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: left;
 }
 
 .auth-buttons button {
-    margin-left: 50px;
-    margin-bottom: -20px;
+    margin-left: -200%;
+    margin-bottom: -5px;
 }
 
 .logo {

@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,6 +31,8 @@ public class ServiceDTO {
 
     private ServiceSubdomain subdomain;
 
+    private String username;
+
     @DecimalMin(value = "0.0", inclusive = false, message = "Price must be greater than 0.")
     @NotNull(message = "Price cannot be null.")
     private Double price;
@@ -39,10 +40,8 @@ public class ServiceDTO {
     @NotNull(message = "Region cannot be null.")
     private Region region;
 
-    private List<String> materials;
-
     @NotNull(message = "Active state cannot be null.")
-    private Boolean active;
+    private Boolean active = true;
 
     private List<PaymentMethod> acceptedPaymentMethods;
 
@@ -51,6 +50,10 @@ public class ServiceDTO {
 
     @NotNull(message = "Minimum booking time cannot be null.")
     private Integer minimumBookingTime;
+
+    public ServiceDTO(String username) {
+        this.username = username;
+    }
 
     public List<PaymentMethod> parsePaymentMethods(String acceptedPaymentMethods) {
         if (acceptedPaymentMethods != null && !acceptedPaymentMethods.isEmpty()) {
@@ -75,17 +78,17 @@ public class ServiceDTO {
         ServiceDTO serviceDTO = new ServiceDTO();
         serviceDTO.setId(service.getId());
         serviceDTO.setName(service.getName());
+        serviceDTO.setUsername(service.getProvider().getUser().getUsername());
         serviceDTO.setDescription(service.getDescription());
         serviceDTO.setDomain(service.getDomain());
         serviceDTO.setSubdomain(service.getSubdomain());
         serviceDTO.setPrice(service.getPrice());
         serviceDTO.setRegion(service.getRegion());
-        serviceDTO.setMaterials(service.getMaterialsList());
         serviceDTO.setActive(service.getActive());
         serviceDTO.setServiceType(service.getServiceType());
         serviceDTO.setMinimumBookingTime(service.getMinimumBookingTime());
         serviceDTO.setAcceptedPaymentMethods(serviceDTO.parsePaymentMethods(service.getAcceptedPaymentMethods()));
+        //Nu merge for wtv reason?
         return serviceDTO;
     }
-
 }

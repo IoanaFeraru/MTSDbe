@@ -56,8 +56,8 @@ public class BookingDTO {
     public static Booking toBooking(BookingDTO bookingDTO, User user, Service service) {
         Booking booking = new Booking();
         booking.setId(bookingDTO.getId());
-        booking.setUser(user); // Logica asta se face in controller
-        booking.setService(service); // Si asta tot in controller
+        booking.setUser(user);
+        booking.setService(service);
         booking.setDueDate(bookingDTO.getDueDate());
         booking.setDueTime(bookingDTO.getDueTime());
         booking.setDeliveryAddress(bookingDTO.getDeliveryAddress());
