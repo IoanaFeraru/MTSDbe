@@ -155,13 +155,8 @@ public class UserController {
     }
 
     @GetMapping("/check-provider")
-    public ResponseEntity<Boolean> isAuthenticatedUserProvider() {
+    public ResponseEntity<Boolean> isProviderByUsername(@RequestParam("username") String username) {
         try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication == null || !authentication.isAuthenticated()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
-            }
-            String username = authentication.getName();
             User user = userService.findByUsername(username);
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
@@ -174,8 +169,7 @@ public class UserController {
                 return ResponseEntity.ok(false);
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(false);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
         }
     }
 

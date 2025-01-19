@@ -5,7 +5,6 @@ body {
     overflow: hidden;
 }
 
-
 header {
     display: flex;
     justify-content: space-between;
@@ -14,7 +13,6 @@ header {
     background-color: #6c63ff;
     color: white;
 }
-
 
 #app-name {
     display: flex;
@@ -173,13 +171,14 @@ main {
     width: 300px;
     padding: 8px;
     border-radius: 20px;
-    border: 1px solid #ccc; /* Make sure there's a border */
+    position: relative;
+    border: 1px solid #ccc;
     background-color: white;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Add a little shadow for visibility */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     transition: border-color 0.3s ease;
 }
 
 #search-bar input:focus {
-    border-color: #6c63ff; /* Add a border color on focus for better visibility */
+    border-color: #6c63ff;
     outline: none;
 }

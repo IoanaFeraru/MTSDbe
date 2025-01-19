@@ -1,28 +1,16 @@
-document.addEventListener("DOMContentLoaded", () => {
+function getUserDataFromCookie() {
     const userCookie = document.cookie
         .split("; ")
         .find((row) => row.startsWith("userData="));
-    
+
     if (!userCookie) {
-        window.location.href = "../Html/login.html";
-        return;
+        return null; 
     }
 
     const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
+    return userData;
+}
 
-    document.getElementById("user-name").textContent = userData.name || "Guest";
-    localStorage.setItem('username', userData.name);
-    console.log(localStorage.getItem('username'));
-
-    document.getElementById("logout").addEventListener("click", () => {
-        document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        window.location.href = "../Html/landingpage.html";
-    });
-
-    fetchActiveServices();
-});
-
-// Fetch active services
 async function fetchActiveServices() {
     try {
         const response = await fetch("http://localhost:8080/services/active", {
@@ -41,13 +29,12 @@ async function fetchActiveServices() {
     }
 }
 
-// Carousel code
 const carouselContainer = document.querySelector('.carousel-container');
 const prevButton = document.querySelector('.carousel-btn.prev');
 const nextButton = document.querySelector('.carousel-btn.next');
 
 let currentSlide = 0;
-let totalSlides = 0; // This will be dynamically set based on the services
+let totalSlides = 0;
 
 prevButton.addEventListener('click', () => {
     if (currentSlide > 0) {
@@ -69,12 +56,9 @@ function updateCarousel() {
 }
 
 function updateCarouselWithResults(services) {
-    // Clear current carousel items
     carouselContainer.innerHTML = '';
 
-    // Populate the carousel with new service cards based on the active services
     services.forEach(service => {
-        // Limit description to 100 characters
         const truncatedDescription = service.description.length > 100 ? service.description.substring(0, 100) + '...' : service.description;
 
         const serviceCard = document.createElement("div");
@@ -93,15 +77,62 @@ function updateCarouselWithResults(services) {
         carouselContainer.appendChild(serviceCard);
     });
 
-    // Update the total number of slides for navigation
     totalSlides = services.length;
 
-    // Recalculate the carousel layout
     updateCarousel();
 }
 
-// Function to clear the carousel
 function clearCarousel() {
     carouselContainer.innerHTML = '';
-    totalSlides = 0; // Reset total slides when clearing the carousel
+    totalSlides = 0;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const userData = getUserDataFromCookie();
+    
+    if (!userData) {
+        window.location.href = "../Html/login.html";
+        return;
+    }
+
+    document.getElementById("user-name").textContent = userData.name || "Guest";
+    localStorage.setItem('username', userData.name);
+    console.log(localStorage.getItem('username'));
+
+    const searchInput = document.getElementById("search-input");
+
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.trim();
+        fetchServicesWithSearch(query);
+    });
+
+    document.getElementById("logout").addEventListener("click", () => {
+        document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+        window.location.href = "../Html/landingpage.html";
+    });
+
+    fetchActiveServices();
+});
+
+window.addEventListener('DOMContentLoaded', function () {
+    const userData = getUserDataFromCookie();
+
+    const username = userData.name;
+
+    fetch(`http://localhost:8080/users/check-provider?username=${username}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(isProvider => {
+        if (isProvider) {
+            document.getElementById('services-link').style.display = 'block';
+        }
+    })
+    .catch(error => {
+        console.error('Error checking provider status:', error);
+    });
+});
