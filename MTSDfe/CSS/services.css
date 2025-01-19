@@ -89,7 +89,7 @@ header {
     border: 1px solid #ccc;
     z-index: 1000;
     width: 300px;
-    margin-top: 30px;
+    margin-top: 70px;
 }
 
 .modal-overlay {
@@ -205,18 +205,21 @@ header {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 10px;  /* Rotunjirea colțurilor */
+    border-radius: 10px;
     background-color: white;
     color: black;
     font-size: 0.9rem;
     box-sizing: border-box;
-
+    
+    max-height: 200px; /* Înălțime maximă pentru a permite derularea */
+    overflow-y: auto;  /* Permite scroll vertical */
 }
 
 #serviceFormContent select:focus {
     outline: none;
-    border-color: #6c63ff;  /* Culoare de border la focus */
+    border-color: #6c63ff;
 }
+
 
 #serviceFormContent select option {
     padding: 10px;
