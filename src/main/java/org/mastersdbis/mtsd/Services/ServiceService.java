@@ -67,8 +67,8 @@ public class ServiceService {
         return serviceRepository.findAll();
     }
 
-    public List<Service> searchServices(Provider provider, ServiceDomain domain, ServiceSubdomain subdomain, Region region, Double start, Double end) {
-        return serviceRepository.searchServices(provider, domain, subdomain, region, start, end);
+    public List<Service> searchServices(String searchTerm) {
+        return serviceRepository.searchServices(searchTerm);
     }
 
     public List<Service> findByActiveTrue(){

@@ -24,12 +24,9 @@ public interface ServiceRepository extends JpaRepository<Service, Integer> {
 
     @Query("SELECT s FROM Service s WHERE " +
             "s.active = true AND " +
-            "(s.provider = :provider OR :provider IS NULL) AND " +
-            "(s.domain = :domain OR :domain IS NULL) AND " +
-            "(s.subdomain = :subdomain OR :subdomain IS NULL) AND " +
-            "(s.region = :region OR :region IS NULL) AND " +
-            "(s.price BETWEEN :start AND :end OR :start IS NULL OR :end IS NULL)")
-    List<Service> searchServices(Provider provider, ServiceDomain domain, ServiceSubdomain subdomain, Region region, Double start, Double end);
+            "(LOWER(s.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR " +
+            "LOWER(s.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')))")
+    List<Service> searchServices(String searchTerm);
 
     List<Service> findByActiveTrue();
 }

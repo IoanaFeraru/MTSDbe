@@ -107,28 +107,19 @@ public class ServiceController {
         return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
-    //De testat
     @GetMapping("/active")
     public ResponseEntity<List<ServiceDTO>> getActiveServices() {
         List<Service> services = serviceService.findByActiveTrue();
         return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
-    //De testat
     @GetMapping("/search")
     public ResponseEntity<List<ServiceDTO>> searchServices(
-            @RequestParam(required = false) Provider provider,
-            @RequestParam(required = false) ServiceDomain domain,
-            @RequestParam(required = false) ServiceSubdomain subdomain,
-            @RequestParam(required = false) Region region,
-            @RequestParam(required = false) Double start,
-            @RequestParam(required = false) Double end) {
-
-        List<Service> services = serviceService.searchServices(provider, domain, subdomain, region, start, end);
+            @RequestParam String searchTerm) {
+        List<Service> services = serviceService.searchServices(searchTerm);
         return ResponseEntity.ok(mapServicesToDTOs(services));
     }
 
-    //De testat
     @PutMapping("/{id}")
     public ResponseEntity<String> updateService(@PathVariable int id, @RequestBody Service service) {
         Service existingService = serviceService.findById(id);

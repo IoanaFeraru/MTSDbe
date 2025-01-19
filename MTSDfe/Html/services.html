@@ -33,114 +33,158 @@
             <button id="addServiceBtn" onclick="openServiceForm()">Add Service</button>
             <div id="serviceForm" class="modal">
                 <form id="serviceFormContent">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" required>
-                    
-                    <label for="description">Description:</label>
-                    <textarea id="description" name="description"></textarea>
-                    
-                    <label for="domain">Domain:</label>
-                    <select id="domain" name="domain" required onchange="populateSubdomains()">
-                        <option value="DIVERSE">Diverse</option>
-                        <option value="ARTISTICE">Artistice</option>
-                        <option value="CONSTRUCTII">Construcții</option>
-                        <option value="EDUCATIE">Educație</option>
-                        <option value="INTRETINERE_SI_REPARARE">Întreținere și Reparare</option>
-                        <option value="INFRUMUSETARE">Înfrumusețare</option>
-                        <option value="SANATATE">Sănătate</option>
-                        <option value="TRANSPORT">Transport</option>
-                        <option value="FINANCIARE">Financiare</option>
-                        <option value="INFORMATICE">Informatice</option>
-                        <option value="CONTABILE_SI_DE_CONSULTANTA">Contabile și de Consultanță</option>
-                        <option value="EVENIMENTE">Evenimente</option>
-                        <option value="ARCHITECTURA_SI_INGINERIE">Arhitectură și Inginerie</option>
-                        <option value="TRATAMENT_DESEURI">Tratament Deșeuri</option>
-                        <option value="PERSONALE">Personale</option>
-                        <option value="PUBLICITATE_CERCETARE_DE_PIATA_SI_SONDAJE_DE_OPINIE">Publicitate, Cercetare de Piață și Sondaje de Opinie</option>
-                    </select>
-                    
-                    <label for="subdomain">Subdomain:</label>
-                    <select id="subdomain" name="subdomain" required>
-                        <option value="">Select Subdomain</option>
-                    </select>
-                    
-                    <label for="price">Price:</label>
-                    <input type="number" id="price" name="price" required>
-                    
-                    <label for="region">Region:</label>
-                    <select id="region" name="region" required>
-                        <option value="">Select Region</option>
-                        <option value="ALBA">Alba</option>
-                        <option value="ARAD">Arad</option>
-                        <option value="ARGES">Argeș</option>
-                        <option value="BACAU">Bacău</option>
-                        <option value="BIHOR">Bihor</option>
-                        <option value="BISTRITA_NASAUD">Bistrița-Năsăud</option>
-                        <option value="BOTOSANI">Botoșani</option>
-                        <option value="BRASOV">Brașov</option>
-                        <option value="BRAILA">Brăila</option>
-                        <option value="BUZAU">Buzău</option>
-                        <option value="CARAS_SEVERIN">Caraș-Severin</option>
-                        <option value="CALARASI">Călărași</option>
-                        <option value="CLUJ">Cluj</option>
-                        <option value="CONSTANTA">Constanța</option>
-                        <option value="COVASNA">Covasna</option>
-                        <option value="DAMBOVITA">Dâmbovița</option>
-                        <option value="DOLJ">Dolj</option>
-                        <option value="GALATI">Galați</option>
-                        <option value="GIURGIU">Giurgiu</option>
-                        <option value="GORJ">Gorj</option>
-                        <option value="HARGHITA">Harghita</option>
-                        <option value="HUNEDOARA">Hunedoara</option>
-                        <option value="IALOMITA">Ialomița</option>
-                        <option value="IASI">Iași</option>
-                        <option value="ILFOV">Ilfov</option>
-                        <option value="MARAMURES">Maramureș</option>
-                        <option value="MEHEDINTI">Mehedinți</option>
-                        <option value="MURES">Mureș</option>
-                        <option value="NEAMT">Neamț</option>
-                        <option value="OLT">Olt</option>
-                        <option value="PRAHOVA">Prahova</option>
-                        <option value="SATU_MARE">Satu Mare</option>
-                        <option value="SALAJ">Sălaj</option>
-                        <option value="SIBIU">Sibiu</option>
-                        <option value="SUCEAVA">Suceava</option>
-                        <option value="TELEORMAN">Teleorman</option>
-                        <option value="TIMIS">Timiș</option>
-                        <option value="TULCEA">Tulcea</option>
-                        <option value="VASLUI">Vaslui</option>
-                        <option value="VALCEA">Vâlcea</option>
-                        <option value="VRANCEA">Vrancea</option>
-                        <option value="BUCURESTI">București</option>
-                        <option value="REMOTE">Remote</option>
-                    </select>
-                    
-                    <label for="acceptedPaymentMethods">Metode de plată acceptate:</label>
-                    <select id="acceptedPaymentMethods" required>
-                    <option value="">Select Payment Method</option>
-                    <option value="CREDIT_CARD">Card de credit</option>
-                    <option value="CASH">Cash</option>
-                    <option value="BANK_TRANSFER">Transfer bancar</option>
-                    <option value="APPLE_PAY">Apple Pay</option>
-                    </select>
-                    
-                    <label for="serviceType">Service Type:</label>
-                    <select id="serviceType" name="serviceType" required>
-                        <option value="">Select Service Type</option>
-                        <option value="PROJECT">Project</option>
-                        <option value="BOOKING">Booking</option>
-                    </select>
-                    
-                    <label for="minimumBookingTime">Minimum Booking Time:</label>
-                    <input type="number" id="minimumBookingTime" name="minimumBookingTime" required>
-                    
-                    <button type="button" onclick="saveService()">Save</button>
-                    <button type="button" onclick="closeServiceForm()">Cancel</button>
+                    <div class="form-grid">
+                        <div>
+                            <label for="name">Name:</label>
+                            <input type="text" id="name" name="name" required>
+                            
+                            <label for="description">Description:</label>
+                            <textarea id="description" name="description"></textarea>
+                            
+                            <label for="domain">Domain:</label>
+                            <select id="domain" name="domain" required onchange="populateSubdomains()">
+                                <option value="DIVERSE">Diverse</option>
+                                <option value="ARTISTICE">Artistice</option>
+                                <option value="CONSTRUCTII">Construcții</option>
+                                <option value="EDUCATIE">Educație</option>
+                                <option value="INTRETINERE_SI_REPARARE">Întreținere și Reparare</option>
+                                <option value="INFRUMUSETARE">Înfrumusețare</option>
+                                <option value="SANATATE">Sănătate</option>
+                                <option value="TRANSPORT">Transport</option>
+                                <option value="FINANCIARE">Financiare</option>
+                                <option value="INFORMATICE">Informatice</option>
+                                <option value="CONTABILE_SI_DE_CONSULTANTA">Contabile și de Consultanță</option>
+                                <option value="EVENIMENTE">Evenimente</option>
+                                <option value="ARCHITECTURA_SI_INGINERIE">Arhitectură și Inginerie</option>
+                                <option value="TRATAMENT_DESEURI">Tratament Deșeuri</option>
+                                <option value="PERSONALE">Personale</option>
+                                <option value="PUBLICITATE_CERCETARE_DE_PIATA_SI_SONDAJE_DE_OPINIE">Publicitate, Cercetare de Piață și Sondaje de Opinie</option>
+                            </select>
+                            
+                            <label for="subdomain">Subdomain:</label>
+                            <select id="subdomain" name="subdomain" required>
+                                <option value="">Select Subdomain</option>
+                            </select>
+                            
+                            <label for="price">Price:</label>
+                            <input type="number" id="price" name="price" required>
+                        </div>
+            
+                        <div>
+                            <label for="region">Region:</label>
+                            <select id="region" name="region" required>
+                                <option value="">Select Region</option>
+                                <option value="ALBA">Alba</option>
+                                <option value="ARAD">Arad</option>
+                                <option value="ARGES">Argeș</option>
+                                <option value="BACAU">Bacău</option>
+                                <option value="BIHOR">Bihor</option>
+                                <option value="BISTRITA_NASAUD">Bistrița-Năsăud</option>
+                                <option value="BOTOSANI">Botoșani</option>
+                                <option value="BRASOV">Brașov</option>
+                                <option value="BRAILA">Brăila</option>
+                                <option value="BUZAU">Buzău</option>
+                                <option value="CARAS_SEVERIN">Caraș-Severin</option>
+                                <option value="CALARASI">Călărași</option>
+                                <option value="CLUJ">Cluj</option>
+                                <option value="CONSTANTA">Constanța</option>
+                                <option value="COVASNA">Covasna</option>
+                                <option value="DAMBOVITA">Dâmbovița</option>
+                                <option value="DOLJ">Dolj</option>
+                                <option value="GALATI">Galați</option>
+                                <option value="GIURGIU">Giurgiu</option>
+                                <option value="GORJ">Gorj</option>
+                                <option value="HARGHITA">Harghita</option>
+                                <option value="HUNEDOARA">Hunedoara</option>
+                                <option value="IALOMITA">Ialomița</option>
+                                <option value="IASI">Iași</option>
+                                <option value="ILFOV">Ilfov</option>
+                                <option value="MARAMURES">Maramureș</option>
+                                <option value="MEHEDINTI">Mehedinți</option>
+                                <option value="MURES">Mureș</option>
+                                <option value="NEAMT">Neamț</option>
+                                <option value="OLT">Olt</option>
+                                <option value="PRAHOVA">Prahova</option>
+                                <option value="SATU_MARE">Satu Mare</option>
+                                <option value="SALAJ">Sălaj</option>
+                                <option value="SIBIU">Sibiu</option>
+                                <option value="SUCEAVA">Suceava</option>
+                                <option value="TELEORMAN">Teleorman</option>
+                                <option value="TIMIS">Timiș</option>
+                                <option value="TULCEA">Tulcea</option>
+                                <option value="VASLUI">Vaslui</option>
+                                <option value="VALCEA">Vâlcea</option>
+                                <option value="VRANCEA">Vrancea</option>
+                                <option value="BUCURESTI">București</option>
+                                <option value="REMOTE">Remote</option>
+                            </select>
+            
+                            <label for="acceptedPaymentMethods">Metode de plată acceptate:</label>
+                            <select id="acceptedPaymentMethods" required>
+                                <option value="">Select Payment Method</option>
+                                <option value="CREDIT_CARD">Card de credit</option>
+                                <option value="CASH">Cash</option>
+                                <option value="BANK_TRANSFER">Transfer bancar</option>
+                                <option value="APPLE_PAY">Apple Pay</option>
+                            </select>
+            
+                            <label for="serviceType">Service Type:</label>
+                            <select id="serviceType" name="serviceType" required>
+                                <option value="">Select Service Type</option>
+                                <option value="PROJECT">Project</option>
+                            </select>
+            
+                            <label for="minimumBookingTime">Minimum Booking Time:</label>
+                            <input type="number" id="minimumBookingTime" name="minimumBookingTime" required>
+                        </div>
+                    </div>
+            
+                    <div class="form-buttons">
+                        <button type="button" onclick="saveService()">Save</button>
+                        <button type="button" onclick="closeServiceForm()">Cancel</button>
+                    </div>
                 </form>
             </div>
+
             <ul id="servicesList"></ul>
         </main>
     </div>
+
+    <body>
+        <div id="editServiceForm" class="modal" style="display: none;">
+            <form id="editServiceFormContent" onsubmit="submitEditService(event)">
+                <input type="hidden" id="serviceId" />
+
+                <label for="serviceName">Service Name:</label>
+                <input type="text" id="serviceName" required />
+
+                <label for="serviceDescription">Description:</label>
+                <textarea id="serviceDescription"></textarea>
+
+                <label for="serviceDomain">Domain:</label>
+                <input type="text" id="serviceDomain" required />
+
+                <label for="serviceSubdomain">Subdomain:</label>
+                <input type="text" id="serviceSubdomain" required />
+
+                <label for="servicePrice">Price:</label>
+                <input type="number" id="servicePrice" required />
+
+                <label for="serviceRegion">Region:</label>
+                <input type="text" id="serviceRegion" required />
+
+                <label for="serviceActive">Active:</label>
+                <input type="checkbox" id="serviceActive" />
+
+                <input type="text" id="serviceServiceType" placeholder="Service Type">
+
+                <label for="serviceMinimumBookingTime">Minimum Booking Time:</label>
+                <input type="number" id="serviceMinimumBookingTime" name="minimumBookingTime" value="1" required>
+
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="closeEditServiceForm()">Cancel</button>
+            </form>
+        </div>
 
     <div id="modalOverlay" class="modal-overlay" onclick="closeServiceForm()"></div>
     <script src="../JS/services.js"></script>

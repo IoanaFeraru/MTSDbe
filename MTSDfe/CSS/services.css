@@ -84,13 +84,17 @@ header {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 20px;
     background-color: white;
-    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    width: 300px;
-    margin-top: 70px;
+    padding: 20px;
 }
+
+.form-grid {
+    display: flex;
+    gap: 20px;
+}
+
 
 .modal-overlay {
     position: fixed;
@@ -136,19 +140,18 @@ header {
 }
 
 #serviceFormContent {
-    display: flex;
-    flex-direction: column; 
-    align-items: center; 
-    gap: 10px; 
-    background-color: #6c63ff; 
-    color: white; 
-    border-radius: 20px; 
-    padding: 15px; 
-    width: 80%; 
-    max-width: 350px; 
-    margin: 0 auto; 
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 60%;
+    max-width: 800px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.form-grid div {
+    display: flex;
+    flex-direction: column;
+}
 
 #serviceFormContent input, 
 #serviceFormContent textarea {
@@ -211,8 +214,8 @@ header {
     font-size: 0.9rem;
     box-sizing: border-box;
     
-    max-height: 200px; /* Înălțime maximă pentru a permite derularea */
-    overflow-y: auto;  /* Permite scroll vertical */
+    max-height: 200px; 
+    overflow-y: auto;  
 }
 
 #serviceFormContent select:focus {

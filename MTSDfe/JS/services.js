@@ -6,6 +6,44 @@ function closeServiceForm() {
     document.getElementById('serviceForm').style.display = 'none';
 }
 
+const subdomains = {
+  ARTISTICE: ["Fotografie artistică", "Pictură", "Muzică", "Teatru", "Dans", "Diverse"],
+  CONSTRUCTII: ["Reparații", "Construcții noi", "Planificare proiecte", "Renovare", "Diverse"],
+  EDUCATIE: ["Meditații", "Cursuri de sprijin", "Formare profesională", "Tutori", "Diverse"],
+  INTRETINERE_SI_REPARARE: ["Reparații aparatură", "Întreținere auto", "Reparații electrice", "Diverse"],
+  INFRUMUSETARE: ["Frizuri", "Manichiură", "Makeup", "Tratamente", "Diverse"],
+  SANATATE: ["Tratamente", "Terapie fizică", "Diverse"],
+  TRANSPORT: ["Transport persoane", "Transport marfă", "Diverse"],
+  FINANCIARE: ["Consultanță fiscală", "Asigurări", "Planificare financiară", "Diverse"],
+  INFORMATICE: ["Web design", "Dezvoltare software", "Securitate", "Diverse"],
+  CONTABILE_SI_DE_CONSULTANTA: ["Servicii contabile", "Consultanță juridică", "Planificare fiscală", "Diverse"],
+  EVENIMENTE: ["Organizare nuntă", "Conferințe", "Diverse"],
+  ARCHITECTURA_SI_INGINERIE: ["Proiectare arhitecturală", "Consultanță inginerie", "Diverse"],
+  DIVERSE: ["Diverse"]
+};
+
+function populateSubdomains() {
+  const domainSelect = document.getElementById("domain");
+  const subdomainSelect = document.getElementById("subdomain");
+  const selectedDomain = domainSelect.value;
+
+  subdomainSelect.innerHTML = '<option value="">Selectează Subdomeniul</option>';
+
+  if (subdomains[selectedDomain]) {
+      subdomains[selectedDomain].forEach(sub => {
+          const option = document.createElement("option");
+          option.value = sub;
+          option.textContent = sub;
+          subdomainSelect.appendChild(option);
+      });
+  }
+}
+
+document.getElementById("logout").addEventListener("click", () => {
+  document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  window.location.href = "../Html/landingpage.html";
+});
+
 function saveService() {
   const userCookie = document.cookie
       .split("; ")
@@ -182,7 +220,7 @@ function editService(service) {
   });
 }
 
-function closeServiceForm() {
+function closeEditServiceForm() {
   document.getElementById('editServiceForm').style.display = 'none';
   document.getElementById('modalOverlay').style.display = 'none';
 }
