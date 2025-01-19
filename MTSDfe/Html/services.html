@@ -7,13 +7,28 @@
     <title>Services</title>
 </head>
 <body>
-    <p>Pune te rog toolbarul ala de pe partea stanga si aici (ala cu meniu, cu profil cu etc)</p>
-    <p>Poti sa iei enumurile din backend sa le transformi in combo/drop down lists la formular?
-       <br> Dupa ce dau save ar trbui sa dau refresh la toate serviciile alea loaded.
-       <br> nuj dc cand editez nu mi se auto populeaza project type. whatever
-    </P>
-    
+   
     <header>
+        <h1 id="app-name">
+            <img width="50" height="50" src="https://img.icons8.com/pieces/64/service.png" alt="service"/>
+            ServiceSphere
+        </h1>
+        <div id="search-bar">
+          <input type="text" id="search-input" placeholder="Search Services..">
+        </div>
+    </header>
+
+    <div id="layout">
+        
+        <nav id="side-menu">
+            <a href="../Html/home.html">Home</a>
+            <a href="../Html/profile.html">My Profile</a>
+            <a href="../Html/inbox.html">Messages</a>
+            <a href="../Html/settings.html">Settings</a>
+            <button id="logout">Log Out</button>
+        </nav>
+
+       
         <main>
             <button id="addServiceBtn" onclick="openServiceForm()">Add Service</button>
             <div id="serviceForm" class="modal">
@@ -25,22 +40,66 @@
                     <textarea id="description" name="description"></textarea>
                     
                     <label for="domain">Domain:</label>
-                    <input type="text" id="domain" name="domain" required>
+                    <select id="domain" name="domain" required onchange="populateSubdomains()">
+                        <option value="">Select Domain</option>
+                        <option value="ARTISTICE">Artistice</option>
+                        <option value="CONSTRUCTII">Construcții</option>
+                        <option value="EDUCATIE">Educație</option>
+                        <option value="INTRETINERE_SI_REPARARE">Întreținere și Reparare</option>
+                        <option value="INFRUMUSETARE">Înfrumusețare</option>
+                        <option value="SANATATE">Sănătate</option>
+                        <option value="TRANSPORT">Transport</option>
+                        <option value="FINANCIARE">Financiare</option>
+                        <option value="INFORMATICE">Informatice</option>
+                        <option value="CONTABILE_SI_DE_CONSULTANTA">Contabile și Consultanță</option>
+                        <option value="EVENIMENTE">Evenimente</option>
+                        <option value="ARCHITECTURA_SI_INGINERIE">Arhitectură și Inginerie</option>
+                        <option value="DIVERSE">Diverse</option>
+                    </select>
                     
                     <label for="subdomain">Subdomain:</label>
-                    <input type="text" id="subdomain" name="subdomain">
+                    <select id="subdomain" name="subdomain" required>
+                        <option value="">Select Subdomain</option>
+                    </select>
                     
                     <label for="price">Price:</label>
                     <input type="number" id="price" name="price" required>
                     
                     <label for="region">Region:</label>
-                    <input type="text" id="region" name="region" required>
+                    <select id="region" name="region" required>
+                        <option value="">Select Region</option>
+                        <option value="ALBA">Alba</option>
+                        <option value="ARAD">Arad</option>
+                        <option value="ARGES">Argeș</option>
+                        <option value="BACAU">Bacău</option>
+                        <option value="BIHOR">Bihor</option>
+                        <option value="BISTRITA_NASAUD">Bistrița-Năsăud</option>
+                        <option value="BOTOSANI">Botoșani</option>
+                        <option value="BRASOV">Brașov</option>
+                        <option value="BRAILA">Brăila</option>
+                        <option value="BUZAU">Buzău</option>
+                        <option value="CLUJ">Cluj</option>
+                        <option value="CONSTANTA">Constanța</option>
+                        <option value="DOLJ">Dolj</option>
+                        <option value="TIMIS">Timiș</option>
+                        <option value="REMOTE">Remote</option>
+                    </select>
                     
-                    <label for="acceptedPaymentMethods">acceptedPaymentMethods:</label>
-                    <input type="text" id="acceptedPaymentMethods" name="acceptedPaymentMethods">
+                    <label for="acceptedPaymentMethods">Metode de plată acceptate:</label>
+                    <select id="acceptedPaymentMethods" required>
+                    <option value="">Select Payment Method</option>
+                    <option value="CREDIT_CARD">Card de credit</option>
+                    <option value="CASH">Cash</option>
+                    <option value="BANK_TRANSFER">Transfer bancar</option>
+                    <option value="APPLE_PAY">Apple Pay</option>
+                    </select>
                     
                     <label for="serviceType">Service Type:</label>
-                    <input type="text" id="serviceType" name="serviceType" required>
+                    <select id="serviceType" name="serviceType" required>
+                        <option value="">Select Service Type</option>
+                        <option value="PROJECT">Project</option>
+                        <option value="BOOKING">Booking</option>
+                    </select>
                     
                     <label for="minimumBookingTime">Minimum Booking Time:</label>
                     <input type="number" id="minimumBookingTime" name="minimumBookingTime" required>
@@ -51,46 +110,9 @@
             </div>
             <ul id="servicesList"></ul>
         </main>
-    </header>
+    </div>
 
-    <body>
-        <div id="editServiceForm" class="modal" style="display: none;">
-            <form id="editServiceFormContent" onsubmit="submitEditService(event)">
-                <input type="hidden" id="serviceId" />
-
-                <label for="serviceName">Service Name:</label>
-                <input type="text" id="serviceName" required />
-
-                <label for="serviceDescription">Description:</label>
-                <textarea id="serviceDescription"></textarea>
-
-                <label for="serviceDomain">Domain:</label>
-                <input type="text" id="serviceDomain" required />
-
-                <label for="serviceSubdomain">Subdomain:</label>
-                <input type="text" id="serviceSubdomain" required />
-
-                <label for="servicePrice">Price:</label>
-                <input type="number" id="servicePrice" required />
-
-                <label for="serviceRegion">Region:</label>
-                <input type="text" id="serviceRegion" required />
-
-                <label for="serviceActive">Active:</label>
-                <input type="checkbox" id="serviceActive" />
-
-                <input type="text" id="serviceServiceType" placeholder="Service Type">
-
-                <label for="serviceMinimumBookingTime">Minimum Booking Time:</label>
-                <input type="number" id="serviceMinimumBookingTime" name="minimumBookingTime" value="1" required>
-
-                <button type="submit">Save Changes</button>
-                <button type="button" onclick="closeServiceForm()">Cancel</button>
-            </form>
-        </div>
-
-        <div id="modalOverlay" class="modal-overlay" onclick="closeServiceForm()"></div>
-    </body>
+    <div id="modalOverlay" class="modal-overlay" onclick="closeServiceForm()"></div>
     <script src="../JS/services.js"></script>
 </body>
 </html>

@@ -15,11 +15,6 @@ header {
     color: white;
 }
 
-#user-profile img {
-    border-radius: 50%;
-    border: 2px solid white; 
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
-}
 
 #app-name {
     display: flex;

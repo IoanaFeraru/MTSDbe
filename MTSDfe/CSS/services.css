@@ -1,26 +1,82 @@
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    overflow: hidden;
 }
-
 header {
     display: flex;
-    justify-content: center;
-    padding: 10px;
-    background-color: #f4f4f4;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #6c63ff;
+    color: white;
 }
 
-.search-container {
+
+#app-name {
     display: flex;
+    align-items: center;
     gap: 10px;
+    font-size: 1.5rem;
 }
 
-input, select, button {
-    padding: 5px;
+#search-bar input {
+    width: 300px;
+    padding: 8px;
+    border-radius: 20px;
+    border: none;
 }
 
-button {
-    padding: 5px 10px;
+
+#layout {
+    display: flex;
+    height: calc(100vh - 60px); 
 }
+
+
+#side-menu {
+    width: 200px;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 103px; 
+    bottom: 0; 
+}
+
+
+#side-menu a, #side-menu button {
+    display: block;
+    background-color: #ffffff;
+    text-decoration: none;
+    color: black;
+    border: none;
+    margin: 10px 0;
+    padding: 10px;
+    text-align: left;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#side-menu a:hover, #side-menu button:hover {
+    background-color: #e0e0e0;
+}
+
+#side-menu #logout {
+    margin-top: auto; 
+    background-color: #ff4d4d;
+    color: white;
+}
+
+#side-menu #logout:hover {
+    background-color: #ff3333;
+}
+
 
 .modal {
     display: none;
@@ -33,22 +89,7 @@ button {
     border: 1px solid #ccc;
     z-index: 1000;
     width: 300px;
-}
-
-#serviceFormContent {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-#servicesList {
-    list-style-type: none;
-    padding: 0;
-}
-
-#servicesList li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+    margin-top: 30px;
 }
 
 .modal-overlay {
@@ -61,3 +102,125 @@ button {
     z-index: 999;
     display: none;
 }
+
+
+#servicesList {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 60px; 
+    margin-left: 220px; 
+}
+
+#servicesList li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+#addServiceBtn {
+    position: relative; 
+    margin: 20px auto; 
+    margin-left: 250px; 
+    padding: 10px 20px;
+    background-color: #6c63ff; 
+    color: white; 
+    border: none;
+    border-radius: 20px; 
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; 
+}
+
+#addServiceBtn:hover {
+    background-color: #5848c2; 
+    transform: scale(1.05); 
+}
+
+#serviceFormContent {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px; 
+    background-color: #6c63ff; 
+    color: white; 
+    border-radius: 20px; 
+    padding: 15px; 
+    width: 80%; 
+    max-width: 350px; 
+    margin: 0 auto; 
+}
+
+
+#serviceFormContent input, 
+#serviceFormContent textarea {
+    width: 100%; 
+    padding: 8px; 
+    border: 1px solid #ccc; 
+    border-radius: 10px; 
+    background-color: white; 
+    color: black; 
+    font-size: 0.9rem; 
+    box-sizing: border-box; 
+}
+
+
+#serviceFormContent label {
+    font-size: 0.9rem; 
+    text-align: left;
+    width: 100%; 
+}
+
+
+#serviceFormContent button {
+    padding: 8px 15px; 
+    border: none;
+    border-radius: 10px; 
+    font-size: 0.9rem; 
+    cursor: pointer;
+    width: 100%; 
+    transition: background-color 0.3s, transform 0.2s; 
+}
+
+
+#serviceFormContent button:first-of-type {
+    background-color: #85c1e9; 
+    color: white; 
+}
+
+#serviceFormContent button:first-of-type:hover {
+    background-color: #5dade2; 
+    transform: scale(1.05); 
+}
+
+#serviceFormContent button:last-of-type {
+    background-color: #f1948a; 
+    color: white;
+}
+
+#serviceFormContent button:last-of-type:hover {
+    background-color: #ec7063; 
+    transform: scale(1.05); 
+}
+
+#serviceFormContent select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;  /* Rotunjirea colțurilor */
+    background-color: white;
+    color: black;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+
+}
+
+#serviceFormContent select:focus {
+    outline: none;
+    border-color: #6c63ff;  /* Culoare de border la focus */
+}
+
+#serviceFormContent select option {
+    padding: 10px;
+    background-color: white;
+    color: black;
+}
+

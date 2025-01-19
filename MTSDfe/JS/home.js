@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Parse user data from cookie
     const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
 
-    // Update the profile picture and user names
+    // Update user names
     document.getElementById("user-name").textContent = userData.name || "Guest";
     localStorage.setItem('username', userData.name);
     console.log(localStorage.getItem('username'));

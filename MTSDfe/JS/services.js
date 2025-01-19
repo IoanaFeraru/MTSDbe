@@ -1,9 +1,47 @@
+const subdomains = {
+  ARTISTICE: ["Fotografie artistică", "Pictură", "Muzică", "Teatru", "Dans", "Diverse"],
+  CONSTRUCTII: ["Reparații", "Construcții noi", "Planificare proiecte", "Renovare", "Diverse"],
+  EDUCATIE: ["Meditații", "Cursuri de sprijin", "Formare profesională", "Tutori", "Diverse"],
+  INTRETINERE_SI_REPARARE: ["Reparații aparatură", "Întreținere auto", "Reparații electrice", "Diverse"],
+  INFRUMUSETARE: ["Frizuri", "Manichiură", "Makeup", "Tratamente", "Diverse"],
+  SANATATE: ["Tratamente", "Terapie fizică", "Diverse"],
+  TRANSPORT: ["Transport persoane", "Transport marfă", "Diverse"],
+  FINANCIARE: ["Consultanță fiscală", "Asigurări", "Planificare financiară", "Diverse"],
+  INFORMATICE: ["Web design", "Dezvoltare software", "Securitate", "Diverse"],
+  CONTABILE_SI_DE_CONSULTANTA: ["Servicii contabile", "Consultanță juridică", "Planificare fiscală", "Diverse"],
+  EVENIMENTE: ["Organizare nuntă", "Conferințe", "Diverse"],
+  ARCHITECTURA_SI_INGINERIE: ["Proiectare arhitecturală", "Consultanță inginerie", "Diverse"],
+  DIVERSE: ["Diverse"]
+};
+ // Log-out button functionality
+ document.getElementById("logout").addEventListener("click", () => {
+  // Clear the user cookie
+  document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  window.location.href = "../Html/landingpage.html";
+});
+function populateSubdomains() {
+  const domainSelect = document.getElementById("domain");
+  const subdomainSelect = document.getElementById("subdomain");
+  const selectedDomain = domainSelect.value;
+
+  subdomainSelect.innerHTML = '<option value="">Select Subdomain</option>';
+
+  if (subdomains[selectedDomain]) {
+      subdomains[selectedDomain].forEach(sub => {
+          const option = document.createElement("option");
+          option.value = sub;
+          option.textContent = sub;
+          subdomainSelect.appendChild(option);
+      });
+  }
+}
+
 function openServiceForm() {
-    document.getElementById('serviceForm').style.display = 'block';
+  document.getElementById("serviceForm").style.display = "block";
 }
 
 function closeServiceForm() {
-    document.getElementById('serviceForm').style.display = 'none';
+  document.getElementById("serviceForm").style.display = "none";
 }
 
 function saveService() {
@@ -70,7 +108,7 @@ function loadServices() {
   const username = userData.name;
 
   fetch(`http://localhost:8080/services/provider/${username}`, {
-    method: "GET"
+      method: "GET"
   })
   .then((response) => {
       if (response.ok) {
@@ -132,24 +170,24 @@ function deleteService(serviceId) {
   if (!confirmation) return;
 
   fetch(`http://localhost:8080/services/${serviceId}`, {
-    method: 'DELETE',
+      method: 'DELETE',
   })
   .then(response => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error('Failed to delete the service');
-    }
+      if (response.ok) {
+          return response.json();
+      } else {
+          throw new Error('Failed to delete the service');
+      }
   })
   .then(data => {
-    alert(data.message);
-    const serviceElement = document.getElementById(`service-${serviceId}`);
-    if (serviceElement) {
-      serviceElement.remove();
-    }
+      alert(data.message);
+      const serviceElement = document.getElementById(`service-${serviceId}`);
+      if (serviceElement) {
+          serviceElement.remove();
+      }
   })
   .catch(error => {
-    alert('Error: ' + error.message);
+      alert('Error: ' + error.message);
   });
 }
 
@@ -157,28 +195,28 @@ function editService(service) {
   console.log(service);
 
   fetch(`http://localhost:8080/services/id/${service.id}`, {
-    method: 'GET',
-    credentials: 'include'
+      method: 'GET',
+      credentials: 'include'
   })
   .then(response => response.json())
   .then(serviceData => {
-    document.getElementById('serviceId').value = serviceData.id;
-    document.getElementById('serviceName').value = serviceData.name;
-    document.getElementById('serviceDescription').value = serviceData.description;
-    document.getElementById('serviceDomain').value = serviceData.domain;
-    document.getElementById('serviceSubdomain').value = serviceData.subdomain;
-    document.getElementById('servicePrice').value = serviceData.price;
-    document.getElementById('serviceRegion').value = serviceData.region;
-    document.getElementById('serviceActive').checked = serviceData.active;
-    document.getElementById('serviceServiceType').value = serviceData.serviceType;
-    document.getElementById('serviceMinimumBookingTime').value = serviceData.minimumBookingTime;
+      document.getElementById('serviceId').value = serviceData.id;
+      document.getElementById('serviceName').value = serviceData.name;
+      document.getElementById('serviceDescription').value = serviceData.description;
+      document.getElementById('serviceDomain').value = serviceData.domain;
+      document.getElementById('serviceSubdomain').value = serviceData.subdomain;
+      document.getElementById('servicePrice').value = serviceData.price;
+      document.getElementById('serviceRegion').value = serviceData.region;
+      document.getElementById('serviceActive').checked = serviceData.active;
+      document.getElementById('serviceServiceType').value = serviceData.serviceType;
+      document.getElementById('serviceMinimumBookingTime').value = serviceData.minimumBookingTime;
 
-    document.getElementById("editServiceForm").style.display = "block";
-    document.getElementById("modalOverlay").style.display = "block";
-})
+      document.getElementById("editServiceForm").style.display = "block";
+      document.getElementById("modalOverlay").style.display = "block";
+  })
   .catch(error => {
-    console.error('Error fetching service data:', error);
-    alert('Eroare la încărcarea serviciului!');
+      console.error('Error fetching service data:', error);
+      alert('Eroare la încărcarea serviciului!');
   });
 }
 
@@ -192,41 +230,41 @@ function submitEditService(event) {
 
   const serviceId = document.getElementById('serviceId').value;
   const updatedService = {
-    id: serviceId,
-    name: document.getElementById('serviceName').value,
-    description: document.getElementById('serviceDescription').value,
-    domain: document.getElementById('serviceDomain').value,
-    subdomain: document.getElementById('serviceSubdomain').value,
-    price: parseFloat(document.getElementById('servicePrice').value),
-    region: document.getElementById('serviceRegion').value,
-    active: document.getElementById('serviceActive').checked,
-    serviceType: document.getElementById('serviceServiceType').value,
-    minimumBookingTime: parseInt(document.getElementById('serviceMinimumBookingTime').value)
+      id: serviceId,
+      name: document.getElementById('serviceName').value,
+      description: document.getElementById('serviceDescription').value,
+      domain: document.getElementById('serviceDomain').value,
+      subdomain: document.getElementById('serviceSubdomain').value,
+      price: parseFloat(document.getElementById('servicePrice').value),
+      region: document.getElementById('serviceRegion').value,
+      active: document.getElementById('serviceActive').checked,
+      serviceType: document.getElementById('serviceServiceType').value,
+      minimumBookingTime: parseInt(document.getElementById('serviceMinimumBookingTime').value)
   };
 
   fetch(`http://localhost:8080/services/${serviceId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include',
-    body: JSON.stringify(updatedService),
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(updatedService),
   })
-    .then(response => response.text())  
-    .then(data => {
-      try {
-        const parsedData = JSON.parse(data);
-        alert(parsedData.message); 
-        location.reload();
-      } catch (error) {
-        alert('Error: ' + data);
-      }
-    })
-    .catch(error => {
-      alert('Error: ' + error.message);
-    });
+      .then(response => response.text())  
+      .then(data => {
+          try {
+              const parsedData = JSON.parse(data);
+              alert(parsedData.message); 
+              location.reload();
+          } catch (error) {
+              alert('Error: ' + data);
+          }
+      })
+      .catch(error => {
+          alert('Error: ' + error.message);
+      });
 
-    closeServiceForm()
+  closeServiceForm();
 }
 
 window.onload = loadServices;
