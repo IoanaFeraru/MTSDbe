@@ -8,19 +8,47 @@ function closeServiceForm() {
 
 const subdomains = {
   ARTISTICE: ["Fotografie artistică", "Pictură", "Muzică", "Teatru", "Dans", "Diverse"],
-  CONSTRUCTII: ["Reparații", "Construcții noi", "Planificare proiecte", "Renovare", "Diverse"],
-  EDUCATIE: ["Meditații", "Cursuri de sprijin", "Formare profesională", "Tutori", "Diverse"],
-  INTRETINERE_SI_REPARARE: ["Reparații aparatură", "Întreținere auto", "Reparații electrice", "Diverse"],
-  INFRUMUSETARE: ["Frizuri", "Manichiură", "Makeup", "Tratamente", "Diverse"],
-  SANATATE: ["Tratamente", "Terapie fizică", "Diverse"],
+  CONSTRUCȚII: ["Reparații", "Construcții noi", "Planificare proiecte", "Renovare", "Diverse"],
+  EDUCAȚIE: ["Meditații", "Cursuri de sprijin", "Formare profesională", "Tutori", "Diverse"],
+  INTREȚINERE_SI_REPARARE: ["Reparații aparatură", "Întreținere auto", "Reparații electrice", "Diverse"],
+  INFRUMUSEȚARE: ["Frizuri", "Manichiură", "Makeup", "Tratamente", "Diverse"],
+  SĂNĂTATE: ["Tratamente", "Terapie fizică", "Diverse"],
   TRANSPORT: ["Transport persoane", "Transport marfă", "Diverse"],
   FINANCIARE: ["Consultanță fiscală", "Asigurări", "Planificare financiară", "Diverse"],
   INFORMATICE: ["Web design", "Dezvoltare software", "Securitate", "Diverse"],
-  CONTABILE_SI_DE_CONSULTANTA: ["Servicii contabile", "Consultanță juridică", "Planificare fiscală", "Diverse"],
+  CONTABILE_SI_DE_CONSULTANȚĂ: ["Servicii contabile", "Consultanță juridică", "Planificare fiscală", "Diverse"],
   EVENIMENTE: ["Organizare nuntă", "Conferințe", "Diverse"],
   ARCHITECTURA_SI_INGINERIE: ["Proiectare arhitecturală", "Consultanță inginerie", "Diverse"],
   DIVERSE: ["Diverse"]
 };
+
+const subdomainMapping = {
+  "Fotografie artistică": "ARTISTICE_fotografie_artistica",
+  "Pictură": "ARTISTICE_pictura",
+  "Muzică": "ARTISTICE_muzica",
+  "Teatru": "ARTISTICE_teatru",
+  "Dans": "ARTISTICE_dans",
+  "Diverse": "ARTISTICE_diverse",
+  "Reparații": "CONSTRUCTII_reparatii",
+  "Construcții noi": "CONSTRUCTII_constructii_noua",
+  "Planificare proiecte": "CONSTRUCTII_planificare_proiecte",
+  "Renovare": "CONSTRUCTII_renovare",
+  "Meditații": "EDUCATIE_meditatii",
+  "Cursuri de sprijin": "EDUCATIE_cursuri_de_sprijin",
+  "Formare profesională": "EDUCATIE_formare_profesionala",
+  "Tutori": "EDUCATIE_tutori",
+  "Reparații aparatură": "INTRETINERE_SI_REPARARE_reparatii_aparatura",
+  "Întreținere auto": "INTRETINERE_SI_REPARARE_intretinere_auto",
+  "Reparații electrice": "INTRETINERE_SI_REPARARE_reparatii_electrice",
+  "Organizare nuntă": "EVENIMENTE_organizare_nunta",
+  "Conferințe": "EVENIMENTE_organizare_conferinte",
+  "Proiectare arhitecturală": "ARCHITECTURA_SI_INGINERIE_proiectare_architecturala",
+  "Consultanță inginerie": "ARCHITECTURA_SI_INGINERIE_consultanta_inginerie",
+};
+
+function getMappedSubdomain(displayName) {
+  return subdomainMapping[displayName] || null;
+}
 
 function populateSubdomains() {
   const domainSelect = document.getElementById("domain");
@@ -44,6 +72,18 @@ document.getElementById("logout").addEventListener("click", () => {
   window.location.href = "../Html/landingpage.html";
 });
 
+function showMessageModal(message) {
+  const modal = document.getElementById("messageModal");
+  const modalMessage = document.getElementById("modalMessage");
+  modalMessage.textContent = message;
+  modal.style.display = "block";
+}
+
+function closeMessageModal() {
+  const modal = document.getElementById("messageModal");
+  modal.style.display = "none";
+}
+
 function saveService() {
   const userCookie = document.cookie
       .split("; ")
@@ -56,11 +96,20 @@ function saveService() {
 
   const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
 
+  const selectedSubdomain = document.getElementById("subdomain").value;
+  const mappedSubdomain = getMappedSubdomain(selectedSubdomain); 
+
+  if (!mappedSubdomain) {
+      console.error("Invalid subdomain selected:", selectedSubdomain);
+      showMessageModal("Subdomeniul selectat este invalid.");
+      return; 
+  }
+
   const serviceData = {
       name: document.getElementById("name").value,
       description: document.getElementById("description").value,
       domain: document.getElementById("domain").value,
-      subdomain: document.getElementById("subdomain").value,
+      subdomain: mappedSubdomain,
       price: parseFloat(document.getElementById("price").value),
       region: document.getElementById("region").value,
       acceptedPaymentMethods: document.getElementById("acceptedPaymentMethods").value.split(","),
@@ -84,12 +133,12 @@ function saveService() {
           }
       })
       .then((message) => {
-          alert(message); 
+          showMessageModal(message); 
           closeServiceForm();
       })
       .catch((error) => {
           console.error(error);
-          alert("A apărut o eroare la salvarea serviciului.");
+          showMessageModal("A apărut o eroare la salvarea serviciului.");
       });
 }
 

@@ -45,20 +45,20 @@
                             <select id="domain" name="domain" required onchange="populateSubdomains()">
                                 <option value="DIVERSE">Diverse</option>
                                 <option value="ARTISTICE">Artistice</option>
-                                <option value="CONSTRUCTII">Construcții</option>
-                                <option value="EDUCATIE">Educație</option>
-                                <option value="INTRETINERE_SI_REPARARE">Întreținere și Reparare</option>
-                                <option value="INFRUMUSETARE">Înfrumusețare</option>
-                                <option value="SANATATE">Sănătate</option>
+                                <option value="CONSTRUCȚII">Construcții</option>
+                                <option value="EDUCAȚIE">Educație</option>
+                                <option value="INTREȚINERE_SI_REPARARE">Întreținere și Reparare</option>
+                                <option value="INFRUMUSEȚARE">Înfrumusețare</option>
+                                <option value="SĂNĂTATE">Sănătate</option>
                                 <option value="TRANSPORT">Transport</option>
                                 <option value="FINANCIARE">Financiare</option>
                                 <option value="INFORMATICE">Informatice</option>
-                                <option value="CONTABILE_SI_DE_CONSULTANTA">Contabile și de Consultanță</option>
+                                <option value="CONTABILE_SI_DE_CONSULTANȚĂ">Contabile și de Consultanță</option>
                                 <option value="EVENIMENTE">Evenimente</option>
                                 <option value="ARCHITECTURA_SI_INGINERIE">Arhitectură și Inginerie</option>
-                                <option value="TRATAMENT_DESEURI">Tratament Deșeuri</option>
+                                <option value="TRATAMENT_DEȘEURI">Tratament Deșeuri</option>
                                 <option value="PERSONALE">Personale</option>
-                                <option value="PUBLICITATE_CERCETARE_DE_PIATA_SI_SONDAJE_DE_OPINIE">Publicitate, Cercetare de Piață și Sondaje de Opinie</option>
+                                <option value="PUBLICITATE_CERCETARE_DE_PIATĂ_SI_SONDAJE_DE_OPINIE">Publicitate, Cercetare de Piață și Sondaje de Opinie</option>
                             </select>
                             
                             <label for="subdomain">Subdomain:</label>
@@ -130,7 +130,7 @@
             
                             <label for="serviceType">Service Type:</label>
                             <select id="serviceType" name="serviceType" required>
-                                <option value="">Select Service Type</option>
+                                <option value="BOOKING">Booking</option>
                                 <option value="PROJECT">Project</option>
                             </select>
             
@@ -150,9 +150,24 @@
         </main>
     </div>
 
-    <body>
-        <div id="editServiceForm" class="modal" style="display: none;">
+    <div id="messageModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeMessageModal()">&times;</span>
+                <p id="modalMessage"></p>
+            </div>
+    </div>
+        
+    <div id="editServiceForm" class="modal" style="display: none;">
             <form id="editServiceFormContent" onsubmit="submitEditService(event)">
+                <div class="form-grid">
+                    <div>
+
+                    </div>
+
+                    <div>
+                        
+                    </div>
+                </div>
                 <input type="hidden" id="serviceId" />
 
                 <label for="serviceName">Service Name:</label>
@@ -188,5 +203,4 @@
 
     <div id="modalOverlay" class="modal-overlay" onclick="closeServiceForm()"></div>
     <script src="../JS/services.js"></script>
-</body>
 </html>

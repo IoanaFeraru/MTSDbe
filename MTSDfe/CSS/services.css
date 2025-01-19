@@ -4,6 +4,7 @@ body {
     background-color: #f9f9f9;
     overflow: hidden;
 }
+
 header {
     display: flex;
     justify-content: space-between;
@@ -12,7 +13,6 @@ header {
     background-color: #6c63ff;
     color: white;
 }
-
 
 #app-name {
     display: flex;
@@ -28,12 +28,10 @@ header {
     border: none;
 }
 
-
 #layout {
     display: flex;
-    height: calc(100vh - 60px); 
+    height: calc(100vh - 60px);
 }
-
 
 #side-menu {
     width: 200px;
@@ -43,10 +41,9 @@ header {
     padding: 10px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: fixed;
-    top: 103px; 
-    bottom: 0; 
+    top: 103px;
+    bottom: 0;
 }
-
 
 #side-menu a, #side-menu button {
     display: block;
@@ -68,7 +65,7 @@ header {
 }
 
 #side-menu #logout {
-    margin-top: auto; 
+    margin-top: auto;
     background-color: #ff4d4d;
     color: white;
 }
@@ -77,7 +74,6 @@ header {
     background-color: #ff3333;
 }
 
-
 .modal {
     display: none;
     position: fixed;
@@ -85,16 +81,40 @@ header {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
+    border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    max-width: 800px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
     padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .form-grid {
-    display: flex;
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+    column-gap: 30px;
 }
-
 
 .modal-overlay {
     position: fixed;
@@ -107,12 +127,11 @@ header {
     display: none;
 }
 
-
 #servicesList {
     list-style-type: none;
     padding: 0;
-    margin-top: 60px; 
-    margin-left: 220px; 
+    margin-top: 60px;
+    margin-left: 220px;
 }
 
 #servicesList li {
@@ -121,29 +140,29 @@ header {
 }
 
 #addServiceBtn {
-    position: relative; 
-    margin: 20px auto; 
-    margin-left: 250px; 
+    position: relative;
+    margin: 20px auto;
+    margin-left: 250px;
     padding: 10px 20px;
-    background-color: #6c63ff; 
-    color: white; 
+    background-color: #6c63ff;
+    color: white;
     border: none;
-    border-radius: 20px; 
+    border-radius: 20px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s; 
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 #addServiceBtn:hover {
-    background-color: #5848c2; 
-    transform: scale(1.05); 
+    background-color: #5848c2;
+    transform: scale(1.05);
 }
 
-#serviceFormContent {
+#serviceFormContent, #editServiceFormContent {
     background-color: #fff;
-    padding: 20px;
+    padding: 30px;
     border-radius: 8px;
-    width: 60%;
+    width: 90%;
     max-width: 800px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -155,53 +174,50 @@ header {
 
 #serviceFormContent input, 
 #serviceFormContent textarea {
-    width: 100%; 
-    padding: 8px; 
-    border: 1px solid #ccc; 
-    border-radius: 10px; 
-    background-color: white; 
-    color: black; 
-    font-size: 0.9rem; 
-    box-sizing: border-box; 
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    font-size: 0.9rem;
+    box-sizing: border-box;
 }
-
 
 #serviceFormContent label {
-    font-size: 0.9rem; 
+    font-size: 0.9rem;
     text-align: left;
-    width: 100%; 
+    width: 100%;
 }
-
 
 #serviceFormContent button {
-    padding: 8px 15px; 
+    padding: 8px 15px;
     border: none;
-    border-radius: 10px; 
-    font-size: 0.9rem; 
+    border-radius: 10px;
+    font-size: 0.9rem;
     cursor: pointer;
-    width: 100%; 
-    transition: background-color 0.3s, transform 0.2s; 
+    width: 100%;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
-
 #serviceFormContent button:first-of-type {
-    background-color: #85c1e9; 
-    color: white; 
+    background-color: #85c1e9;
+    color: white;
 }
 
 #serviceFormContent button:first-of-type:hover {
-    background-color: #5dade2; 
-    transform: scale(1.05); 
+    background-color: #5dade2;
+    transform: scale(1.05);
 }
 
 #serviceFormContent button:last-of-type {
-    background-color: #f1948a; 
+    background-color: #f1948a;
     color: white;
 }
 
 #serviceFormContent button:last-of-type:hover {
-    background-color: #ec7063; 
-    transform: scale(1.05); 
+    background-color: #ec7063;
+    transform: scale(1.05);
 }
 
 #serviceFormContent select {
@@ -213,9 +229,8 @@ header {
     color: black;
     font-size: 0.9rem;
     box-sizing: border-box;
-    
-    max-height: 200px; 
-    overflow-y: auto;  
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 #serviceFormContent select:focus {
@@ -223,10 +238,8 @@ header {
     border-color: #6c63ff;
 }
 
-
 #serviceFormContent select option {
     padding: 10px;
     background-color: white;
     color: black;
 }
-
