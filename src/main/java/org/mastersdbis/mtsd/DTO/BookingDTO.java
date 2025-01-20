@@ -20,8 +20,8 @@ import java.time.LocalTime;
 public class BookingDTO {
     private Integer id;
 
-    @NotNull(message = "User cannot be null.")
-    private int userId;
+    @NotNull(message = "Username cannot be null.")
+    private String username;
 
     @NotNull(message = "Service cannot be null.")
     private Integer serviceId;
@@ -43,7 +43,7 @@ public class BookingDTO {
     public static BookingDTO fromBooking(Booking booking) {
         BookingDTO bookingDTO = new BookingDTO();
         bookingDTO.setId(booking.getId());
-        bookingDTO.setUserId(booking.getUser() != null ? booking.getUser().getId() : null);
+        bookingDTO.setUsername(booking.getUser() != null ? booking.getUser().getUsername() : null);
         bookingDTO.setServiceId(booking.getService() != null ? booking.getService().getId() : null);
         bookingDTO.setDueDate(booking.getDueDate());
         bookingDTO.setDueTime(booking.getDueTime());

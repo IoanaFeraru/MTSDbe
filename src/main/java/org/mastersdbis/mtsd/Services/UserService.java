@@ -90,6 +90,13 @@ public class UserService {
         providerRepository.save(provider);
     }
 
+    public void updateProvider(Provider provider) {
+        User managedUser = userRepository.findById(provider.getUser().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Utilizatorul nu există"));
+        provider.setUser(managedUser);
+        providerRepository.save(provider);
+    }
+
     public List<User> searchByUsernamePattern(String pattern) {
         return userRepository.searchByUsernamePattern("%" + pattern.toLowerCase() + "%");
     }

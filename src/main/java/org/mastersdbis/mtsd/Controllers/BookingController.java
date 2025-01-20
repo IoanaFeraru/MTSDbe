@@ -8,11 +8,11 @@ import org.mastersdbis.mtsd.Services.BookingService;
 import org.mastersdbis.mtsd.Services.ServiceService;
 import org.mastersdbis.mtsd.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,8 +39,15 @@ public class BookingController {
     @PostMapping
     public ResponseEntity<String> addBooking(@RequestBody BookingDTO bookingDTO) {
         try {
-            User user = userService.findById(bookingDTO.getUserId());
+            User user = userService.findByUsername(bookingDTO.getUsername());
+            if (user == null) {
+                return ResponseEntity.badRequest().body("User not found.");
+            }
+
             Service service = serviceService.findById(bookingDTO.getServiceId());
+            if (service == null) {
+                return ResponseEntity.badRequest().body("Service not found.");
+            }
 
             Booking newBooking = BookingDTO.toBooking(bookingDTO, user, service);
             bookingService.updateBooking(newBooking);
@@ -94,10 +101,12 @@ public class BookingController {
         return ResponseEntity.ok(mapBookingsToDTOs(bookings));
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<BookingDTO>> getBookingsByUser() {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findByUsername(userDetails.getUsername());
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<BookingDTO>> getBookingsByUser(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Collections.emptyList());
+        }
 
         List<Booking> bookings = bookingService.findByClient(user);
         return ResponseEntity.ok(mapBookingsToDTOs(bookings));

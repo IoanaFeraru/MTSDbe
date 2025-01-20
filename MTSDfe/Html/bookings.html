@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/bookings.css">
+    <title>Services</title>
+</head>
+<body>
+   
+    <header>
+        <h1 id="app-name">
+            <img width="50" height="50" src="https://img.icons8.com/pieces/64/service.png" alt="service"/>
+            ServiceSphere
+        </h1>
+        <div id="search-bar">
+          <input type="text" id="search-input" placeholder="Search Services..">
+        </div>
+    </header>
+
+    <div id="layout">
+        <nav id="side-menu">
+            <a href="../Html/home.html">Home</a>
+            <a href="../Html/profile.html">My Profile</a>
+            <a href="../Html/services.html" id="services-link" style="display:none;">Add services</a>
+            <a href="../Html/inbox.html">Messages</a>
+            <a href="../Html/settings.html">Settings</a>
+            <button id="logout">Log Out</button>
+        </nav>
+
+        <main>
+            <div id="bookings-container">
+                <h2>My Bookings</h2>
+                <ul id="bookings-list"></ul>
+            </div>
+        </main>
+    </div>
+    
+    <script src="../JS/bookings.js"></script>
+</body>
+</html>
