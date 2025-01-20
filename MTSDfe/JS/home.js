@@ -1,34 +1,100 @@
-function getUserDataFromCookie() {
+document.addEventListener("DOMContentLoaded", async () => {
+    // Get cookie data
     const userCookie = document.cookie
         .split("; ")
         .find((row) => row.startsWith("userData="));
-
+    
     if (!userCookie) {
-        return null; 
+        // Redirect to login if no user data
+        window.location.href = "../Html/login.html";
+        return;
     }
 
+    // Parse user data from cookie
     const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
-    return userData;
-}
 
-async function fetchActiveServices() {
+    // Update user names
+    document.getElementById("user-name").textContent = userData.name || "Guest";
+    localStorage.setItem('username', userData.name);
+    console.log(localStorage.getItem('username'));
+
+
+    // Default user type
+    let usertype = "client";
+
     try {
-        const response = await fetch("http://localhost:8080/services/active", {
-            method: "GET", 
-            credentials: "include"
+        // Fetch user type
+        const userResponse = await fetch(`http://localhost:8080/users/providers/${userData.name}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
         });
-        const services = await response.json();
 
-        if (response.ok) {
-            updateCarouselWithResults(services);
+        if (userResponse.ok) {
+            const isProvider = await userResponse.json();
+            usertype = isProvider ? "provider" : "client";
+            localStorage.setItem('usertype', usertype); // Save the user type locally
+            console.log("User type:", usertype);
         } else {
-            console.error("Error fetching active services:", services);
+            console.error("Error fetching user type:", await userResponse.text());
         }
     } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching user data:", error);
+        alert("Failed to load user data. Please try again later.");
+        return;
     }
+
+    // Set up the page based on the user type
+    if (usertype === "client") {
+        setupClientView();
+    } else if (usertype === "provider") {
+        setupProviderView();
+    }
+
+    // Log-out button functionality
+    document.getElementById("logout").addEventListener("click", () => {
+        // Clear the user cookie and redirect
+        document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+        window.location.href = "../Html/landingpage.html";
+    });
+
+    // Add search functionality
+    const searchInput = document.getElementById("search-input");
+    searchInput.addEventListener("input", async () => {
+        const query = searchInput.value.trim();
+        if (query.length > 0) {
+            try {
+                const response = await fetch(`/services/search?query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateCarouselWithResults(data);
+                } else {
+                    console.error("Error fetching services:", data);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        } else {
+            clearCarousel();
+        }
+    });
+});
+
+// Function to set up the view for a client
+function setupClientView() {
+    console.log("Setting up client view.");
+    document.getElementById("client-section").style.display = "block";
+    document.getElementById("provider-section").style.display = "none";
 }
 
+// Function to set up the view for a provider
+function setupProviderView() {
+    console.log("Setting up provider view.");
+    document.getElementById("provider-section").style.display = "block";
+    document.getElementById("client-section").style.display = "none";
+}
+
+// Carousel code
 const carouselContainer = document.querySelector('.carousel-container');
 const prevButton = document.querySelector('.carousel-btn.prev');
 const nextButton = document.querySelector('.carousel-btn.next');
@@ -59,26 +125,16 @@ function updateCarouselWithResults(services) {
     carouselContainer.innerHTML = '';
 
     services.forEach(service => {
-        const truncatedDescription = service.description.length > 100 ? service.description.substring(0, 100) + '...' : service.description;
-
         const serviceCard = document.createElement("div");
         serviceCard.classList.add("service-card");
         serviceCard.innerHTML = `
-            <div class="service-image-placeholder">
-                <img src="https://via.placeholder.com/150" alt="Service Image" style="width:100%; height:100%; object-fit:cover;" /> <!-- Placeholder image -->
-            </div>
-            <h3>${service.name}</h3>
-            <p><strong>Description:</strong> ${truncatedDescription}</p>
-            <p><strong>Domain:</strong> ${service.domain}</p>
-            <p><strong>Subdomain:</strong> ${service.subdomain}</p>
-            <p><strong>Price:</strong> ${service.price} RON</p>
-            <p><strong>Region:</strong> ${service.region}</p>
+            <h3>${service.title}</h3>
+            <p>${service.description}</p>
         `;
         carouselContainer.appendChild(serviceCard);
     });
 
     totalSlides = services.length;
-
     updateCarousel();
 }
 
@@ -86,53 +142,3 @@ function clearCarousel() {
     carouselContainer.innerHTML = '';
     totalSlides = 0;
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-    const userData = getUserDataFromCookie();
-    
-    if (!userData) {
-        window.location.href = "../Html/login.html";
-        return;
-    }
-
-    document.getElementById("user-name").textContent = userData.name || "Guest";
-    localStorage.setItem('username', userData.name);
-    console.log(localStorage.getItem('username'));
-
-    const searchInput = document.getElementById("search-input");
-
-    searchInput.addEventListener("input", () => {
-        const query = searchInput.value.trim();
-        fetchServicesWithSearch(query);
-    });
-
-    document.getElementById("logout").addEventListener("click", () => {
-        document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-        window.location.href = "../Html/landingpage.html";
-    });
-
-    fetchActiveServices();
-});
-
-window.addEventListener('DOMContentLoaded', function () {
-    const userData = getUserDataFromCookie();
-
-    const username = userData.name;
-
-    fetch(`http://localhost:8080/users/check-provider?username=${username}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        credentials: 'same-origin'
-    })
-    .then(response => response.json())
-    .then(isProvider => {
-        if (isProvider) {
-            document.getElementById('services-link').style.display = 'block';
-        }
-    })
-    .catch(error => {
-        console.error('Error checking provider status:', error);
-    });
-});

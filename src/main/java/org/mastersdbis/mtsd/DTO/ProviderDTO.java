@@ -18,7 +18,7 @@ public class ProviderDTO {
     private int userId;
 
     @Size(max = 20, message = "CIF cannot exceed 20 characters.")
-    @Pattern(regexp = "^RO[0-9]{1,9}[0-9]$", message = "CIF-ul trebuie să fie în formatul RO urmat de 1 până la 9 cifre și o cifră de verificare.")
+    @Pattern(regexp = "^RO[0-9]{1,9}[0-9]$", message = "CIF-ul trebuie să fie în formatul RO urmat de 1 până la 9 cifre și o cifra de verificare.")
     private String cif;
 
     @Size(max = 100, message = "Company name cannot exceed 100 characters.")

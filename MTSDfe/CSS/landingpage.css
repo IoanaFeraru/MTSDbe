@@ -196,6 +196,7 @@ nav ul a:hover::after {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 750px;
 }
 
 .content-container {

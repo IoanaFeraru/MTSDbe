@@ -114,12 +114,18 @@ public class UserController {
         }
 
         Provider provider = userService.findProviderByUser(user);
-        if (provider == null) {
+        if (provider == null) { 
             return ResponseEntity.badRequest().body("The specified user is not a provider.");
         }
 
+        if (providerUpdateDTO.getCompanyName() != null) {
+            provider.setCompanyName(providerUpdateDTO.getCompanyName());
+        }
         if (providerUpdateDTO.getCompanyAdress() != null) {
             provider.setCompanyAdress(providerUpdateDTO.getCompanyAdress());
+        }
+        if (providerUpdateDTO.getCif() != null) {
+            provider.setCif(providerUpdateDTO.getCif());
         }
         if (providerUpdateDTO.getServiceDomain() != null) {
             provider.setServiceDomain(providerUpdateDTO.getServiceDomain());
@@ -128,9 +134,10 @@ public class UserController {
             provider.setBankIBAN(providerUpdateDTO.getBankIBAN());
         }
 
-        userService.addProvider(provider);
+        userService.updateProvider(provider);
         return ResponseEntity.ok("Provider updated successfully.");
     }
+
 
     @PutMapping("/providers/{providerId}/validate")
     public ResponseEntity<?> validateProvider(@PathVariable Integer providerId) {

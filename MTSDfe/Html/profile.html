@@ -7,6 +7,20 @@
     <title>Profile Page</title>
 </head>
 <body>
+    <header>
+        <h1 id="app-name">
+            <img width="60" height="60" src="https://img.icons8.com/pieces/64/service.png" alt="service"/>
+            ServiceSphere
+        </h1>
+    </header>
+    <div id="layout">
+    <nav id="side-menu">
+        <a href="../Html/home.html">Home</a>
+        <a href="../Html/services.html">Services</a>
+        <a href="../Html/inbox.html">Messages</a>
+        <a href="../Html/settings.html">Settings</a>
+        <button id="logout">Log Out</button>
+    </nav>
 <div class="profile-container">
     <h2>Welcome, <span id="user-name"></span>!</h2>
     <div class="form-container">
@@ -29,7 +43,11 @@
                 <input id="companyAddress" type="text" name="companyAddress" placeholder="Company Address" />
                 <input id="serviceDomain" type="text" name="serviceDomain" placeholder="Service Domain" />
                 <input id="bankIban" type="text" name="bankIban" placeholder="Bank IBAN" />
-                <button type="button" id="saveProviderButton">Save Provider Details</button>
+                <div id="providerButtonsContainer">
+                    <button type="button" id="saveProviderButton">Save Provider Details</button>
+                    <button type="button" id="cancelProviderButton">Cancel</button>
+                </div>
+                
             </div>
             
             <div id="passwordChangeContainer" style="display:none;">
@@ -39,6 +57,7 @@
             
         </form>
     </div>
+</div>
 </div>
 <script src="../JS/profile.js"></script>
 </body>
