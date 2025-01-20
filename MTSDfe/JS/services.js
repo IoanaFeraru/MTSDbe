@@ -7,20 +7,80 @@ function closeServiceForm() {
 }
 
 const subdomains = {
-  ARTISTICE: ["Fotografie artistică", "Pictură", "Muzică", "Teatru", "Dans", "Diverse"],
-  CONSTRUCTII: ["Reparații", "Construcții noi", "Planificare proiecte", "Renovare", "Diverse"],
-  EDUCATIE: ["Meditații", "Cursuri de sprijin", "Formare profesională", "Tutori", "Diverse"],
-  INTRETINERE_SI_REPARARE: ["Reparații aparatură", "Întreținere auto", "Reparații electrice", "Diverse"],
-  INFRUMUSETARE: ["Frizuri", "Manichiură", "Makeup", "Tratamente", "Diverse"],
-  SANATATE: ["Tratamente", "Terapie fizică", "Diverse"],
-  TRANSPORT: ["Transport persoane", "Transport marfă", "Diverse"],
-  FINANCIARE: ["Consultanță fiscală", "Asigurări", "Planificare financiară", "Diverse"],
-  INFORMATICE: ["Web design", "Dezvoltare software", "Securitate", "Diverse"],
-  CONTABILE_SI_DE_CONSULTANTA: ["Servicii contabile", "Consultanță juridică", "Planificare fiscală", "Diverse"],
-  EVENIMENTE: ["Organizare nuntă", "Conferințe", "Diverse"],
-  ARCHITECTURA_SI_INGINERIE: ["Proiectare arhitecturală", "Consultanță inginerie", "Diverse"],
-  DIVERSE: ["Diverse"]
+    ARTISTICE: ["Fotografie artistica", "Pictura", "Muzica", "Teatru", "Dans", "Diverse"],
+    CONSTRUCȚII: ["Reparatii", "Constructii noi", "Planificare proiecte", "Renovare", "Diverse"],
+    EDUCAȚIE: ["Meditatii", "Cursuri de sprijin", "Formare profesionala", "Tutori", "Diverse"],
+    INTREȚINERE_SI_REPARARE: ["Reparatii aparatura", "Intretinere auto", "Reparatii electrice", "Reparatii mecanice", "Reparatii instalatii", "Diverse"],
+    INFRUMUSEȚARE: ["Frizuri", "Manichiura", "Makeup", "Tratamente", "Diverse"],
+    SĂNĂTATE: ["Tratamente", "Terapie fizica", "Diverse"],
+    TRANSPORT: ["Transport persoane", "Transport marfa", "Transport medical", "Diverse"],
+    FINANCIARE: ["Consultanta fiscala", "Asigurari", "Planificare financiara", "Finante personale", "Diverse"],
+    INFORMATICE: ["Web design", "Dezvoltare software", "Administrare retele", "Securitate informatiilor", "Dezvoltare aplicatii mobile", "Data science", "Machine learning", "Diverse"],
+    CONTABILE_SI_DE_CONSULTANȚĂ: ["Servicii contabile", "Consultanta juridica", "Planificare fiscala", "Consultanta financiara", "Diverse"],
+    EVENIMENTE: ["Organizare nunta", "Organizare conferinte", "Planificare evenimente corporative", "Diverse"],
+    ARCHITECTURA_SI_INGINERIE: ["Proiectare arhitecturala", "Consultanta inginerie", "Diverse"],
+    TRATAMENT_DEȘEURI: ["Diverse"],
+    PERSONALE: ["Diverse"],
+    PUBLICITATE_CERCETARE_DE_PIATĂ_SI_SONDAJE_DE_OPINIE: ["Diverse"]
 };
+
+const subdomainMapping = {
+    "Fotografie artistica": "ARTISTICE_fotografie_artistica",
+    "Pictura": "ARTISTICE_pictura",
+    "Muzica": "ARTISTICE_muzica",
+    "Teatru": "ARTISTICE_teatru",
+    "Dans": "ARTISTICE_dans",
+    "Diverse": "ARTISTICE_diverse",
+    "Reparatii": "CONSTRUCTII_reparatii",
+    "Constructii noi": "CONSTRUCTII_constructii_noua",
+    "Planificare proiecte": "CONSTRUCTII_planificare_proiecte",
+    "Renovare": "CONSTRUCTII_renovare",
+    "Meditatii": "EDUCATIE_meditatii",
+    "Cursuri de sprijin": "EDUCATIE_cursuri_de_sprijin",
+    "Formare profesionala": "EDUCATIE_formare_profesionala",
+    "Tutori": "EDUCATIE_tutori",
+    "Reparatii aparatura": "INTRETINERE_SI_REPARARE_reparatii_aparatura",
+    "Intretinere auto": "INTRETINERE_SI_REPARARE_intretinere_auto",
+    "Reparatii electrice": "INTRETINERE_SI_REPARARE_reparatii_electrice",
+    "Reparatii mecanice": "INTRETINERE_SI_REPARARE_reparatii_mecanice",
+    "Reparatii instalatii": "INTRETINERE_SI_REPARARE_reparatii_instalatii",
+    "Frizuri": "INFRUMUSEȚARE_frizuri",
+    "Manichiura": "INFRUMUSEȚARE_manicura",
+    "Makeup": "INFRUMUSEȚARE_makeup",
+    "Tratamente": "INFRUMUSEȚARE_tratamente",
+    "Tratamente": "SANATATE_tratamente",
+    "Terapie fizica": "SANATATE_terapie_fizica",
+    "Transport persoane": "TRANSPORT_transport_persone",
+    "Transport marfa": "TRANSPORT_transport_marfa",
+    "Transport medical": "TRANSPORT_transport_medical",
+    "Consultanta fiscala": "FINANCIARE_consultanta_fiscala",
+    "Asigurari": "FINANCIARE_asigurari",
+    "Planificare financiara": "FINANCIARE_planificare_financiara",
+    "Finante personale": "FINANCIARE_finante_personale",
+    "Web design": "INFORMATICE_web_design",
+    "Dezvoltare software": "INFORMATICE_dezvoltare_soft",
+    "Administrare retele": "INFORMATICE_administare_retele",
+    "Securitate informatiilor": "INFORMATICE_securitate_informatiilor",
+    "Dezvoltare aplicatii mobile": "INFORMATICE_dezvoltare_aplicatii_mobile",
+    "Data science": "INFORMATICE_data_science",
+    "Machine learning": "INFORMATICE_machine_learning",
+    "Servicii contabile": "CONTABILE_SI_DE_CONSULTANTA_servicii_contabile",
+    "Consultanta juridica": "CONTABILE_SI_DE_CONSULTANTA_consultanta_juridica",
+    "Planificare fiscala": "CONTABILE_SI_DE_CONSULTANTA_planificare_fiscala",
+    "Consultanta financiara": "CONTABILE_SI_DE_CONSULTANTA_consultanta_financiara",
+    "Organizare nunta": "EVENIMENTE_organizare_nunta",
+    "Organizare conferinte": "EVENIMENTE_organizare_conferinte",
+    "Planificare evenimente corporative": "EVENIMENTE_planificare_evenimente_corporative",
+    "Proiectare arhitecturala": "ARCHITECTURA_SI_INGINERIE_proiectare_architecturala",
+    "Consultanta inginerie": "ARCHITECTURA_SI_INGINERIE_consultanta_inginerie",
+    "Diverse": "DIVERSE"
+};
+
+function getMappedSubdomain(displayName) {
+  return subdomainMapping[displayName] || null;
+}
+
+//problema de reload
 
 function populateSubdomains() {
   const domainSelect = document.getElementById("domain");
@@ -44,6 +104,12 @@ document.getElementById("logout").addEventListener("click", () => {
   window.location.href = "../Html/landingpage.html";
 });
 
+
+function closeMessageModal() {
+  const modal = document.getElementById("messageModal");
+  modal.style.display = "none";
+}
+
 function saveService() {
   const userCookie = document.cookie
       .split("; ")
@@ -56,11 +122,20 @@ function saveService() {
 
   const userData = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
 
+  const selectedSubdomain = document.getElementById("subdomain").value;
+  const mappedSubdomain = getMappedSubdomain(selectedSubdomain); 
+
+  if (!mappedSubdomain) {
+      console.error("Invalid subdomain selected:", selectedSubdomain);
+      showMessageModal("Subdomeniul selectat este invalid.");
+      return; 
+  }
+
   const serviceData = {
       name: document.getElementById("name").value,
       description: document.getElementById("description").value,
       domain: document.getElementById("domain").value,
-      subdomain: document.getElementById("subdomain").value,
+      subdomain: mappedSubdomain,
       price: parseFloat(document.getElementById("price").value),
       region: document.getElementById("region").value,
       acceptedPaymentMethods: document.getElementById("acceptedPaymentMethods").value.split(","),
@@ -84,12 +159,12 @@ function saveService() {
           }
       })
       .then((message) => {
-          alert(message); 
+          showMessageModal(message); 
           closeServiceForm();
       })
       .catch((error) => {
           console.error(error);
-          alert("A apărut o eroare la salvarea serviciului.");
+          showMessageModal("A apărut o eroare la salvarea serviciului.");
       });
 }
 
@@ -128,14 +203,16 @@ function loadServices() {
 
 function displayServices(services) {
   const servicesList = document.getElementById('servicesList');
-  servicesList.innerHTML = '';  // Clear previous content
+  servicesList.innerHTML = ''; 
 
   services.forEach(service => {
       const li = document.createElement('li');
       li.id = `service-${service.id}`;
+      li.classList.add('service-item');
 
       const serviceDetails = document.createElement('div');
-      
+      serviceDetails.classList.add('service-details');
+
       serviceDetails.innerHTML = `
           <strong>Name:</strong> ${service.name} <br>
           <strong>Domain:</strong> ${service.domain} <br>
@@ -164,6 +241,7 @@ function displayServices(services) {
       servicesList.appendChild(li);
   });
 }
+
 
 function deleteService(serviceId) {
   const confirmation = confirm('Are you sure you want to delete this service?');
@@ -250,21 +328,25 @@ function submitEditService(event) {
     credentials: 'include',
     body: JSON.stringify(updatedService),
   })
-    .then(response => response.text())  
+    .then(response => response.json())
     .then(data => {
-      try {
-        const parsedData = JSON.parse(data);
-        alert(parsedData.message); 
-        location.reload();
-      } catch (error) {
-        alert('Error: ' + data);
+      if (data.message) {
+        showMessageModal(data.message);
       }
+      location.reload();
     })
     .catch(error => {
-      alert('Error: ' + error.message);
+      showMessageModal('Error: ' + error.message);
     });
 
-    closeServiceForm()
+  closeServiceForm();
+}
+
+function showMessageModal(message) {
+  const modal = document.getElementById("messageModal");
+  const modalMessage = document.getElementById("modalMessage");
+  modalMessage.textContent = message;
+  modal.style.display = "block";
 }
 
 window.onload = loadServices;
