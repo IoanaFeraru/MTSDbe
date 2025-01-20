@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     // Get cookie data
     const userCookie = document.cookie
         .split("; ")
@@ -18,9 +18,41 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem('username', userData.name);
     console.log(localStorage.getItem('username'));
 
+
+    // Default user type
+    let usertype = "client";
+
+    try {
+        // Fetch user type from the server
+        const userResponse = await fetch(`http://localhost:8080/users/providers/${userData.name}`, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+        });
+
+        if (userResponse.ok) {
+            const isProvider = await userResponse.json();
+            usertype = isProvider ? "provider" : "client";
+            localStorage.setItem('usertype', usertype); // Save the user type locally
+            console.log("User type:", usertype);
+        } else {
+            console.error("Error fetching user type:", await userResponse.text());
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        alert("Failed to load user data. Please try again later.");
+        return;
+    }
+
+    // Set up the page based on the user type
+    if (usertype === "client") {
+        setupClientView();
+    } else if (usertype === "provider") {
+        setupProviderView();
+    }
+
     // Log-out button functionality
     document.getElementById("logout").addEventListener("click", () => {
-        // Clear the user cookie
+        // Clear the user cookie and redirect
         document.cookie = "userData=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC";
         window.location.href = "../Html/landingpage.html";
     });
@@ -31,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const query = searchInput.value.trim();
         if (query.length > 0) {
             try {
-                // Update fetch URL to match your @RequestMapping "/services"
                 const response = await fetch(`/services/search?query=${encodeURIComponent(query)}`);
                 const data = await response.json();
 
@@ -44,11 +75,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Error:", error);
             }
         } else {
-            // Clear results if search bar is empty
             clearCarousel();
         }
     });
 });
+
+// Function to set up the view for a client
+function setupClientView() {
+    console.log("Setting up client view.");
+    document.getElementById("client-section").style.display = "block";
+    document.getElementById("provider-section").style.display = "none";
+}
+
+// Function to set up the view for a provider
+function setupProviderView() {
+    console.log("Setting up provider view.");
+    document.getElementById("provider-section").style.display = "block";
+    document.getElementById("client-section").style.display = "none";
+}
 
 // Carousel code
 const carouselContainer = document.querySelector('.carousel-container');
@@ -56,7 +100,7 @@ const prevButton = document.querySelector('.carousel-btn.prev');
 const nextButton = document.querySelector('.carousel-btn.next');
 
 let currentSlide = 0;
-let totalSlides = 0; // This will be dynamically set based on the search results
+let totalSlides = 0;
 
 prevButton.addEventListener('click', () => {
     if (currentSlide > 0) {
@@ -78,10 +122,8 @@ function updateCarousel() {
 }
 
 function updateCarouselWithResults(services) {
-    // Clear current carousel items
     carouselContainer.innerHTML = '';
 
-    // Populate the carousel with new service cards based on the search results
     services.forEach(service => {
         const serviceCard = document.createElement("div");
         serviceCard.classList.add("service-card");
@@ -92,15 +134,11 @@ function updateCarouselWithResults(services) {
         carouselContainer.appendChild(serviceCard);
     });
 
-    // Update the total number of slides for navigation
     totalSlides = services.length;
-
-    // Recalculate the carousel layout
     updateCarousel();
 }
 
-// Function to clear the carousel
 function clearCarousel() {
     carouselContainer.innerHTML = '';
-    totalSlides = 0; // Reset total slides when clearing the carousel
+    totalSlides = 0;
 }

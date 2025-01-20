@@ -40,6 +40,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void updateProvider(Provider provider) {
+        User managedUser = userRepository.findById(provider.getUser().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Utilizatorul nu există"));
+        provider.setUser(managedUser);
+        providerRepository.save(provider);
+    }
     public void updateUser(User user) {
         userRepository.save(user);
     }

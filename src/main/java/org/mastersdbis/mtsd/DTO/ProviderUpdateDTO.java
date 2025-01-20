@@ -22,4 +22,10 @@ public class ProviderUpdateDTO {
     private String bankIBAN;
 
     private ServiceDomain serviceDomain;
+
+    @Size(max = 100, message = "Company name cannot exceed 100 characters.")
+    private String companyName;
+
+    @Size(max = 20, message = "CIF cannot exceed 20 characters.")
+    private String cif;
 }
