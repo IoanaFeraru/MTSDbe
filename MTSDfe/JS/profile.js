@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const newPasswordInput = document.getElementById("newPassword");
     const changePasswordButton = document.getElementById("changePasswordButton");
     const passwordChangeContainer = document.getElementById("passwordChangeContainer");
+
     // URL-ul API pentru utilizatorul autentic
     const userApiUrl = `http://localhost:8080/users/${username}`;
     const providerApiUrl = `http://localhost:8080/users/providers/${username}`;

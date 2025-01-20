@@ -114,5 +114,5 @@ public class UserService {
     }
 
     //TODO implementare exceptii
-    //TODO future - statistici provider (prin query uri, o sa fie probabil cand ne apucam de frontend)
+
 }

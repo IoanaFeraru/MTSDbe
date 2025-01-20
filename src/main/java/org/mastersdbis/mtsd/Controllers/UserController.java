@@ -114,7 +114,7 @@ public class UserController {
         }
 
         Provider provider = userService.findProviderByUser(user);
-        if (provider == null) {
+        if (provider == null) { 
             return ResponseEntity.badRequest().body("The specified user is not a provider.");
         }
 

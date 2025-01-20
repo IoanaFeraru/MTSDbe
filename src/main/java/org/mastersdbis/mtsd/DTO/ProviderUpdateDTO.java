@@ -18,7 +18,7 @@ public class ProviderUpdateDTO {
     private String companyAdress;
 
     @Size(max = 50, message = "IBAN cannot exceed 50 characters.")
-    @Pattern(regexp = "^[A-Z]{2}\\d{2}[A-Z0-9]{1,30}$", message = "IBAN-ul trebuie să fie în formatul internațional, începând cu două litere de țară și urmate de cifre.")
+    @Pattern(regexp = "^[A-Z]{2}\\d{2}[A-Z0-9]{1,30}$", message = "IBAN-ul trebuie să fie în formatul internațional, începând cu două litere de țară și urmat de cifre.")
     private String bankIBAN;
 
     private ServiceDomain serviceDomain;

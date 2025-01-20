@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     let usertype = "client";
 
     try {
-        // Fetch user type from the server
+        // Fetch user type
         const userResponse = await fetch(`http://localhost:8080/users/providers/${userData.name}`, {
             method: "GET",
             headers: { "Content-Type": "application/json" },
