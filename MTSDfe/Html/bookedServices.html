@@ -23,18 +23,19 @@
             <a href="../Html/home.html">Home</a>
             <a href="../Html/profile.html">My Profile</a>
             <a href="../Html/services.html" id="services-link" style="display:none;">Add services</a>
+            <a href="../Html/bookings.html">Bookings</a>
             <a href="../Html/settings.html">Settings</a>
             <button id="logout">Log Out</button>
         </nav>
 
         <main>
             <div id="bookings-container">
-                <h2>My Bookings</h2>
-                <ul id="bookings-list"></ul>
+                <h2>Booked Services</h2>
+                <ul id="Servicebookings-list"></ul>
             </div>
         </main>
     </div>
-
+    
     <div id="booking-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-modal">&times;</span>
@@ -42,9 +43,28 @@
             <div id="modal-content"></div>
             <h3>Tasks:</h3>
             <ul id="tasks-list"></ul>
+            <button id="add-task-btn">Add Task</button>
+            <button id="complete-booking-btn">Complete Booking</button>
         </div>
     </div>
-    
+
+    <div id="add-task-modal" class="modal">
+        <div class="modal-contentTASK">
+            <span class="close-btn" id="close-add-task-modal">&times;</span>
+            <h3>Add New Task</h3>
+            <form id="add-task-form">
+                <label for="description">Description:</label>
+                <input type="text" id="description" name="description" maxlength="200" placeholder="Enter task description" required>
+            
+                <label for="due-date">Due Date:</label>
+                <input type="date" id="due-date" name="due-date" required>
+            
+                <button type="submit">Add Task</button>
+            </form>
+        </div>
+    </div>
+
     <script src="../JS/bookings.js"></script>
+    <script src="../JS/task.js"></script>
 </body>
 </html>

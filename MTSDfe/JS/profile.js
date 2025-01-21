@@ -379,3 +379,44 @@ cancelEditProviderButton.addEventListener("click", () => {
         window.location.href = "../Html/landingpage.html";
     });
 });
+
+function getUserDataFromCookie() {
+    const userCookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("userData="));
+
+    if (!userCookie) {
+        return null; 
+    }
+
+    return JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+    const userData = getUserDataFromCookie();
+
+    if (!userData) {
+        console.error('User data not found.');
+        return;
+    }
+
+    const username = userData.name;
+
+    fetch(`http://localhost:8080/users/check-provider?username=${username}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(isProvider => {
+        if (isProvider) {
+            document.getElementById('services-link').style.display = 'block';
+            this.document.getElementById('bookings-link').style.display = 'block';
+        }
+    })
+    .catch(error => {
+        console.error('Error checking provider status:', error);
+    });
+});

@@ -6,6 +6,7 @@ import org.mastersdbis.mtsd.Entities.Booking.BookingState;
 import org.mastersdbis.mtsd.Entities.Service.ServiceType;
 import org.mastersdbis.mtsd.Entities.Payment.Payment;
 import org.mastersdbis.mtsd.Entities.Service.Service;
+import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Repositories.BookingRepository;
 import org.mastersdbis.mtsd.Repositories.PaymentRepository;
@@ -113,11 +114,11 @@ public class BookingService {
         return bookingRepository.findByUser(client);
     }
 
-    public List<Booking> findByProvider(User provider) {
+    public List<Booking> findByProvider(Provider provider) {
         return bookingRepository.findByServiceProvider(provider);
     }
 
-    public List<Booking> findByProviderAndStatus(User provider, BookingState status) {
+    public List<Booking> findByProviderAndStatus(Provider provider, BookingState status) {
         return bookingRepository.findByServiceProviderAndBookingState(provider, status);
     }
 

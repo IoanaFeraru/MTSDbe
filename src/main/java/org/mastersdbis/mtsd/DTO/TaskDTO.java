@@ -17,10 +17,7 @@ import java.time.LocalDate;
 public class TaskDTO {
     private Integer taskNumber;
     private Integer bookingId;
-
     private String description;
-
-    @NotNull(message = "Status cannot be null.")
     private TaskState status;
 
     @NotNull(message = "Due date cannot be null.")

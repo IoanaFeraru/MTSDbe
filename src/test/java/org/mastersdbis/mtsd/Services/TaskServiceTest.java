@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Task.Task;
+import org.mastersdbis.mtsd.Entities.Task.TaskId;
 import org.mastersdbis.mtsd.Entities.Task.TaskState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -69,7 +70,8 @@ class TaskServiceTest {
     void manageTaskState() {
         Booking existingBooking = bookingService.findAllBookings().getLast();
         Task task = taskService.findByBooking(existingBooking).getLast();
-        taskService.manageTaskState(task, TaskState.DONE);
+        TaskId taskId = (TaskId) task.getId();
+        taskService.manageTaskState(task.getBooking().getId(), taskId.getTaskNumber(), TaskState.DONE);
         Assertions.assertEquals(TaskState.DONE,taskService.findByBooking(existingBooking).getLast().getStatus(),"Status nu a fost modificat");
         System.out.println("Statusul taskului a fost modificat! " + taskService.findByBooking(existingBooking).getLast());
     }

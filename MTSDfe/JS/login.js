@@ -17,6 +17,7 @@ form.addEventListener('submit', async (event) => {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: formData.toString(),
+            credentials: 'include',
         });
 
         if (response.ok) {

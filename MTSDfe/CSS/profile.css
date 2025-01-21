@@ -5,7 +5,6 @@ body {
     overflow: hidden;
 }
 
-
 header {
     display: flex;
     justify-content: space-between;
@@ -13,6 +12,7 @@ header {
     padding: 10px 20px;
     background-color: #6c63ff;
     color: white;
+    height: 82px;
 }
 #app-name {
     display: flex;

@@ -169,6 +169,7 @@ window.addEventListener('DOMContentLoaded', function () {
     .then(isProvider => {
         if (isProvider) {
             document.getElementById('services-link').style.display = 'block';
+            this.document.getElementById('bookings-link').style.display = 'block';
         }
     })
     .catch(error => {
@@ -264,17 +265,7 @@ function setupProviderView() {
     document.getElementById("client-section").style.display = "none";
 }
 
-function setupClientView() {
-    console.log("Setting up client view.");
-    document.getElementById("client-section").style.display = "block";
-    document.getElementById("provider-section").style.display = "none";
-}
 
-function setupProviderView() {
-    console.log("Setting up provider view.");
-    document.getElementById("provider-section").style.display = "block";
-    document.getElementById("client-section").style.display = "none";
-}
 
 /*
 

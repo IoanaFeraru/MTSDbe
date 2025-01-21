@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @SpringBootTest
 public class PaymentServiceTest {
@@ -21,18 +22,26 @@ public class PaymentServiceTest {
 
     @Test
     void processPayment() {
-        Booking booking = bookingService.findAllBookings().getLast();
-        Payment payment = new Payment();
-        payment.setBooking(booking);
-        payment.setPaymentDate(LocalDate.now());
-        payment.setAmount(booking.getPrice());
-        payment.setPaymentMethod(PaymentMethod.BANK_TRANSFER);
-        payment.setPaymentState(PaymentState.ACCEPTED);
+        Optional<Booking> optionalBooking = bookingService.findById(5);
 
-        paymentService.processPayment(booking, payment);
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
 
-        Assertions.assertNotNull(paymentService.findByBooking(booking), "Paymentul nu a fost creat");
+            Payment payment = new Payment();
+            payment.setBooking(booking);
+            payment.setPaymentDate(LocalDate.now());
+            payment.setAmount(booking.getPrice());
+            payment.setPaymentMethod(PaymentMethod.BANK_TRANSFER);
+            payment.setPaymentState(PaymentState.ACCEPTED);
 
-        System.out.println("Paymentul a fost creat" + payment);
+            paymentService.processPayment(booking, payment);
+
+            Assertions.assertNotNull(paymentService.findByBooking(booking), "Paymentul nu a fost creat");
+
+            System.out.println("Paymentul a fost creat" + payment);
+        } else {
+            Assertions.fail("Booking not found");
+        }
     }
+
 }

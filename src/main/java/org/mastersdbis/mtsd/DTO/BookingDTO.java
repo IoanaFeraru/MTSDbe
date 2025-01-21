@@ -26,6 +26,8 @@ public class BookingDTO {
     @NotNull(message = "Service cannot be null.")
     private Integer serviceId;
 
+    private String serviceName;
+
     @FutureOrPresent(message = "Due date must be in the present or future.")
     private LocalDate dueDate;
 
@@ -45,6 +47,7 @@ public class BookingDTO {
         bookingDTO.setId(booking.getId());
         bookingDTO.setUsername(booking.getUser() != null ? booking.getUser().getUsername() : null);
         bookingDTO.setServiceId(booking.getService() != null ? booking.getService().getId() : null);
+        bookingDTO.setServiceName(booking.getService() != null ? booking.getService().getName() : null);
         bookingDTO.setDueDate(booking.getDueDate());
         bookingDTO.setDueTime(booking.getDueTime());
         bookingDTO.setDeliveryAddress(booking.getDeliveryAddress());

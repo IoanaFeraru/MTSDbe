@@ -37,7 +37,8 @@ public class TaskService {
         }
     }
 
-    public void manageTaskState(Task task, TaskState state) {
+    public void manageTaskState(Integer taskNumber, Integer bookingId, TaskState state) {
+        Task task = taskRepository.findById_BookingIdAndId_taskNumber(taskNumber, bookingId);
         task.setStatus(state);
         taskRepository.save(task);
     }
@@ -51,6 +52,7 @@ public class TaskService {
             task.setId(new TaskId());
         }
 
+        task.setStatus(TaskState.TODO);
         Integer maxTaskNumber = taskRepository.findMaxTaskNumberByBookingId(task.getBooking().getId());
         int taskNumber;
         if(maxTaskNumber == null) {

@@ -12,6 +12,8 @@ header {
     padding: 10px 20px;
     background-color: #6c63ff;
     color: white;
+    position: fixed;
+    width: 100%;
 }
 
 #app-name {
@@ -77,21 +79,291 @@ header {
 
 #bookings-container {
     margin: 20px;
-    margin-left: 300px;
-    margin-top: 200px;
-    padding: 10px;
-    border-radius: 5px;
+    margin-left: 250px;
+    margin-top: 120px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#bookings-list {
+#Servicebookings-list, #bookings-list {
     list-style-type: none;
     padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
-#bookings-list li {
-    margin: 10px 0;
-    padding: 5px;
+#Servicebookings-list li, #bookings-list li {
+    margin: 0;
+    padding: 15px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
-    color: black;
+    border-radius: 8px;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#Servicebookings-list li:hover, #bookings-list li:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+#Servicebookings-list li p, #bookings-list li p {
+    margin: 5px 0;
+    font-size: 1rem;
+}
+
+#Servicebookings-list li .booking-header, #bookings-list li .booking-header {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#Servicebookings-list li .service-info, #bookings-list li .service-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+#Servicebookings-list li .service-info span, #bookings-list li .service-info span{
+    margin-left: 15px;
+}
+
+#Servicebookings-list li .price, #bookings-list li .price{
+    font-weight: bold;
+    color: #6c63ff;
+}
+
+#Servicebookings-list li .booking-state, #bookings-list li .booking-state{
+    font-weight: bold;
+    color: #ff7043;
+    margin-top: 10px;
+}
+
+.booking-details {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    color: #555;
+}
+
+.booking-details p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+    #Servicebookings-list, #bookings-list {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+@media (max-width: 600px) {
+    #Servicebookings-list, #bookings-list {
+        grid-template-columns: 1fr; 
+    }
+}
+
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 40px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.modal-contentTASK {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    width: 40%;
+    max-width: 600px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    margin-top: 16%;
+    margin-left: 28.5%;
+    position: absolute;
+}
+
+.close-btn {
+    color: #333;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #ff7043;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content h2, .modal-content h3 {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+#modal-content p {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+#modal-content {
+    background-color: #f7f7f7;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#tasks-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+#tasks-list li {
+    background-color: #f9f9f9;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#tasks-list li:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+#tasks-list li select {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+#tasks-list li select:hover {
+    background-color: #e0e0e0;
+}
+
+button#complete-booking-btn {
+    background-color: #6c63ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+button#complete-booking-btn:hover {
+    background-color: #5a54e7;
+}
+
+button#add-task-btn {
+    background-color: #ff7043;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+button#add-task-btn:hover {
+    background-color: #ff5722;
+}
+
+#add-task-modal .modal-content {
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#add-task-form label {
+    font-size: 1rem;
+    color: #333;
+}
+
+#add-task-form input[type="text"], #add-task-form input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+#add-task-form button {
+    background-color: #6c63ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+#add-task-form button:hover {
+    background-color: #5a54e7;
+}
+
+#add-task-form label {
+    display: block; 
+    margin-bottom: 5px; 
+    font-size: 1rem;
+    color: #333;
+}
+
+#add-task-form input[type="text"], #add-task-form input[type="date"] {
+    width: 80%; 
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+#description {
+    max-width: 100%; 
 }

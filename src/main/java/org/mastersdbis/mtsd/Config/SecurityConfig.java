@@ -42,7 +42,7 @@ public class SecurityConfig {
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .requestMatchers("/provider/**").hasRole("PROVIDER")
                             .requestMatchers("/users/addProvider").hasRole("CLIENT")
-                            .requestMatchers("/users/**").permitAll()
+                            .requestMatchers("/users/**", "/tasks/**").permitAll()
                             .requestMatchers("/users/providers/{providerId}/validate").hasAnyRole("ADMIN")
                             .requestMatchers("/users/providers/{providerId}/deny").hasAnyRole("ADMIN")
                             .anyRequest().authenticated();

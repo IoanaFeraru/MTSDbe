@@ -4,5 +4,6 @@ public enum TaskState {
     DONE,
     DOING,
     CANCELED,
-    OVERDUE
+    OVERDUE,
+    TODO
 }

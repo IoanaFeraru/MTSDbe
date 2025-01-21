@@ -7,6 +7,7 @@ import org.mastersdbis.mtsd.Entities.Task.TaskState;
 import org.mastersdbis.mtsd.Services.BookingService;
 import org.mastersdbis.mtsd.Services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,10 @@ public class TaskController {
     }
 
     @PutMapping("/manageState")
-    public ResponseEntity<Void> manageTaskState(@RequestBody TaskDTO taskDTO, @RequestParam TaskState state) {
-        Task task = taskDTO.toTask();
-        taskService.manageTaskState(task, state);
+    public ResponseEntity<Void> manageTaskState(@RequestParam Integer taskNumber,
+                                                @RequestParam Integer bookingId,
+                                                @RequestParam TaskState state) {
+        taskService.manageTaskState(taskNumber, bookingId, state);
         return ResponseEntity.ok().build();
     }
 
@@ -45,9 +47,15 @@ public class TaskController {
     @PostMapping("/add")
     public ResponseEntity<Void> addTask(@RequestBody TaskDTO taskDTO) {
         Task task = taskDTO.toTask();
+
+        Booking booking = bookingService.findById(taskDTO.getBookingId())
+                .orElseThrow(NoSuchElementException::new);
+
+        task.setBooking(booking);
         taskService.addTask(task);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteTask(@RequestBody TaskDTO taskDTO) {

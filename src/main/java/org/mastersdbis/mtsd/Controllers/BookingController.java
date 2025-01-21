@@ -3,6 +3,7 @@ package org.mastersdbis.mtsd.Controllers;
 import org.mastersdbis.mtsd.DTO.BookingDTO;
 import org.mastersdbis.mtsd.Entities.Booking.Booking;
 import org.mastersdbis.mtsd.Entities.Service.Service;
+import org.mastersdbis.mtsd.Entities.User.Provider.Provider;
 import org.mastersdbis.mtsd.Entities.User.User;
 import org.mastersdbis.mtsd.Services.BookingService;
 import org.mastersdbis.mtsd.Services.ServiceService;
@@ -13,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 //De testat tot
@@ -95,12 +98,6 @@ public class BookingController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<BookingDTO>> getAllBookings() {
-        List<Booking> bookings = bookingService.findAllBookings();
-        return ResponseEntity.ok(mapBookingsToDTOs(bookings));
-    }
-
     @GetMapping("/user/{username}")
     public ResponseEntity<List<BookingDTO>> getBookingsByUser(@PathVariable String username) {
         User user = userService.findByUsername(username);
@@ -123,25 +120,43 @@ public class BookingController {
         return ResponseEntity.ok(mapBookingsToDTOs(bookings));
     }
 
+    @GetMapping("/bookings/{bookingId}")
+    public ResponseEntity<BookingDTO> getBookingById(@PathVariable Integer bookingId) {
+        Booking booking = bookingService.findById(bookingId).orElse(null);
+        if (booking == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(BookingDTO.fromBooking(booking));
+    }
+
     @PutMapping("/{id}/complete")
-    public ResponseEntity<String> completeBooking(@PathVariable int id) {
+    public ResponseEntity<Map<String, String>> completeBooking(@PathVariable int id) {
         Booking booking = bookingService.findById(id).orElseThrow(() -> new IllegalArgumentException("Booking not found."));
         try {
             bookingService.completeBooking(booking);
-            return ResponseEntity.ok("Booking completed successfully.");
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Booking completed successfully.");
+
+            return ResponseEntity.ok(response);
         } catch (IllegalStateException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", e.getMessage());
+
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
 
-    @GetMapping("/provider/{providerId}")
-    public ResponseEntity<List<BookingDTO>> getBookingsByProvider(@PathVariable int providerId) {
-        User provider = userService.findById(providerId);
+    @GetMapping("/provider/{username}")
+    public ResponseEntity<List<BookingDTO>> getBookingsByProvider(@PathVariable String username) {
+        User user = userService.findByUsername(username);
+        Provider provider = userService.findProviderByUser(user);
         if (provider == null) {
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
         List<Booking> bookings = bookingService.findByProvider(provider);
         return ResponseEntity.ok(mapBookingsToDTOs(bookings));
     }
+
 }
