@@ -148,6 +148,7 @@ document.getElementById("booking-form").addEventListener("submit", async (e) => 
 
 document.getElementById('modal-close-btn').addEventListener('click', closeModal);
 
+//butoane nav in fct de provider
 window.addEventListener('DOMContentLoaded', function () {
     const userData = getUserDataFromCookie();
 

@@ -125,8 +125,11 @@ main {
     align-items:start;
     justify-content: left;
     height: 350px;
+    max-height: 350px;
+    min-height: 350px;
     width: 350px;
     cursor: pointer;
+    margin-bottom: -10px;
 }
 
 .service-card:hover {
@@ -141,8 +144,9 @@ main {
 .service-card p {
     font-size: 0.85em;
     color: #555;
-    line-height: 0.2;
+    line-height: 1;
     text-align: left;
+    margin-bottom: -5px;
 }
 
 .service-image-placeholder {
@@ -243,4 +247,105 @@ button:hover {
 
 #modal-close-btn:hover {
     background-color: #ff3333;
+}
+
+/*booking*/
+#booking-modal .modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#booking-modal h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#booking-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #555;
+}
+
+#booking-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+#booking-form input[type="text"], #booking-form input[type="date"], #booking-form input[type="time"], #booking-form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f4f4f4;
+}
+
+#booking-form input:focus {
+    border-color: #6c63ff;
+    outline: none;
+    background-color: #fff;
+}
+
+#booking-modal button {
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1rem;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#booking-modal button:hover {
+    background-color: #5a54e0;
+}
+
+#booking-close-btn {
+    background-color: #ff4d4d;
+    width: 100%;
+}
+
+#booking-close-btn:hover {
+    background-color: #ff3333;
+}
+
+#booking-form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+#booking-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#booking-modal button:focus {
+    outline: none;
+}
+
+#booking-close-btn {
+    margin-top: 20px;
 }

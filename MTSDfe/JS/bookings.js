@@ -210,6 +210,7 @@ window.addEventListener('DOMContentLoaded', function () {
     .then(isProvider => {
         if (isProvider) {
             document.getElementById('services-link').style.display = 'block';
+            document.getElementById('bookings-link').style.display = 'block';
         }
     })
     .catch(error => {

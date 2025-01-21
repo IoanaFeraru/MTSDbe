@@ -80,8 +80,6 @@ function getMappedSubdomain(displayName) {
   return subdomainMapping[displayName] || null;
 }
 
-//problema de reload
-
 function populateSubdomains() {
   const domainSelect = document.getElementById("domain");
   const subdomainSelect = document.getElementById("subdomain");
@@ -161,6 +159,7 @@ function saveService() {
       .then((message) => {
           showMessageModal(message); 
           closeServiceForm();
+          loadServices();
       })
       .catch((error) => {
           console.error(error);
@@ -222,13 +221,11 @@ function displayServices(services) {
           <strong>Status:</strong> ${service.active ? 'Active' : 'Inactive'} <br>
       `;
       
-      // Create Edit button
       const editButton = document.createElement('button');
       editButton.textContent = 'Edit';
       editButton.classList.add('edit-button');
       editButton.onclick = () => editService(service); 
       
-      // Create Delete button
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
       deleteButton.classList.add('delete-button');
