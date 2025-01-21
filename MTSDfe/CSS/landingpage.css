@@ -189,14 +189,14 @@ nav ul a:hover::after {
 }
 
 .swiper {
-    width: 20rem;
+    width: 40rem;
 }
 
 .swiper-slide {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 750px;
+    height: 600px;
 }
 
 .content-container {
