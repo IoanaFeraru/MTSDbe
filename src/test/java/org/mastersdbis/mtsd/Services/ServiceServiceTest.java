@@ -33,7 +33,6 @@ class ServiceServiceTest {
         newService.setSubdomain(ServiceSubdomain.TRANSPORT_transport_persone);
         newService.setPrice(150.00);
         newService.setRegion(Region.BUZAU);
-        newService.setMaterialsList(List.of("Detergent", "Cleaning cloths", "Vacuum cleaner"));
         newService.setAcceptedPaymentMethodsList(List.of(PaymentMethod.APPLE_PAY, PaymentMethod.CASH));
         newService.setServiceType(ServiceType.BOOKING);
         newService.setMinimumBookingTime(2);

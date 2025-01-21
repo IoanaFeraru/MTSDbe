@@ -33,15 +33,15 @@ class UserServiceTest {
     @Test
     void addUser() {
         User newUser = new User();
-        newUser.setUsername("testASDF");
+        newUser.setUsername("TESTTEst");
         newUser.setPassword("Parola11!");
-        newUser.setEmail("stefan101@gmail.com");
+        newUser.setEmail("test@gmail.com");
         newUser.setPhoneNumber("+40 789678567");
         newUser.setAddress("Strada Exemplu, Nr. 10");
 
         userService.addUser(newUser);
 
-        User savedUser = userService.findByUsername("Stefan");
+        User savedUser = userService.findByUsername("TESTTEst");
         System.out.println("Detalii utilizator salvat: \n" + newUser);
 
         String encodedPassword = savedUser.getPassword();
@@ -52,23 +52,23 @@ class UserServiceTest {
 
     @Test
     void updateUser() {
-        User userFromDb = userService.findByUsername("Stefan");
+        User userFromDb = userService.findByUsername("TESTTEst");
         Assertions.assertNotNull(userFromDb, "Utilizatorul nu a fost găsit în baza de date.");
         String newAddress = "Strada Exemplu";
         userFromDb.setAddress(newAddress);
         userService.updateUser(userFromDb);
-        User updatedUser = userService.findByUsername("Stefan");
+        User updatedUser = userService.findByUsername("TESTTEst");
         Assertions.assertEquals(newAddress, updatedUser.getAddress(), "Adresa nu a fost actualizata corect.");
         System.out.println("Adresa a fost actualizata cu succes.");
     }
 
     @Test
     void updatePassword() {
-        User userFromDb = userService.findByUsername("Stefan");
+        User userFromDb = userService.findByUsername("TESTTEst");
         Assertions.assertNotNull(userFromDb, "Utilizatorul nu a fost găsit în baza de date.");
         String newPassword = "ParolaTare123!";
         userService.updateUserPassword(userFromDb, newPassword);
-        User updatedUser = userService.findByUsername("Stefan");
+        User updatedUser = userService.findByUsername("TESTTEst");
         boolean passwordMatches = passwordEncoder.matches(newPassword, updatedUser.getPassword());
         Assertions.assertTrue(passwordMatches, "Parola nu a fost codificată corect.");
         System.out.println("Parola a fost modificată cu succes!");
@@ -76,10 +76,10 @@ class UserServiceTest {
 
     @Test
     void deleteUser() {
-        User userFromDb = userService.findByUsername("Stefan");
+        User userFromDb = userService.findByUsername("TESTTEst");
         assertNotNull(userFromDb, "Utilizatorul nu a fost găsit în baza de date.");
         userService.deleteUser(userFromDb);
-        User deletedUser = userService.findByUsername("Stefan");
+        User deletedUser = userService.findByUsername("TESTTEst");
         Assertions.assertNull(deletedUser, "Utilizatorul nu a fost sters din baza de date.");
         System.out.println("Utilizatorul a fost sters cu succes.");
     }
@@ -87,21 +87,21 @@ class UserServiceTest {
     @Test
     void addProvider() {
         User testUser = new User();
-        testUser.setUsername("Ioana");
+        testUser.setUsername("ProviderNOU");
         testUser.setPassword("Parola11!");
-        testUser.setEmail("ioana@gmail.com");
+        testUser.setEmail("ProviderNOU@gmail.com");
         testUser.setPhoneNumber("+40 789678567");
         testUser.setAddress("Strada Exemplu, Nr. 10");
         userService.addUser(testUser);
-        testUser = userService.findByUsername("Ioana");
+        testUser = userService.findByUsername("ProviderNOU");
 
         Provider testProvider = new Provider();
         testProvider.setUser(testUser);
-        testProvider.setCif("RO1234567890");
-        testProvider.setCompanyName("Test Company");
+        testProvider.setCif("RO1234567390");
+        testProvider.setCompanyName("Test Company ProviderNOU");
         testProvider.setCompanyAdress("Strada Test, Nr. 1");
         testProvider.setServiceDomain(ServiceDomain.INFORMATICE);
-        testProvider.setBankIBAN("RO49AAAA1B31007593840000");
+        testProvider.setBankIBAN("RO49AAAA1B31007093840000");
         userService.addProvider(testProvider);
 
         Provider retrievedProvider = userService.findProviderByUser(testUser);
@@ -113,18 +113,18 @@ class UserServiceTest {
     @Test
     void validateProvider() {
         User adminUser = new User();
-        adminUser.setUsername("Admin");
+        adminUser.setUsername("AdminTEST");
         adminUser.setPassword("Parola11!");
-        adminUser.setEmail("admin@gmail.com");
-        adminUser.setPhoneNumber("+40 789678567");
+        adminUser.setEmail("adminTEST@gmail.com");
+        adminUser.setPhoneNumber("+40 789078567");
         userService.addUser(adminUser);
         adminService.makeAdmin(adminUser);
 
-        User providerUser = userService.findByUsername("Ioana");
-        assertNotNull(providerUser, "Utilizatorul Ioana ar trebui să existe.");
+        User providerUser = userService.findByUsername("ProviderNOU");
+        assertNotNull(providerUser, "Utilizatorul ProviderNOU ar trebui să existe.");
 
         Provider provider = userService.findProviderByUser(providerUser);
-        assertNotNull(provider, "Provider-ul asociat utilizatorului Ioana ar trebui să fie găsit.");
+        assertNotNull(provider, "Provider-ul asociat utilizatorului ProviderNOU ar trebui să fie găsit.");
         assertEquals(ValidationStatus.PENDING, provider.getValidationStatus(),
                 "Statusul inițial al provider-ului ar trebui să fie PENDING.");
 
@@ -135,11 +135,10 @@ class UserServiceTest {
         assertEquals(ValidationStatus.APPROVED, updatedProvider.getValidationStatus(),
                 "Statusul provider-ului ar trebui să fie APPROVED după validare.");
 
-        User updatedProviderUser = userService.findByUsername("Ioana");
-        assertNotNull(updatedProviderUser, "Utilizatorul Ioana ar trebui să existe după actualizare.");
+        User updatedProviderUser = userService.findByUsername("ProviderNOU");
+        assertNotNull(updatedProviderUser, "Utilizatorul ProviderNOU ar trebui să existe după actualizare.");
 
         assertTrue(updatedProviderUser.getRoles().contains(Role.PROVIDER),
-                "Utilizatorul Ioana ar trebui să aibă rolul PROVIDER după validare.");
+                "Utilizatorul ProviderNOU ar trebui să aibă rolul PROVIDER după validare.");
     }
-
 }

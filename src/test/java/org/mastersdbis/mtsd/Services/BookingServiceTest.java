@@ -34,14 +34,13 @@ class BookingServiceTest {
     @Test
     void addBooking() {
 
-        User user = userService.findByUsername("Stefan");
+        User user = userService.findByUsername("stefanTest");
         Assertions.assertNotNull(user, "Utilizatorul nu a fost găsit în baza de date.");
         Service existingService = serviceService.findAll().getFirst();
 
-        double price = 150.0;
-        LocalDate dueDate = LocalDate.now().plusDays(5);
+        LocalDate dueDate = LocalDate.now().plusDays(10);
         LocalTime dueDateTime = LocalTime.now().minusHours(5);
-        Booking booking = bookingService.addBooking(user, existingService, price, dueDate, dueDateTime);
+        Booking booking = bookingService.addBooking(user, existingService, existingService.getPrice(), dueDate, dueDateTime);
 
         Assertions.assertNotNull(booking, "Booking-ul nu a fost creat.");
         assertEquals(dueDate, booking.getDueDate(), "Data booking-ului nu este corectă.");

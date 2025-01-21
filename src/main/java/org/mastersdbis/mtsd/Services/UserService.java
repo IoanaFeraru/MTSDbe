@@ -67,10 +67,6 @@ public class UserService {
         return providerRepository.findByUser(user);
     }
 
-    public User findUserByProvider(Provider provider) {
-        return userRepository.findById(provider.getId()).orElse(null);
-    }
-
     public Provider findById(Integer id) {return providerRepository.findById(id).orElse(null);}
 
     public List<Provider> findAllProviders() {return providerRepository.findAll();}
@@ -87,13 +83,6 @@ public class UserService {
         provider.setUser(managedUser);
 
         provider.setValidationStatus(ValidationStatus.PENDING);
-        providerRepository.save(provider);
-    }
-
-    public void updateProvider(Provider provider) {
-        User managedUser = userRepository.findById(provider.getUser().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Utilizatorul nu există"));
-        provider.setUser(managedUser);
         providerRepository.save(provider);
     }
 
@@ -119,7 +108,5 @@ public class UserService {
     public Optional<User> findByEmail(String email) {
         return Optional.ofNullable(userRepository.findByEmail(email));
     }
-
-    //TODO implementare exceptii
 
 }
